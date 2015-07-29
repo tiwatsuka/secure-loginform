@@ -14,7 +14,10 @@
 			<table>
 				<tr>
 					<th>Username</th>
-					<td>${f:h(account.username)}</td>
+					<td>
+						${f:h(account.username)}
+						<form:hidden path="username" value="${f:h(account.username)}"/>
+					</td>
 				</tr>
 				<tr>
 					<th>Old password</th>
@@ -26,7 +29,7 @@
 				</tr>
 				<tr>
 					<th>New password(Confirm)</th>
-					<td><form:password path="newPasswordConfirm" /><form:errors path="newPasswordConfirm"/></td>
+					<td><form:password path="confirmNewPassword" /><form:errors path="confirmNewPassword"/></td>
 				</tr>
 			</table>
 			

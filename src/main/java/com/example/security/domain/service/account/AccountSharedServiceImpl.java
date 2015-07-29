@@ -69,5 +69,4 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 			return logs.get(1).getAuthenticationTimestamp();
 		}
 	}
-
 }

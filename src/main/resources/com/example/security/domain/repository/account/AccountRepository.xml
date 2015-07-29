@@ -22,4 +22,13 @@
         WHERE
             username = #{username}
     </select>
+    
+    <update id="updatePassword" parameterType="Account">
+    	UPDATE
+    		account
+    	SET
+    		password = #{password}
+    	WHERE
+    		username = #{username}
+    </update>
 </mapper>
