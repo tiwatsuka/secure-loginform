@@ -16,7 +16,7 @@ import com.example.security.domain.service.userdetails.SampleUserDetails;
 @RequestMapping("password")
 public class PasswordController {
 	@RequestMapping(params="form")
-	public String showForm(@Validated PasswordForm form,
+	public String showForm(PasswordForm form,
 			@AuthenticationPrincipal SampleUserDetails userDetails, Model model){
 		
 		Account account = userDetails.getAccount();

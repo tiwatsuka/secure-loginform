@@ -2,10 +2,10 @@ package com.example.security.common.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
-
 import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.METHOD;
@@ -15,7 +15,7 @@ import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Documented
-@Constraint(validatedBy = {PasswordValidator.class})
+@Constraint(validatedBy = {PasswordConstraintValidator.class})
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 public @interface Password {
@@ -29,4 +29,6 @@ public @interface Password {
 	public @interface List {
 		Password[] value();
 	}
+	
+	Class<? extends Payload>[] payload() default {};
 }

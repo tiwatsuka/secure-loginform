@@ -1,6 +1,6 @@
 package com.example.security.app.password;
 
-import javax.validation.constraints.Size;
+import com.example.security.common.validation.Password;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ public class PasswordForm {
 
 	private String oldPassword;
 	
-	@Size(min=3)
+	@Password
 	private String newPassword;
 	
 	private String newPasswordConfirm;
