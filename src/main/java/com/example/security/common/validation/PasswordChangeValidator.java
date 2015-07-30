@@ -38,14 +38,18 @@ public class PasswordChangeValidator implements Validator {
 		}
 		
 		PasswordForm form = (PasswordForm) target;
-		boolean isMatched = passwordEncoder.matches(form.getOldPassword(), 
-				accountSharedService.findOne(form.getUsername()).getPassword());
+		String currentPassword = accountSharedService.findOne(form.getUsername()).getPassword(); 
 		
-		if(!isMatched){
+		if(!passwordEncoder.matches(form.getOldPassword(), currentPassword)){
 			errors.rejectValue("oldPassword", "com.example.security.common.validation.PasswordChangeValidator.oldPassword",
 					"It's not matched with current password.");
 		}
 		
+
+		if(passwordEncoder.matches(form.getNewPassword(), currentPassword)){
+			errors.rejectValue("newPassword", "com.example.security.common.validation.PasswordChangeValidator.samePassword",
+					"Password must be changed.");
+		}
 		
 		Rule usernameRule = new UsernameRule();
 		PasswordData passwordData = new PasswordData(form.getNewPassword());
