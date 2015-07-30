@@ -1,4 +1,4 @@
-package com.example.security.common.validation;
+package com.example.security.app.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -19,7 +19,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 public @interface Password {
-	String message() default "{com.example.common.validation.ISBN13.message}";
+	String message() default "{com.example.app.validation.Password.message}";
 	
 	Class<?>[] groups() default {};
 	

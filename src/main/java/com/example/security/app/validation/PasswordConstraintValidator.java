@@ -1,4 +1,4 @@
-package com.example.security.common.validation;
+package com.example.security.app.validation;
 
 import java.util.Arrays;
 

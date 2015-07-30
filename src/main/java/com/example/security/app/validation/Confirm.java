@@ -1,4 +1,4 @@
-package com.example.security.common.validation;
+package com.example.security.app.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({TYPE, ANNOTATION_TYPE})
 @Retention(RUNTIME)
 public @interface Confirm {
-	String message() default "{com.example.security.common.validation.Confirm.message}";
+	String message() default "{com.example.security.app.validation.Confirm.message}";
 	
 	Class<?>[] groups() default {};
 	

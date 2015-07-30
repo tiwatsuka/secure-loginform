@@ -1,7 +1,7 @@
 package com.example.security.app.password;
 
-import com.example.security.common.validation.Confirm;
-import com.example.security.common.validation.Password;
+import com.example.security.app.validation.Confirm;
+import com.example.security.app.validation.Password;
 
 import lombok.Data;
 

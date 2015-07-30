@@ -1,4 +1,4 @@
-package com.example.security.common.validation;
+package com.example.security.app.validation;
 
 import java.util.Arrays;
 
@@ -40,17 +40,27 @@ public class PasswordChangeValidator implements Validator {
 		PasswordForm form = (PasswordForm) target;
 		String currentPassword = accountSharedService.findOne(form.getUsername()).getPassword(); 
 		
+		checkOldPasswordMacheWithCurrentPassword(errors, form, currentPassword);
+		checkNewPasswordDifferentFromCurrentPassword(errors, form, currentPassword);
+		checkNotContainUsername(errors, form);
+
+	}
+	
+	private void checkOldPasswordMacheWithCurrentPassword(Errors errors, PasswordForm form, String currentPassword){
 		if(!passwordEncoder.matches(form.getOldPassword(), currentPassword)){
-			errors.rejectValue("oldPassword", "com.example.security.common.validation.PasswordChangeValidator.oldPassword",
+			errors.rejectValue("oldPassword", "com.example.security.app.validation.PasswordChangeValidator.oldPassword",
 					"It's not matched with current password.");
 		}
-		
-
+	}
+	
+	private void checkNewPasswordDifferentFromCurrentPassword(Errors errors, PasswordForm form, String currentPassword){
 		if(passwordEncoder.matches(form.getNewPassword(), currentPassword)){
-			errors.rejectValue("newPassword", "com.example.security.common.validation.PasswordChangeValidator.samePassword",
+			errors.rejectValue("newPassword", "com.example.security.app.validation.PasswordChangeValidator.samePassword",
 					"Password must be changed.");
 		}
-		
+	}
+	
+	private void checkNotContainUsername(Errors errors, PasswordForm form) {
 		Rule usernameRule = new UsernameRule();
 		PasswordData passwordData = new PasswordData(form.getNewPassword());
 		passwordData.setUsername(form.getUsername());
@@ -58,7 +68,7 @@ public class PasswordChangeValidator implements Validator {
 		RuleResult result = passwordValidator.validate(passwordData);
 		
 		if(!result.isValid()){
-			errors.rejectValue("newPassword", "com.example.security.common.validation.PasswordChangeValidator.newPassword",
+			errors.rejectValue("newPassword", "com.example.security.app.validation.PasswordChangeValidator.newPassword",
 					"Password must not contains Username.");
 		}
 	}

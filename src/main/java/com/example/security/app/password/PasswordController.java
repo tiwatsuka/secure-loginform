@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 
-import com.example.security.common.validation.PasswordChangeValidator;
+import com.example.security.app.validation.PasswordChangeValidator;
 import com.example.security.domain.model.Account;
 import com.example.security.domain.service.password.PasswordService;
 import com.example.security.domain.service.userdetails.SampleUserDetails;
