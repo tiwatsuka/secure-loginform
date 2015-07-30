@@ -10,12 +10,27 @@ public class SampleUserDetails extends User {
 	
 	private final Account account;
 	
-	public SampleUserDetails(Account account, boolean isLocked) {
+	private final boolean passwordExpired;
+	
+	private final boolean initialPassword;
+	
+	public SampleUserDetails(Account account, boolean passwordExpired, boolean initialPassword, boolean isLocked) {
 		super(account.getUsername(), account.getPassword(), true, true, true, !isLocked, AuthorityUtils.createAuthorityList("ROLE_USER"));
 		this.account = account;
+		this.passwordExpired = passwordExpired;
+		this.initialPassword = initialPassword;
 	}
 	
 	public Account getAccount() {
 		return account;
 	}
+	
+	public boolean isPasswordExpired() {
+		return passwordExpired;
+	}
+	
+	public boolean isInitialPassword() {
+		return initialPassword;
+	}
+
 }

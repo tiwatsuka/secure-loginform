@@ -3,6 +3,7 @@ package com.example.security.domain.model;
 import java.io.Serializable;
 
 import lombok.Data;
+import org.joda.time.DateTime;
 
 @Data
 public class Account implements Serializable {
@@ -15,4 +16,6 @@ public class Account implements Serializable {
 	private String firstName;
 	
 	private String lastName;
+
+	private DateTime lastPasswordChangeDate;
 }

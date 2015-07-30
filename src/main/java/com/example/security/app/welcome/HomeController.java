@@ -43,13 +43,10 @@ public class HomeController {
         
         DateTime lastLoginDate = accountSharedService.getLastLoginDate(account.getUsername());
 
-        if (lastLoginDate == null) {
-        	return "redirect:/password?form";
-        }else{
-        	model.addAttribute("lastLoginDate", lastLoginDate);
-        	
-        	return "welcome/home";
-        }
+    	model.addAttribute("lastLoginDate", lastLoginDate);
+    	
+    	return "welcome/home";
+
     }
 
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 
 import com.example.security.common.validation.PasswordChangeValidator;
 import com.example.security.domain.model.Account;
@@ -32,6 +33,8 @@ public class PasswordController {
 	@Inject
 	PasswordEncoder passwordEncoder;
 	
+	@Inject
+	JodaTimeDateFactory dateFactory;
 	
 	@RequestMapping(params="form")
 	public String showForm(PasswordForm form,
@@ -57,6 +60,7 @@ public class PasswordController {
 		Account account = new Account();
 		account.setUsername(form.getUsername());
 		account.setPassword(passwordEncoder.encode(form.getNewPassword()));
+		account.setLastPasswordChangeDate(dateFactory.newDateTime());
 		passwordService.updatePassword(account);
 		
 		return "redirect:/password?complete";
