@@ -16,6 +16,8 @@ public class Account implements Serializable {
 	private String firstName;
 	
 	private String lastName;
+	
+	private Role role;
 
 	private DateTime lastPasswordChangeDate;
 }

@@ -40,6 +40,13 @@
     	</sec:authentication-provider>
     </sec:authentication-manager>
 
+	<bean id="roleHierarchy"
+		class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+		<property name="hierarchy">
+			<value>ROLE_ADMIN>ROLE_USER</value>
+		</property>
+	</bean>
+
     <!-- Change View for CSRF or AccessDenied -->
     <bean id="accessDeniedHandler"
         class="org.springframework.security.web.access.DelegatingAccessDeniedHandler">
