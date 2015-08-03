@@ -8,6 +8,10 @@
 </head>
 <body>
     <div id="wrapper">
+    	<c:if test="${isPasswordExpired}">
+    		Your password has expired. Please change.
+    	</c:if>
+    
         <h1>Hello world!</h1>
         
         <p>Welcome ${f:h(account.firstName)} ${f:h(account.lastName)}</p>

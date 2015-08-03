@@ -5,12 +5,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.example.security.domain.model.Role;
 import com.example.security.domain.service.userdetails.SampleUserDetails;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
 public class ChangePasswordFilter extends OncePerRequestFilter {
@@ -23,7 +25,8 @@ public class ChangePasswordFilter extends OncePerRequestFilter {
     		Object principal = authentication.getPrincipal();
     		if(principal instanceof UserDetails){
     			SampleUserDetails userDetails = (SampleUserDetails)principal;
-    			if(userDetails.isPasswordExpired() || userDetails.isInitialPassword()){
+    			if( (userDetails.isPasswordExpired() && userDetails.getAccount().getRole() == Role.ADMN)
+    					|| userDetails.isInitialPassword()){
     				httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/password?form");
     			}
     		}

@@ -43,6 +43,8 @@ public class HomeController {
         
         DateTime lastLoginDate = accountSharedService.getLastLoginDate(account.getUsername());
 
+        model.addAttribute("account", account);
+        model.addAttribute("isPasswordExpired", userDetails.isPasswordExpired());
     	model.addAttribute("lastLoginDate", lastLoginDate);
     	
     	return "welcome/home";
