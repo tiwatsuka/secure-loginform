@@ -15,7 +15,10 @@
         <h1>Hello world!</h1>
         
         <p>Welcome ${f:h(account.firstName)} ${f:h(account.lastName)}</p>
-        <p>Last login date is ${f:h(lastLoginDate)}.</p>
+        
+        <c:if test="${lastLoginDate != null}">
+        	<p>Last login date is ${f:h(lastLoginDate)}.</p>
+        </c:if>
         
         <form:form action="${pageContext.request.contextPath}/logout">
         	<button>Logout</button>

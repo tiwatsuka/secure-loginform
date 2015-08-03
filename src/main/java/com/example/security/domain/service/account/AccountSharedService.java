@@ -10,4 +10,8 @@ public interface AccountSharedService {
 	boolean isLocked(String username);
 	
 	DateTime getLastLoginDate(String username);
+	
+	boolean lock(String username);
+
+	boolean unlock(String username);
 }

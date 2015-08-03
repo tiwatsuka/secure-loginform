@@ -16,4 +16,6 @@ public interface AccountAuthenticationLogRepository {
 	
 	List<AccountAuthenticationLog> findBySuccess(
 			@Param("username") String username, @Param("isSuccess") boolean isSuccess, @Param("nbLog") long nbLog);
+	
+	List<AccountAuthenticationLog> findLatestLogs(@Param("username") String username, @Param("nbLog") long nbLog);
 }

@@ -31,7 +31,6 @@ public class AccountAuthenticationSuccessEventListener implements
 		AccountAuthenticationLog accountAuthenticationLog = new AccountAuthenticationLog();
 		accountAuthenticationLog.setUsername(details.getUsername());
 		accountAuthenticationLog.setSuccess(true);
-		accountAuthenticationLog.setAdministrativeActionForUnlock(false);
 		accountAuthenticationLog.setAuthenticationTimestamp(DateTime.now());
 		
 		accountAuthenticationLogRepository.insert(accountAuthenticationLog);

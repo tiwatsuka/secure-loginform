@@ -8,7 +8,6 @@
         <id property="username" column="username" />
         <id property="authenticationTimestamp" column="authentication_timestamp" typeHandler="DateTimeTypeHandler"/>
         <result property="isSuccess" column="success" />
-        <result property="isAdministrativeActionForUnlock" column="administrative_action_for_unlock" />
     </resultMap>
 
     <select id="findBySuccess" resultMap="accountAuthenticationLogResultMap">
@@ -16,8 +15,7 @@
         SELECT
             username,
             authentication_timestamp,
-            success,
-            administrative_action_for_unlock
+            success
         FROM
             account_authentication_log
         WHERE
@@ -33,8 +31,7 @@
         SELECT
             username,
             authentication_timestamp,
-            success,
-            administrative_action_for_unlock
+            success
         FROM
             account_authentication_log
         WHERE
@@ -49,14 +46,27 @@
         INSERT INTO account_authentication_log (
             username,
             authentication_timestamp,
-            success,
-            administrative_action_for_unlock
+            success
         ) VALUES (
 	        #{username},
             #{authenticationTimestamp, typeHandler=DateTimeTypeHandler},
-            #{isSuccess},
-            #{isAdministrativeActionForUnlock}
+            #{isSuccess}
         )
     ]]>
     </insert>
+    
+    <select id="findLatestLogs" resultMap="accountAuthenticationLogResultMap">
+    <![CDATA[
+        SELECT
+            username,
+            authentication_timestamp,
+            success
+        FROM
+            account_authentication_log
+        WHERE
+            username = #{username}
+        ORDER BY authentication_timestamp DESC
+        LIMIT #{nbLog}
+    ]]>
+    </select>
 </mapper>

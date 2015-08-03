@@ -11,6 +11,7 @@
         <result property="lastName" column="last_name" />
         <result property="role" column="role" />
         <result property="lastPasswordChangeDate" column="last_password_change_date" typeHandler="DateTimeTypeHandler"/>
+        <result property="lockedDate" column="locked_date" typeHandler="DateTimeTypeHandler"/>
     </resultMap>
 
     <select id="findOne" parameterType="string" resultMap="accountResultMap">
@@ -20,7 +21,8 @@
             first_name,
             last_name,
             role,
-            last_password_change_date
+            last_password_change_date,
+            locked_date
         FROM
             account
         WHERE
@@ -33,6 +35,15 @@
     	SET
     		password = #{password},
     		last_password_change_date = #{lastPasswordChangeDate,typeHandler=DateTimeTypeHandler}
+    	WHERE
+    		username = #{username}
+    </update>
+    
+    <update id="updateLockedDate" parameterType="Account">
+    	UPDATE
+    		account
+    	SET
+    		locked_date = #{lockedDate,typeHandler=DateTimeTypeHandler}
     	WHERE
     		username = #{username}
     </update>

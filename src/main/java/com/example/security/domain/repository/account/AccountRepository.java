@@ -6,4 +6,7 @@ public interface AccountRepository {
 	Account findOne(String username);
 	
 	boolean updatePassword(Account account);
+	
+	boolean updateLockedDate(Account account);
+	
 }

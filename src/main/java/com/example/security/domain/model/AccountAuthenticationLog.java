@@ -16,5 +16,4 @@ public class AccountAuthenticationLog implements Serializable {
 	
 	private boolean isSuccess;
 	
-	private boolean isAdministrativeActionForUnlock;
 }
