@@ -18,7 +18,6 @@
         <sec:csrf />
         <sec:access-denied-handler ref="accessDeniedHandler"/>
         <sec:custom-filter ref="userIdMDCPutFilter" after="ANONYMOUS_FILTER"/>
-        <sec:custom-filter ref="changePasswordFilter" before="SESSION_MANAGEMENT_FILTER"/>
         <sec:session-management />
         <sec:form-login
         	login-page="/login.jsp"
@@ -83,6 +82,4 @@
     <bean id="userIdMDCPutFilter" class="org.terasoluna.gfw.security.web.logging.UserIdMDCPutFilter">
     </bean>
 
-	<bean id="changePasswordFilter" class="com.example.security.app.filter.ChangePasswordFilter">
-    </bean>
 </beans>
