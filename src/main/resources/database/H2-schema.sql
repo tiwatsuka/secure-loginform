@@ -18,3 +18,12 @@ CREATE TABLE account_authentication_log(
 );
 
 CREATE INDEX idx_tbl_aal ON account_authentication_log (authentication_timestamp);
+
+CREATE TABLE password_history(
+	username VARCHAR(128),
+	password VARCHAR(128),
+	use_from TIMESTAMP,
+	CONSTRAINT pk_tbl_ph PRIMARY KEY (username, use_from)
+);
+
+CREATE INDEX idx_tbl_phi ON password_history (use_from);
