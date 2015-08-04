@@ -9,8 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 
 import com.example.security.domain.model.AccountAuthenticationLog;
 import com.example.security.domain.repository.account.AccountAuthenticationLogRepository;
@@ -44,7 +44,13 @@ public class AccountAuthenticationFailureBadCredentialsEventListener implements
 						
 		accountAuthenticationLogRepository.insert(accountAuthenticationLog);
 		
-		if(!event.getException().getClass().equals(UsernameNotFoundException.class)){
+		boolean userExists = true; 
+		try {
+			accountSharedService.findOne(username);		//user existence check
+		} catch (ResourceNotFoundException e) {
+			userExists = false;
+		}
+		if(userExists){
 			DateTime lockedDate = accountSharedService.findOne(username).getLockedDate();
 			DateTime unlockDate = null;
 			if(lockedDate != null){
@@ -61,7 +67,6 @@ public class AccountAuthenticationFailureBadCredentialsEventListener implements
 				accountSharedService.lock(username);
 			}
 		}
-		
 	}
 
 }

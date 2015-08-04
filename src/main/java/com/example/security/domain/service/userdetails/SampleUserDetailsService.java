@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
+import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 
 import com.example.security.domain.model.Account;
 import com.example.security.domain.service.account.AccountSharedService;
@@ -39,7 +40,7 @@ public class SampleUserDetailsService implements UserDetailsService {
 			}
 
 			return new SampleUserDetails(account, passwordExpired, initialPassword, accountSharedService.isLocked(username));
-		} catch (Exception e) {
+		} catch (ResourceNotFoundException e) {
 			throw new UsernameNotFoundException("user not found", e);
 		}
 	}
