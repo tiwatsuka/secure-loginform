@@ -28,8 +28,10 @@
         	logout-success-url="/"
         	delete-cookies="JSESSIONID" />
         <sec:intercept-url pattern="/login.jsp" access="permitAll" />
-        <sec:intercept-url pattern="/reissue/**" access="permitAll" /> <!-- Added -->
+        <sec:intercept-url pattern="/reissue/**" access="permitAll" />
+        <sec:intercept-url pattern="/unlock/**" access="hasRole('ROLE_ADMN')" />
         <sec:intercept-url pattern="/**" access="isAuthenticated()" />
+        <sec:expression-handler ref="webExpressionHandler"/>
     </sec:http>
 
     <sec:authentication-manager>
@@ -42,8 +44,11 @@
 	<bean id="roleHierarchy"
 		class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
 		<property name="hierarchy">
-			<value>ROLE_ADMIN>ROLE_USER</value>
+			<value>ROLE_ADMN > ROLE_USER</value>
 		</property>
+	</bean>
+	<bean id="webExpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
+		<property name="roleHierarchy" ref="roleHierarchy"/>
 	</bean>
 
     <!-- Change View for CSRF or AccessDenied -->

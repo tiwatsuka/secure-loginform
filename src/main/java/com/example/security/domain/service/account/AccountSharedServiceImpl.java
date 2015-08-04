@@ -73,9 +73,8 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 	@Transactional
 	@Override
 	public boolean unlock(String username) {
-		Account account = new Account();
-		account.setUsername(username);
-		account.setLockedDate(null);;
+		Account account = findOne(username);
+		account.setLockedDate(null);
 		return accountRepository.updateLockedDate(account);
 	}
 }

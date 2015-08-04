@@ -27,6 +27,12 @@
         <form:form action="${pageContext.request.contextPath}/password?form">
         	<button>Change Password</button>
         </form:form>
+        
+        <sec:authorize url="/unlock">
+	        <form:form action="${pageContext.request.contextPath}/unlock?form">
+	        	<button>Unlock Account</button>
+	        </form:form>
+	    </sec:authorize>
     </div>
 </body>
 </html>
