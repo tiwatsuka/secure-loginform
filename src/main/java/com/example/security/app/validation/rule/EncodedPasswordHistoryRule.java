@@ -5,8 +5,9 @@ import javax.inject.Inject;
 import org.passay.HistoryRule;
 import org.passay.PasswordData;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class EncodedPasswordHistoryRule extends HistoryRule {
 
 	@Inject

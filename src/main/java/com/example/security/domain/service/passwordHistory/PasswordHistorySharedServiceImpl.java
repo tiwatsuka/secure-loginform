@@ -12,7 +12,7 @@ import com.example.security.domain.model.PasswordHistory;
 import com.example.security.domain.repository.passwordHistory.PasswordHistoryRepository;
 
 @Service
-public class PasswordHistoryService {
+public class PasswordHistorySharedServiceImpl implements PasswordHistorySharedService{
 
 	@Inject
 	PasswordHistoryRepository passwordHistoryRepository;
@@ -23,7 +23,7 @@ public class PasswordHistoryService {
 	}
 	
 	@Transactional(readOnly=true)
-	public List<PasswordHistory> findByUseFrom(DateTime useFrom){
-		return passwordHistoryRepository.findByUseFrom(useFrom);
+	public List<PasswordHistory> findByUseFrom(String username, DateTime useFrom){
+		return passwordHistoryRepository.findByUseFrom(username, useFrom);
 	}
 }

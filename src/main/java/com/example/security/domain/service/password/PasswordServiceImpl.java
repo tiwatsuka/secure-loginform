@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.security.domain.model.Account;
+import com.example.security.domain.model.PasswordHistory;
 import com.example.security.domain.repository.account.AccountRepository;
+import com.example.security.domain.service.passwordHistory.PasswordHistorySharedService;
 import com.example.security.domain.service.userdetails.SampleUserDetails;
 
 @Service
@@ -19,10 +21,19 @@ public class PasswordServiceImpl implements PasswordService {
 	@Inject
 	AccountRepository accountRepository;
 	
+	@Inject
+	PasswordHistorySharedService passwordHistorySharedService;
+	
 	@Override
 	@Transactional
 	public boolean updatePassword(Account account) {
 		boolean result = accountRepository.updatePassword(account); 
+		
+		PasswordHistory passwordHistory = new PasswordHistory();
+		passwordHistory.setUsername(account.getUsername());
+		passwordHistory.setPassword(account.getPassword());
+		passwordHistory.setUseFrom(account.getLastPasswordChangeDate());
+		passwordHistorySharedService.insert(passwordHistory);
 		
 		/* When authenticated users update their passwords, update UserDetails in SecurityContextHolder. */
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -37,7 +48,7 @@ public class PasswordServiceImpl implements PasswordService {
 				SampleUserDetails newUserDetails = new SampleUserDetails(newAccount, false, false, false);
 				Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
 						newUserDetails, account.getPassword(), authentication.getAuthorities());
-				SecurityContextHolder.getContext().setAuthentication(newAuthentication);
+				SecurityContextHolder.getContext().setAuthentication(newAuthentication);				
 			}
 		}
 		
