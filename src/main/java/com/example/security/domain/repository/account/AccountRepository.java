@@ -7,6 +7,6 @@ public interface AccountRepository {
 	
 	boolean updatePassword(Account account);
 	
-	boolean updateLockedDate(Account account);
+	boolean updateUnlockDate(Account account);
 	
 }

@@ -29,8 +29,6 @@ public class AccountAuthenticationFailureBadCredentialsEventListener implements
 	
 	private final int lockingThreshold = 3;
 	
-	private final int lockingDuration = 1;
-	
 	@Override
 	public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent event) {
 		log.info("ログイン失敗時の処理をここに書けます -> {}", event);
@@ -51,11 +49,7 @@ public class AccountAuthenticationFailureBadCredentialsEventListener implements
 			userExists = false;
 		}
 		if(userExists){
-			DateTime lockedDate = accountSharedService.findOne(username).getLockedDate();
-			DateTime unlockDate = null;
-			if(lockedDate != null){
-				unlockDate = lockedDate.plusMinutes(lockingDuration);
-			}
+			DateTime unlockDate = accountSharedService.findOne(username).getUnlockDate();
 			List<AccountAuthenticationLog> logs = accountAuthenticationLogRepository.findLatestLogs(username, lockingThreshold);
 			int failureCount = 0;
 			for(AccountAuthenticationLog log : logs){

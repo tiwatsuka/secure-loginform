@@ -5,7 +5,7 @@ CREATE TABLE account(
 	last_name varchar(128),
 	role varchar(10),
 	last_password_change_date TIMESTAMP,
-	locked_date TIMESTAMP,
+	unlock_date TIMESTAMP,
 	constraint pk_tbl_account primary key (username)
 );
 

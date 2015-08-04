@@ -8,7 +8,9 @@ import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
+import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
+import org.terasoluna.gfw.common.message.ResultMessages;
 
 import com.example.security.domain.model.Account;
 import com.example.security.domain.model.AccountAuthenticationLog;
@@ -41,9 +43,8 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 
 	@Override
 	public boolean isLocked(String username) {
-		DateTime lockedDate = accountRepository.findOne(username).getLockedDate();
-		if(lockedDate != null){
-			DateTime unlockDate = lockedDate.plusMinutes(lockingDurationMinutes);
+		DateTime unlockDate = accountRepository.findOne(username).getUnlockDate();
+		if(unlockDate != null){
 			return dateFactory.newDateTime().isBefore(unlockDate);
 		}else{
 			return false;
@@ -66,16 +67,23 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 	public boolean lock(String username) {
 		Account account = new Account();
 		account.setUsername(username);
-		account.setLockedDate(dateFactory.newDateTime());
-		return accountRepository.updateLockedDate(account);
+		account.setUnlockDate(dateFactory.newDateTime().plusMinutes(lockingDurationMinutes));
+		return accountRepository.updateUnlockDate(account);
 	}
 
 	@Transactional
 	@Override
 	public boolean unlock(String username) {
-		Account account = findOne(username);
-		account.setLockedDate(null);
-		return accountRepository.updateLockedDate(account);
+		if(!isLocked(username)){
+			throw new BusinessException(
+					ResultMessages.error().add("com.example.security.domain.account.AccountSharedService.unlock",
+							"The account is not locked."));
+		}
+		
+		Account account = new Account();
+		account.setUsername(username);
+		account.setUnlockDate(dateFactory.newDateTime());
+		return accountRepository.updateUnlockDate(account);
 	}
 }
 

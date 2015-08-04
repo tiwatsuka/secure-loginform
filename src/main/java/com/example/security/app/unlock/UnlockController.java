@@ -31,9 +31,13 @@ public class UnlockController {
 			return "unlock/unlockForm";
 		}
 		
-		accountSharedService.unlock(form.getUsername());
+		boolean result = accountSharedService.unlock(form.getUsername());
 		
-		return "redirect:/unlock?complete&username=" + form.getUsername();
+		if(result){
+			return "redirect:/unlock?complete&username=" + form.getUsername();
+		}else{
+			return "unlock/unlockForm";
+		}
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, params="complete")
