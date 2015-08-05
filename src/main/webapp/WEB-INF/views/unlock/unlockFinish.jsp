@@ -9,6 +9,7 @@
 <body>
 	<div id="wrapper">
 		<h1>${f:h(username)}'s account was successfully unlocked.</h1>
+		<a href="${pageContext.request.contextPath}/">go to Top</a>
 	</div>
 </body>
 </html>
