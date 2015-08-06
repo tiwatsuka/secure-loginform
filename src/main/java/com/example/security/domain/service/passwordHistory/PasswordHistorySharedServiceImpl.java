@@ -26,4 +26,9 @@ public class PasswordHistorySharedServiceImpl implements PasswordHistorySharedSe
 	public List<PasswordHistory> findByUseFrom(String username, DateTime useFrom){
 		return passwordHistoryRepository.findByUseFrom(username, useFrom);
 	}
+
+	@Override
+	public List<PasswordHistory> findLatestHistory(String username, int limit) {
+		return passwordHistoryRepository.findLatestHistory(username, limit);
+	}
 }

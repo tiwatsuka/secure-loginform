@@ -50,8 +50,6 @@ public class PasswordConstraintValidator implements ConstraintValidator<ChangePa
 	@Inject
 	EncodedPasswordHistoryRule encodedPasswordHistoryRule;
 	
-	private final int passwordHistoryFrom = 3;
-	
 	private PasswordValidator validator;
 	
 	private String usernameField;
@@ -155,8 +153,10 @@ public class PasswordConstraintValidator implements ConstraintValidator<ChangePa
 	}
 
 	private boolean checkHistoricalPassword(String username, String newPassword, ConstraintValidatorContext context){
-		DateTime useFrom = dateFactory.newDateTime().minusMinutes(passwordHistoryFrom);
-		List<PasswordHistory> history = passwordHistorySharedService.findByUseFrom(username, useFrom);
+		DateTime useFrom = dateFactory.newDateTime().minusMinutes(3);
+		List<PasswordHistory> historyByTime = passwordHistorySharedService.findByUseFrom(username, useFrom);
+		List<PasswordHistory> historyByCount = passwordHistorySharedService.findLatestHistory(username, 3);
+		List<PasswordHistory> history = historyByCount.size() > historyByTime.size() ? historyByCount : historyByTime;
 		
 		List<PasswordData.Reference> historyData = new ArrayList<>();
 		for(PasswordHistory h : history){

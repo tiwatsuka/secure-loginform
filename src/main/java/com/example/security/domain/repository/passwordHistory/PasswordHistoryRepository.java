@@ -11,4 +11,6 @@ public interface PasswordHistoryRepository {
 	int insert(PasswordHistory history);
 	
 	List<PasswordHistory> findByUseFrom(@Param("username") String username, @Param("useFrom") DateTime useFrom);
+	
+	List<PasswordHistory> findLatestHistory(@Param("username") String username, @Param("limit") int limit);
 }
