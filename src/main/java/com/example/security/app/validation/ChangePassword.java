@@ -8,26 +8,29 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.CONSTRUCTOR;
-import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Documented
 @Constraint(validatedBy = {PasswordConstraintValidator.class})
-@Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
+@Target({TYPE, ANNOTATION_TYPE})
 @Retention(RUNTIME)
-public @interface Password {
+public @interface ChangePassword {
 	String message() default "{com.example.app.validation.Password.message}";
 	
 	Class<?>[] groups() default {};
 	
-	@Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
+	String idField();
+	
+	String newPasswordField();
+	
+	String oldPasswordField();
+	
+	@Target({TYPE, ANNOTATION_TYPE})
 	@Retention(RUNTIME)
 	@Documented
 	public @interface List {
-		Password[] value();
+		ChangePassword[] value();
 	}
 	
 	Class<? extends Payload>[] payload() default {};

@@ -8,14 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 
-import com.example.security.app.validation.PasswordChangeValidator;
 import com.example.security.domain.model.Account;
 import com.example.security.domain.service.password.PasswordService;
 import com.example.security.domain.service.userdetails.SampleUserDetails;
@@ -23,9 +20,6 @@ import com.example.security.domain.service.userdetails.SampleUserDetails;
 @Controller
 @RequestMapping("password")
 public class PasswordController {
-	
-	@Inject
-	PasswordChangeValidator passwordChangeValidator;
 	
 	@Inject
 	PasswordService passwordService;
@@ -74,10 +68,5 @@ public class PasswordController {
 	@ModelAttribute("passwordForm")
 	public PasswordForm setUpPasswordForm() {
 		return new PasswordForm();
-	}
-	
-	@InitBinder("passwordForm")
-	public void initBinder(WebDataBinder binder){
-		binder.addValidators(passwordChangeValidator);
 	}
 }
