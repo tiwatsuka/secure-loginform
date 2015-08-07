@@ -1,4 +1,4 @@
-package com.example.security.domain.service.password;
+package com.example.security.domain.service.passwordChange;
 
 import javax.inject.Inject;
 
@@ -18,7 +18,7 @@ import com.example.security.domain.service.passwordHistory.PasswordHistoryShared
 import com.example.security.domain.service.userdetails.SampleUserDetails;
 
 @Service
-public class PasswordServiceImpl implements PasswordService {
+public class PasswordChangeServiceImpl implements PasswordChangeService {
 
 	@Inject
 	AccountRepository accountRepository;

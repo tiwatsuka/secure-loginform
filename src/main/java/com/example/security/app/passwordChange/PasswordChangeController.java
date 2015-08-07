@@ -1,4 +1,4 @@
-package com.example.security.app.password;
+package com.example.security.app.passwordChange;
 
 import javax.inject.Inject;
 
@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.security.domain.model.Account;
-import com.example.security.domain.service.password.PasswordService;
+import com.example.security.domain.service.passwordChange.PasswordChangeService;
 import com.example.security.domain.service.userdetails.SampleUserDetails;
 
 @Controller
 @RequestMapping("password")
-public class PasswordController {
+public class PasswordChangeController {
 	
 	@Inject
-	PasswordService passwordService;
+	PasswordChangeService passwordService;
 	
 	
 	@RequestMapping(params="form")
-	public String showForm(PasswordForm form,
+	public String showForm(PasswordChangeForm form,
 			@AuthenticationPrincipal SampleUserDetails userDetails, Model model){
 		
 		Account account = userDetails.getAccount();
@@ -34,7 +34,7 @@ public class PasswordController {
 	
 	@RequestMapping(method=RequestMethod.POST)
 	public String change(@AuthenticationPrincipal SampleUserDetails userDetails,
-			@Validated PasswordForm form,
+			@Validated PasswordChangeForm form,
 			BindingResult bindingResult,
 			Model model){
 		
@@ -54,8 +54,8 @@ public class PasswordController {
 		return "password/changeFinish";
 	}
 	
-	@ModelAttribute("passwordForm")
-	public PasswordForm setUpPasswordForm() {
-		return new PasswordForm();
+	@ModelAttribute("passwordChangeForm")
+	public PasswordChangeForm setUpPasswordChangeForm() {
+		return new PasswordChangeForm();
 	}
 }
