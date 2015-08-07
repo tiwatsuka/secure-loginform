@@ -9,8 +9,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.stereotype.Component;
 
-import com.example.security.domain.model.AccountAuthenticationLog;
-import com.example.security.domain.repository.account.AccountAuthenticationLogRepository;
+import com.example.security.domain.model.AccountAuthenticationSuccessLog;
+import com.example.security.domain.service.accountAuthenticationLog.AccountAuthenticationLogSharedService;
 import com.example.security.domain.service.userdetails.SampleUserDetails;
 
 @Component
@@ -20,7 +20,7 @@ public class AccountAuthenticationSuccessEventListener implements
 	private static final Logger log = LoggerFactory.getLogger(AccountAuthenticationSuccessEventListener.class); 
 	
 	@Inject
-	AccountAuthenticationLogRepository accountAuthenticationLogRepository;
+	AccountAuthenticationLogSharedService accountAuthenticationLogSharedService;
 	
 	@Override
 	public void onApplicationEvent(AuthenticationSuccessEvent event) {
@@ -28,12 +28,11 @@ public class AccountAuthenticationSuccessEventListener implements
 		
 		SampleUserDetails details = (SampleUserDetails) event.getAuthentication().getPrincipal();
 		
-		AccountAuthenticationLog accountAuthenticationLog = new AccountAuthenticationLog();
-		accountAuthenticationLog.setUsername(details.getUsername());
-		accountAuthenticationLog.setSuccess(true);
-		accountAuthenticationLog.setAuthenticationTimestamp(DateTime.now());
+		AccountAuthenticationSuccessLog log = new AccountAuthenticationSuccessLog();
+		log.setUsername(details.getUsername());
+		log.setAuthenticationTimestamp(DateTime.now());
 		
-		accountAuthenticationLogRepository.insert(accountAuthenticationLog);
+		accountAuthenticationLogSharedService.insertSuccessLog(log);
 	}
 
 }

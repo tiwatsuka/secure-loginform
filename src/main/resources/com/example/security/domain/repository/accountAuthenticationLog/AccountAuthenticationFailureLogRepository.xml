@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.security.domain.repository.accountAuthenticationLog.AccountAuthenticationFailureLogRepository">
+
+    <resultMap id="accountAuthenticationFailureLogResultMap" type="AccountAuthenticationFailureLog">
+        <id property="username" column="username" />
+        <id property="authenticationTimestamp" column="authentication_timestamp" typeHandler="DateTimeTypeHandler"/>
+    </resultMap>
+    
+    <select id="findByDulation" resultMap="accountAuthenticationFailureLogResultMap">
+    <![CDATA[
+        SELECT
+            username,
+            authentication_timestamp
+        FROM
+            account_authentication_failure_log
+        WHERE
+            username = #{username} AND
+            authentication_timestamp BETWEEN #{from,typeHandler=DateTimeTypeHandler} AND #{to,typeHandler=DateTimeTypeHandler}
+        ORDER BY authentication_timestamp DESC
+    ]]>
+    </select>
+    
+    <insert id="insert" parameterType="AccountAuthenticationFailureLog">
+    <![CDATA[
+        INSERT INTO account_authentication_failure_log (
+            username,
+            authentication_timestamp
+        ) VALUES (
+	        #{username},
+            #{authenticationTimestamp, typeHandler=DateTimeTypeHandler},
+        )
+    ]]>
+    </insert>
+    
+    <select id="findLatestLogs" resultMap="accountAuthenticationFailureLogResultMap">
+    <![CDATA[
+        SELECT
+            username,
+            authentication_timestamp
+        FROM
+            account_authentication_failure_log
+        WHERE
+            username = #{username}
+        ORDER BY authentication_timestamp DESC
+        LIMIT #{nbLog}
+    ]]>
+    </select>
+    
+    <delete id="deleteByUsername">
+    	DELETE FROM
+    		account_authentication_failure_log
+    	WHERE
+    		username = #{username}
+    </delete>
+</mapper>

@@ -1,7 +1,5 @@
 package com.example.security.domain.service.account;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import org.joda.time.DateTime;
@@ -10,10 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.stereotype.Component;
-import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 
-import com.example.security.domain.model.AccountAuthenticationLog;
-import com.example.security.domain.repository.account.AccountAuthenticationLogRepository;
+import com.example.security.domain.model.AccountAuthenticationFailureLog;
+import com.example.security.domain.service.accountAuthenticationLog.AccountAuthenticationLogSharedService;
 
 @Component
 public class AccountAuthenticationFailureBadCredentialsEventListener implements
@@ -22,12 +19,10 @@ public class AccountAuthenticationFailureBadCredentialsEventListener implements
 	private static final Logger log = LoggerFactory.getLogger(AccountAuthenticationFailureBadCredentialsEventListener.class); 
 	
 	@Inject
-	AccountAuthenticationLogRepository accountAuthenticationLogRepository;
+	AccountAuthenticationLogSharedService accountAuthenticationLogSharedService;
 	
 	@Inject
 	AccountSharedService accountSharedService;
-	
-	private final int lockingThreshold = 3;
 	
 	@Override
 	public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent event) {
@@ -35,32 +30,11 @@ public class AccountAuthenticationFailureBadCredentialsEventListener implements
 		
 		String username = (String) event.getAuthentication().getPrincipal();
 		
-		AccountAuthenticationLog accountAuthenticationLog = new AccountAuthenticationLog();
-		accountAuthenticationLog.setUsername(username);
-		accountAuthenticationLog.setSuccess(false);
-		accountAuthenticationLog.setAuthenticationTimestamp(DateTime.now());
+		AccountAuthenticationFailureLog log = new AccountAuthenticationFailureLog();
+		log.setUsername(username);
+		log.setAuthenticationTimestamp(DateTime.now());
 						
-		accountAuthenticationLogRepository.insert(accountAuthenticationLog);
-		
-		boolean userExists = true; 
-		try {
-			accountSharedService.findOne(username);		//user existence check
-		} catch (ResourceNotFoundException e) {
-			userExists = false;
-		}
-		if(userExists){
-			DateTime unlockDate = accountSharedService.findOne(username).getUnlockDate();
-			List<AccountAuthenticationLog> logs = accountAuthenticationLogRepository.findLatestLogs(username, lockingThreshold);
-			int failureCount = 0;
-			for(AccountAuthenticationLog log : logs){
-				if(!log.isSuccess() && (unlockDate == null || log.getAuthenticationTimestamp().isAfter(unlockDate))){
-					failureCount++;
-				}
-			}
-			if(failureCount >= lockingThreshold){
-				accountSharedService.lock(username);
-			}
-		}
+		accountAuthenticationLogSharedService.insertFailureLog(log);
 	}
 
 }

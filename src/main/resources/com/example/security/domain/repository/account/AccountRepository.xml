@@ -11,7 +11,6 @@
         <result property="lastName" column="last_name" />
         <result property="role" column="role" />
         <result property="lastPasswordChangeDate" column="last_password_change_date" typeHandler="DateTimeTypeHandler"/>
-        <result property="unlockDate" column="unlock_date" typeHandler="DateTimeTypeHandler"/>
     </resultMap>
 
     <select id="findOne" parameterType="string" resultMap="accountResultMap">
@@ -21,8 +20,7 @@
             first_name,
             last_name,
             role,
-            last_password_change_date,
-            unlock_date
+            last_password_change_date
         FROM
             account
         WHERE
@@ -39,12 +37,4 @@
     		username = #{username}
     </update>
     
-    <update id="updateUnlockDate" parameterType="Account">
-    	UPDATE
-    		account
-    	SET
-    		unlock_date = #{unlockDate,typeHandler=DateTimeTypeHandler}
-    	WHERE
-    		username = #{username}
-    </update>
 </mapper>

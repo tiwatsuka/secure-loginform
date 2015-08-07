@@ -5,19 +5,26 @@ CREATE TABLE account(
 	last_name varchar(128),
 	role varchar(10),
 	last_password_change_date TIMESTAMP,
-	unlock_date TIMESTAMP,
 	constraint pk_tbl_account primary key (username)
 );
 
-CREATE TABLE account_authentication_log(
+CREATE TABLE account_authentication_success_log(
 	username VARCHAR(128),
 	authentication_timestamp TIMESTAMP,
-	success BOOLEAN,
-	administrative_action_for_unlock BOOLEAN,
-	CONSTRAINT pk_tbl_aaf PRIMARY KEY (username, authentication_timestamp),
+	CONSTRAINT pk_tbl_aasf PRIMARY KEY (username, authentication_timestamp),
 );
 
-CREATE INDEX idx_tbl_aal ON account_authentication_log (authentication_timestamp);
+CREATE TABLE account_authentication_failure_log(
+	username VARCHAR(128),
+	authentication_timestamp TIMESTAMP,
+	CONSTRAINT pk_tbl_aaff PRIMARY KEY (username, authentication_timestamp),
+);
+
+CREATE INDEX idx_tbl_aasl_n ON account_authentication_success_log (username);
+CREATE INDEX idx_tbl_aasl_t ON account_authentication_success_log (authentication_timestamp);
+
+CREATE INDEX idx_tbl_aafl_n ON account_authentication_failure_log (username);
+CREATE INDEX idx_tbl_aafl_t ON account_authentication_failure_log (authentication_timestamp);
 
 CREATE TABLE password_history(
 	username VARCHAR(128),

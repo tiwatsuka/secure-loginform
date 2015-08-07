@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.security.domain.repository.accountAuthenticationLog.AccountAuthenticationSuccessLogRepository">
+
+    <resultMap id="accountAuthenticationSuccessLogResultMap" type="AccountAuthenticationSuccessLog">
+        <id property="username" column="username" />
+        <id property="authenticationTimestamp" column="authentication_timestamp" typeHandler="DateTimeTypeHandler"/>
+    </resultMap>
+    
+    <insert id="insert" parameterType="AccountAuthenticationSuccessLog">
+    <![CDATA[
+        INSERT INTO account_authentication_success_log (
+            username,
+            authentication_timestamp
+        ) VALUES (
+	        #{username},
+            #{authenticationTimestamp, typeHandler=DateTimeTypeHandler}
+        )
+    ]]>
+    </insert>
+    
+    <select id="findLatestLogs" resultMap="accountAuthenticationSuccessLogResultMap">
+    <![CDATA[
+        SELECT
+            username,
+            authentication_timestamp
+        FROM
+            account_authentication_success_log
+        WHERE
+            username = #{username}
+        ORDER BY authentication_timestamp DESC
+        LIMIT #{nbLog}
+    ]]>
+    </select>
+</mapper>

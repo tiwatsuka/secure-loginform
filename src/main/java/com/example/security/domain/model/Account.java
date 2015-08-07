@@ -20,6 +20,5 @@ public class Account implements Serializable {
 	private Role role;
 
 	private DateTime lastPasswordChangeDate;
-	
-	private DateTime unlockDate;
+
 }

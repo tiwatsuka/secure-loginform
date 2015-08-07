@@ -11,7 +11,5 @@ public interface AccountSharedService {
 	
 	DateTime getLastLoginDate(String username);
 	
-	boolean lock(String username);
-
 	boolean unlock(String username);
 }
