@@ -2,7 +2,6 @@ package com.example.security.app.password;
 
 import javax.inject.Inject;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +10,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 
 import com.example.security.domain.model.Account;
 import com.example.security.domain.service.password.PasswordService;
@@ -24,11 +22,6 @@ public class PasswordController {
 	@Inject
 	PasswordService passwordService;
 	
-	@Inject
-	PasswordEncoder passwordEncoder;
-	
-	@Inject
-	JodaTimeDateFactory dateFactory;
 	
 	@RequestMapping(params="form")
 	public String showForm(PasswordForm form,
@@ -51,11 +44,7 @@ public class PasswordController {
 			return "password/changeForm";
 		}
 		
-		Account account = new Account();
-		account.setUsername(form.getUsername());
-		account.setPassword(passwordEncoder.encode(form.getNewPassword()));
-		account.setLastPasswordChangeDate(dateFactory.newDateTime());
-		passwordService.updatePassword(account);
+		passwordService.updatePassword(form.getUsername(), form.getNewPassword());
 		
 		return "redirect:/password?complete";
 	}

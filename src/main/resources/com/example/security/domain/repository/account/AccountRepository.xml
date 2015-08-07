@@ -10,7 +10,6 @@
         <result property="firstName" column="first_name" />
         <result property="lastName" column="last_name" />
         <result property="role" column="role" />
-        <result property="lastPasswordChangeDate" column="last_password_change_date" typeHandler="DateTimeTypeHandler"/>
     </resultMap>
 
     <select id="findOne" parameterType="string" resultMap="accountResultMap">
@@ -19,20 +18,18 @@
             password,
             first_name,
             last_name,
-            role,
-            last_password_change_date
+            role
         FROM
             account
         WHERE
             username = #{username}
     </select>
     
-    <update id="updatePassword" parameterType="Account">
+    <update id="updatePassword">
     	UPDATE
     		account
     	SET
-    		password = #{password},
-    		last_password_change_date = #{lastPasswordChangeDate,typeHandler=DateTimeTypeHandler}
+    		password = #{password}
     	WHERE
     		username = #{username}
     </update>

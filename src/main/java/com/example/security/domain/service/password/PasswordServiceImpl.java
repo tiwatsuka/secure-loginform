@@ -2,10 +2,12 @@ package com.example.security.domain.service.password;
 
 import javax.inject.Inject;
 
+import org.joda.time.DateTime;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,15 +26,21 @@ public class PasswordServiceImpl implements PasswordService {
 	@Inject
 	PasswordHistorySharedService passwordHistorySharedService;
 	
+	@Inject
+	PasswordEncoder passwordEncoder;
+	
 	@Override
 	@Transactional
-	public boolean updatePassword(Account account) {
-		boolean result = accountRepository.updatePassword(account); 
+	public boolean updatePassword(String username, String rawPassword) {
+		String password = passwordEncoder.encode(rawPassword);
+		boolean result = accountRepository.updatePassword(username, password); 
+		
+		DateTime passwordChangeDate = DateTime.now(); 
 		
 		PasswordHistory passwordHistory = new PasswordHistory();
-		passwordHistory.setUsername(account.getUsername());
-		passwordHistory.setPassword(account.getPassword());
-		passwordHistory.setUseFrom(account.getLastPasswordChangeDate());
+		passwordHistory.setUsername(username);
+		passwordHistory.setPassword(password);
+		passwordHistory.setUseFrom(passwordChangeDate);
 		passwordHistorySharedService.insert(passwordHistory);
 		
 		/* When authenticated users update their passwords, update UserDetails in SecurityContextHolder. */
@@ -41,13 +49,12 @@ public class PasswordServiceImpl implements PasswordService {
 		if(principal instanceof UserDetails){
 			SampleUserDetails userDetails = (SampleUserDetails)principal;
 			
-			if(result && userDetails.getUsername().equals(account.getUsername())){
+			if(result && userDetails.getUsername().equals(username)){
 				Account newAccount = userDetails.getAccount();
-				newAccount.setPassword(account.getPassword());
-				newAccount.setLastPasswordChangeDate(account.getLastPasswordChangeDate());
+				newAccount.setPassword(password);
 				SampleUserDetails newUserDetails = new SampleUserDetails(newAccount, false, false, false);
 				Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
-						newUserDetails, account.getPassword(), authentication.getAuthorities());
+						newUserDetails, password, authentication.getAuthorities());
 				SecurityContextHolder.getContext().setAuthentication(newAuthentication);				
 			}
 		}
