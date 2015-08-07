@@ -8,6 +8,10 @@ import com.example.security.domain.model.PasswordHistory;
 
 public interface PasswordHistorySharedService {
 	
+	public boolean isInitialPassword(String username);
+	
+	public boolean isCurrentPasswordExpired(String username);
+	
 	public int insert(PasswordHistory history);
 	
 	public List<PasswordHistory> findByUseFrom(String username, DateTime useFrom);
