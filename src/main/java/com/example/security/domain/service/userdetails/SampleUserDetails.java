@@ -1,5 +1,6 @@
 package com.example.security.domain.service.userdetails;
 
+import org.joda.time.DateTime;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 
@@ -10,14 +11,21 @@ public class SampleUserDetails extends User {
 	
 	private final Account account;
 	
-	public SampleUserDetails(Account account, boolean isLocked) {
+	private final DateTime lastLoginDate; 
+	
+	public SampleUserDetails(Account account, boolean isLocked, DateTime lastLoginDate) {
 		super(account.getUsername(), account.getPassword(), true, true, true, !isLocked, 
 				AuthorityUtils.createAuthorityList("ROLE_" + account.getRole().getCodeValue()));
 		this.account = account;
+		this.lastLoginDate = lastLoginDate;
 	}
 	
 	public Account getAccount() {
 		return account;
+	}
+	
+	public DateTime getLastLoginDate(){
+		return lastLoginDate;
 	}
 
 }

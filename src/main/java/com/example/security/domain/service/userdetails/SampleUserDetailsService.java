@@ -27,7 +27,7 @@ public class SampleUserDetailsService implements UserDetailsService {
 		try {
 			Account account = accountSharedService.findOne(username);
 
-			return new SampleUserDetails(account, accountSharedService.isLocked(username));
+			return new SampleUserDetails(account, accountSharedService.isLocked(username), accountSharedService.getLastLoginDate(username));
 		} catch (ResourceNotFoundException e) {
 			throw new UsernameNotFoundException("user not found", e);
 		}

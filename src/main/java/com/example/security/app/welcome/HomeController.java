@@ -45,7 +45,7 @@ public class HomeController {
         SampleUserDetails userDetails = (SampleUserDetails) authentication.getPrincipal();
         Account account = userDetails.getAccount();
         
-        DateTime lastLoginDate = accountSharedService.getLastLoginDate(account.getUsername());
+        DateTime lastLoginDate = userDetails.getLastLoginDate();
 
         model.addAttribute("account", account);
         model.addAttribute("isPasswordExpired", passwordHistorySharedService.isCurrentPasswordExpired(account.getUsername()));

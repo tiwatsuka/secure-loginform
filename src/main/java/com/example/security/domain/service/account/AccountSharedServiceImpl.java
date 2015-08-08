@@ -78,12 +78,12 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 	@Override
 	public DateTime getLastLoginDate(String username) {
 		List<AccountAuthenticationSuccessLog> logs = 
-				accountAuthenticationLogSharedService.findLatestSuccessLogs(username, 2);
+				accountAuthenticationLogSharedService.findLatestSuccessLogs(username, 1);
 		
-		if(logs.size() <= 1){
+		if(logs.isEmpty()){
 			return null;
 		}else{
-			return logs.get(1).getAuthenticationTimestamp();
+			return logs.get(0).getAuthenticationTimestamp();
 		}
 	}
 
