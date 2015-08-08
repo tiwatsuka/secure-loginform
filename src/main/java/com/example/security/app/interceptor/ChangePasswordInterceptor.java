@@ -12,13 +12,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.example.security.domain.model.Role;
-import com.example.security.domain.service.passwordHistory.PasswordHistorySharedService;
+import com.example.security.domain.service.account.AccountSharedService;
 import com.example.security.domain.service.userdetails.SampleUserDetails;
 
 public class ChangePasswordInterceptor extends HandlerInterceptorAdapter {
 	
 	@Inject
-	PasswordHistorySharedService passwordHistorySharedService;
+	AccountSharedService accountSharedService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException{
@@ -30,8 +30,8 @@ public class ChangePasswordInterceptor extends HandlerInterceptorAdapter {
     		if(principal instanceof UserDetails){
     			SampleUserDetails userDetails = (SampleUserDetails)principal;
     			if( (userDetails.getAccount().getRole() == Role.ADMN &&
-    					passwordHistorySharedService.isCurrentPasswordExpired(userDetails.getUsername()))
-    					|| passwordHistorySharedService.isInitialPassword(userDetails.getUsername())){
+    					accountSharedService.isCurrentPasswordExpired(userDetails.getUsername()))
+    					|| accountSharedService.isInitialPassword(userDetails.getUsername())){
     				response.sendRedirect(request.getContextPath() + "/password?form");
     				return false;
     			}

@@ -7,9 +7,14 @@ import com.example.security.domain.model.Account;
 public interface AccountSharedService {
 	Account findOne(String username);
 	
-	boolean isLocked(String username);
-	
 	DateTime getLastLoginDate(String username);
 	
 	boolean unlock(String username);
+
+	boolean isLocked(String username);
+
+	public boolean isInitialPassword(String username);
+	
+	public boolean isCurrentPasswordExpired(String username);
+	
 }

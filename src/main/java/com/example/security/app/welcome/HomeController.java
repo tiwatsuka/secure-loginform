@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.security.domain.model.Account;
 import com.example.security.domain.service.account.AccountSharedService;
-import com.example.security.domain.service.passwordHistory.PasswordHistorySharedService;
 import com.example.security.domain.service.userdetails.SampleUserDetails;
 
 /**
@@ -30,9 +29,6 @@ public class HomeController {
     
     @Inject
     AccountSharedService accountSharedService;
-    
-    @Inject
-    PasswordHistorySharedService passwordHistorySharedService;
 
     /**
      * Simply selects the home view to render by returning its name.
@@ -48,7 +44,7 @@ public class HomeController {
         DateTime lastLoginDate = userDetails.getLastLoginDate();
 
         model.addAttribute("account", account);
-        model.addAttribute("isPasswordExpired", passwordHistorySharedService.isCurrentPasswordExpired(account.getUsername()));
+        model.addAttribute("isPasswordExpired", accountSharedService.isCurrentPasswordExpired(account.getUsername()));
     	model.addAttribute("lastLoginDate", lastLoginDate);
     	
     	return "welcome/home";
