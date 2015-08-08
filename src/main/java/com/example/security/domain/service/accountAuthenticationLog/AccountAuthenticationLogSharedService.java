@@ -9,11 +9,11 @@ import com.example.security.domain.model.AccountAuthenticationSuccessLog;
 
 public interface AccountAuthenticationLogSharedService {
 	
-	public List<AccountAuthenticationFailureLog> findFailureLogByDulation(String username, DateTime from, DateTime to);
+	public List<AccountAuthenticationFailureLog> findFailureLogsByDulation(String username, DateTime from, DateTime to);
 	
-	public List<AccountAuthenticationSuccessLog> findLatestSuccessLog(String username, int count);
+	public List<AccountAuthenticationSuccessLog> findLatestSuccessLogs(String username, int count);
 	
-	public List<AccountAuthenticationFailureLog> findLatestFailureLog(String username, int count);
+	public List<AccountAuthenticationFailureLog> findLatestFailureLogs(String username, int count);
 	
 	public int insertSuccessLog(AccountAuthenticationSuccessLog log);
 	

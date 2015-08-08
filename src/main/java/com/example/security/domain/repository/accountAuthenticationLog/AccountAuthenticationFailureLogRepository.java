@@ -8,7 +8,7 @@ import org.joda.time.DateTime;
 import com.example.security.domain.model.AccountAuthenticationFailureLog;
 
 public interface AccountAuthenticationFailureLogRepository {
-	List<AccountAuthenticationFailureLog> findByDulation(
+	List<AccountAuthenticationFailureLog> findLogsByDulation(
 			@Param("username") String username, @Param("from") DateTime from,
 			@Param("to") DateTime to);
 	

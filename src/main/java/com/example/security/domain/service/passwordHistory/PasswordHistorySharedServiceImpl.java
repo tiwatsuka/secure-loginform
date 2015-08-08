@@ -26,26 +26,26 @@ public class PasswordHistorySharedServiceImpl implements PasswordHistorySharedSe
 	}
 	
 	@Transactional(readOnly=true)
-	public List<PasswordHistory> findByUseFrom(String username, DateTime useFrom){
+	public List<PasswordHistory> findHistoriesByUseFrom(String username, DateTime useFrom){
 		return passwordHistoryRepository.findByUseFrom(username, useFrom);
 	}
 
 	@Override
-	public List<PasswordHistory> findLatestHistory(String username, int limit) {
-		return passwordHistoryRepository.findLatestHistory(username, limit);
+	public List<PasswordHistory> findLatestHistorys(String username, int limit) {
+		return passwordHistoryRepository.findLatestHistories(username, limit);
 	}
 
 	@Override
 	@Cacheable("isInitialPassword")
 	public boolean isInitialPassword(String username) {
-		List<PasswordHistory> passwordHistories = findLatestHistory(username, 1); 
+		List<PasswordHistory> passwordHistories = findLatestHistorys(username, 1); 
 		return passwordHistories.isEmpty();
 	}
 
 	@Override
 	@Cacheable("isCurrentPasswordExpired")
 	public boolean isCurrentPasswordExpired(String username) {
-		List<PasswordHistory> passwordHistories = findLatestHistory(username, 1);
+		List<PasswordHistory> passwordHistories = findLatestHistorys(username, 1);
 		
 		if(passwordHistories.isEmpty()){
 			return true;

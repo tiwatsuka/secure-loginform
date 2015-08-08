@@ -22,17 +22,17 @@ public class AccountAuthenticationLogSharedServiceImpl implements AccountAuthent
 	AccountAuthenticationSuccessLogRepository successRepository;
 	
 	@Override
-	public List<AccountAuthenticationFailureLog> findFailureLogByDulation(String username, DateTime from, DateTime to) {
-		return failureLogRepository.findByDulation(username, from, to);
+	public List<AccountAuthenticationFailureLog> findFailureLogsByDulation(String username, DateTime from, DateTime to) {
+		return failureLogRepository.findLogsByDulation(username, from, to);
 	}
 
 	@Override
-	public List<AccountAuthenticationSuccessLog> findLatestSuccessLog(String username, int count) {
+	public List<AccountAuthenticationSuccessLog> findLatestSuccessLogs(String username, int count) {
 		return successRepository.findLatestLogs(username, count);
 	}
 
 	@Override
-	public List<AccountAuthenticationFailureLog> findLatestFailureLog(String username, int count) {
+	public List<AccountAuthenticationFailureLog> findLatestFailureLogs(String username, int count) {
 		return failureLogRepository.findLatestLogs(username, count);
 	}
 

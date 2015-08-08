@@ -44,7 +44,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 	@Override
 	public boolean isLocked(String username) {
 		List<AccountAuthenticationFailureLog> failureLogs = 
-				accountAuthenticationLogSharedService.findLatestFailureLog(username, lockingThreshold);
+				accountAuthenticationLogSharedService.findLatestFailureLogs(username, lockingThreshold);
 
 		if(failureLogs.size() < lockingThreshold){
 			return false;
@@ -60,7 +60,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 		}
 		
 		List<AccountAuthenticationSuccessLog> successLogs = 
-				accountAuthenticationLogSharedService.findLatestSuccessLog(username, 1);
+				accountAuthenticationLogSharedService.findLatestSuccessLogs(username, 1);
 		if(successLogs.isEmpty()){
 			return true;
 		}
@@ -78,7 +78,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 	@Override
 	public DateTime getLastLoginDate(String username) {
 		List<AccountAuthenticationSuccessLog> logs = 
-				accountAuthenticationLogSharedService.findLatestSuccessLog(username, 2);
+				accountAuthenticationLogSharedService.findLatestSuccessLogs(username, 2);
 		
 		if(logs.size() <= 1){
 			return null;
