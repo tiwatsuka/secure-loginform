@@ -15,7 +15,7 @@ import com.example.security.domain.model.Role;
 import com.example.security.domain.service.account.AccountSharedService;
 import com.example.security.domain.service.userdetails.SampleUserDetails;
 
-public class ChangePasswordInterceptor extends HandlerInterceptorAdapter {
+public class PasswordExpirationCheckInterceptor extends HandlerInterceptorAdapter {
 	
 	@Inject
 	AccountSharedService accountSharedService;
