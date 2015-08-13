@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.security.domain.model.AccountAuthenticationFailureLog;
 import com.example.security.domain.model.AccountAuthenticationSuccessLog;
@@ -13,6 +14,7 @@ import com.example.security.domain.repository.accountAuthenticationLog.AccountAu
 import com.example.security.domain.repository.accountAuthenticationLog.AccountAuthenticationSuccessLogRepository;
 
 @Service
+@Transactional
 public class AccountAuthenticationLogSharedServiceImpl implements AccountAuthenticationLogSharedService {
 
 	@Inject
@@ -21,16 +23,19 @@ public class AccountAuthenticationLogSharedServiceImpl implements AccountAuthent
 	@Inject
 	AccountAuthenticationSuccessLogRepository successRepository;
 	
+	@Transactional(readOnly=true)
 	@Override
 	public List<AccountAuthenticationFailureLog> findFailureLogsByDulation(String username, DateTime from, DateTime to) {
 		return failureLogRepository.findLogsByDulation(username, from, to);
 	}
-
+	
+	@Transactional(readOnly=true)
 	@Override
 	public List<AccountAuthenticationSuccessLog> findLatestSuccessLogs(String username, int count) {
 		return successRepository.findLatestLogs(username, count);
 	}
 
+	@Transactional(readOnly=true)
 	@Override
 	public List<AccountAuthenticationFailureLog> findLatestFailureLogs(String username, int count) {
 		return failureLogRepository.findLatestLogs(username, count);

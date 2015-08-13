@@ -28,6 +28,7 @@ public class PasswordHistorySharedServiceImpl implements PasswordHistorySharedSe
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<PasswordHistory> findLatestHistorys(String username, int limit) {
 		return passwordHistoryRepository.findLatestHistories(username, limit);
 	}

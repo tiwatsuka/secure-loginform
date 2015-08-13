@@ -49,6 +49,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 		return account;
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public boolean isLocked(String username) {
 		List<AccountAuthenticationFailureLog> failureLogs = 
@@ -83,6 +84,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 		return true;
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public DateTime getLastLoginDate(String username) {
 		List<AccountAuthenticationSuccessLog> logs = 
@@ -109,6 +111,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 		return true;
 	}
 	
+	@Transactional(readOnly = true)
 	@Override
 	@Cacheable("isInitialPassword")
 	public boolean isInitialPassword(String username) {
@@ -116,6 +119,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 		return passwordHistories.isEmpty();
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	@Cacheable("isCurrentPasswordExpired")
 	public boolean isCurrentPasswordExpired(String username) {
