@@ -33,3 +33,14 @@ CREATE TABLE password_history(
 );
 
 CREATE INDEX idx_tbl_phi ON password_history (use_from);
+
+CREATE TABLE password_reissue_info(
+	username VARCHAR(128),
+	token VARCHAR(128),
+	password VARCHAR(60),
+	expiry_date TIMESTAMP,
+	CONSTRAINT pk_tbl_pri PRIMARY KEY (username, token),
+	CONSTRAINT fk_tbl_pri FOREIGN KEY (username) REFERENCES account(username)
+);
+
+CREATE INDEX idx_tbl_pri ON password_reissue_info (username, token);

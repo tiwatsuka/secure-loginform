@@ -1,8 +1,8 @@
-package com.example.security.app.reissue;
+package com.example.security.app.passwordReissue;
 
 import lombok.Data;
 
 @Data
-public class ReissueForm {
+public class PasswordReissueForm {
 	String username;
 }

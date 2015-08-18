@@ -9,8 +9,8 @@
 <body>
 	<div id="wrapper">
 		<h1>Reissue password</h1>
-		<form:form action="${pageContext.request.contextPath}/reissue"
-			method="Post" modelAttribute="reissueForm">
+		<form:form action="${pageContext.request.contextPath}/reissue/create"
+			method="Post" modelAttribute="passwordReissueForm">
 			<table>
 				<tr>
 					<th>Username</th>
