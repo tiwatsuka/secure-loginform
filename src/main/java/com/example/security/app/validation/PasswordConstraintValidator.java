@@ -10,15 +10,13 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.joda.time.DateTime;
 import org.passay.CharacterCharacteristicsRule;
-import org.passay.DigitCharacterRule;
+import org.passay.CharacterRule;
+import org.passay.EnglishCharacterData;
 import org.passay.LengthRule;
-import org.passay.LowercaseCharacterRule;
 import org.passay.PasswordData;
 import org.passay.PasswordValidator;
 import org.passay.Rule;
 import org.passay.RuleResult;
-import org.passay.SpecialCharacterRule;
-import org.passay.UppercaseCharacterRule;
 import org.passay.UsernameRule;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -64,10 +62,10 @@ public class PasswordConstraintValidator implements ConstraintValidator<ChangePa
 		lengthRule.setMinimumLength(3);
 		
 		CharacterCharacteristicsRule characterCharacteristicsRule = new CharacterCharacteristicsRule();
-		characterCharacteristicsRule.getRules().add(new UppercaseCharacterRule(1));
-		characterCharacteristicsRule.getRules().add(new LowercaseCharacterRule(1));
-		characterCharacteristicsRule.getRules().add(new DigitCharacterRule(1));
-		characterCharacteristicsRule.getRules().add(new SpecialCharacterRule(1));
+		characterCharacteristicsRule.getRules().add(new CharacterRule(EnglishCharacterData.UpperCase,1));
+		characterCharacteristicsRule.getRules().add(new CharacterRule(EnglishCharacterData.LowerCase,1));
+		characterCharacteristicsRule.getRules().add(new CharacterRule(EnglishCharacterData.Digit,1));
+		characterCharacteristicsRule.getRules().add(new CharacterRule(EnglishCharacterData.Special,1));
 		characterCharacteristicsRule.setNumberOfCharacteristics(3);	// 3 of 4 rules must be satisfied
 		
 		validator = new PasswordValidator(Arrays.asList(lengthRule, characterCharacteristicsRule));
