@@ -13,7 +13,7 @@ import com.example.security.domain.repository.account.AccountRepository;
 import com.example.security.domain.service.passwordHistory.PasswordHistorySharedService;
 
 @Service
-public class PasswordChangeServiceImpl implements PasswordChangeService {
+public class PasswordChangeSharedServiceImpl implements PasswordChangeSharedService {
 
 	@Inject
 	AccountRepository accountRepository;

@@ -11,7 +11,7 @@ public class PasswordReissueInfo {
 	
 	private String token;
 	
-	private String password;
+	private String secret;
 	
 	private DateTime expiryDate;
 }

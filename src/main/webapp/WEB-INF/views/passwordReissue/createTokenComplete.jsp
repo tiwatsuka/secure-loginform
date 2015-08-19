@@ -10,8 +10,8 @@
 	<div id="wrapper">
 		<h1>Your Password Reissue URL was successfully generated.</h1>
 		The URL was sent to your registered E-mail address.<br/>
-		Please access the URL and enter the password shown below.
-		<h3>Password : ${f:h(password)}</h3>
+		Please access the URL and enter the secret shown below.
+		<h3>Secret : ${f:h(password)}</h3>
 	</div>
 </body>
 </html>
