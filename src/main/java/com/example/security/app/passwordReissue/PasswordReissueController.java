@@ -32,7 +32,7 @@ public class PasswordReissueController {
 		String rowPassword = info.getPassword();
 
 		try {
-			passwordReissueService.SaveReissueInfo(info);
+			passwordReissueService.saveReissueInfo(info);
 		} catch (ResourceNotFoundException e) {
 			return "redirect:/reissue/create?form";
 		}

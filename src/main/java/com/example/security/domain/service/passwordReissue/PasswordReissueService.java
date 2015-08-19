@@ -6,5 +6,5 @@ public interface PasswordReissueService {
 
 	public PasswordReissueInfo createReissueInfo(String username);
 	
-	public boolean SaveReissueInfo(PasswordReissueInfo info);
+	public boolean saveReissueInfo(PasswordReissueInfo info);
 }

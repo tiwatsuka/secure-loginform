@@ -58,7 +58,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 
 	@Override
 	@Transactional
-	public boolean SaveReissueInfo(PasswordReissueInfo info) {
+	public boolean saveReissueInfo(PasswordReissueInfo info) {
 		accountSharedService.findOne(info.getUsername());	//existence check
 		
 		info.setPassword(passwordEncoder.encode(info.getPassword()));
