@@ -2,12 +2,14 @@ package com.example.security.app.passwordChange;
 
 import com.example.security.app.validation.Confirm;
 import com.example.security.app.validation.ChangePassword;
+import com.example.security.app.validation.ConfirmOldPassword;
 
 import lombok.Data;
 
 @Data
 @Confirm(field = "newPassword")
-@ChangePassword(idField="username", newPasswordField="newPassword", oldPasswordField="oldPassword")
+@ChangePassword(idField="username", newPasswordField="newPassword")
+@ConfirmOldPassword(idField="username", oldPasswordField="oldPassword")
 public class PasswordChangeForm {
 	
 	private String username;

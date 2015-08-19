@@ -15,20 +15,20 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = {PasswordConstraintValidator.class})
 @Target({TYPE, ANNOTATION_TYPE})
 @Retention(RUNTIME)
-public @interface ChangePassword {
+public @interface ConfirmOldPassword {
 	String message() default "{com.example.app.validation.Password.message}";
 	
 	Class<?>[] groups() default {};
 	
 	String idField();
 	
-	String newPasswordField();
+	String oldPasswordField();
 	
 	@Target({TYPE, ANNOTATION_TYPE})
 	@Retention(RUNTIME)
 	@Documented
 	public @interface List {
-		ChangePassword[] value();
+		ConfirmOldPassword[] value();
 	}
 	
 	Class<? extends Payload>[] payload() default {};
