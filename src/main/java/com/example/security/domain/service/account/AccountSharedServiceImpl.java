@@ -17,8 +17,8 @@ import com.example.security.domain.model.AccountAuthenticationFailureLog;
 import com.example.security.domain.model.AccountAuthenticationSuccessLog;
 import com.example.security.domain.model.PasswordHistory;
 import com.example.security.domain.repository.account.AccountRepository;
-import com.example.security.domain.service.accountAuthenticationLog.AccountAuthenticationLogSharedService;
-import com.example.security.domain.service.passwordHistory.PasswordHistorySharedService;
+import com.example.security.domain.service.accountauthenticationlog.AccountAuthenticationLogSharedService;
+import com.example.security.domain.service.passwordhistory.PasswordHistorySharedService;
 
 @Service
 public class AccountSharedServiceImpl implements AccountSharedService {

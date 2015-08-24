@@ -1,4 +1,4 @@
-package com.example.security.app.passwordReissue;
+package com.example.security.app.passwordreissue;
 
 import javax.inject.Inject;
 
@@ -16,7 +16,7 @@ import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
 import com.example.security.domain.model.PasswordReissueInfo;
-import com.example.security.domain.service.passwordReissue.PasswordReissueService;
+import com.example.security.domain.service.passwordreissue.PasswordReissueService;
 
 @Controller
 @RequestMapping("/reissue")
@@ -27,7 +27,7 @@ public class PasswordReissueController {
 	
 	@RequestMapping(value = "create", params = "form")
 	public String showCreateTokenForm(PasswordReissueForm form, Model model){
-		return "passwordReissue/createTokenForm";
+		return "passwordreissue/createTokenForm";
 	}
 	
 	@RequestMapping(value="create", method=RequestMethod.POST)
@@ -48,7 +48,7 @@ public class PasswordReissueController {
 	
 	@RequestMapping(value="create", params="complete")
 	public String createTokenComplete(){
-		return "passwordReissue/createTokenComplete";
+		return "passwordreissue/createTokenComplete";
 	}
 	
 	@RequestMapping(value="resetPassword", params="form")
@@ -65,14 +65,14 @@ public class PasswordReissueController {
 		form.setUsername(username);
 		form.setToken(token);
 		model.addAttribute("passwordResetForm", form);
-		return "passwordReissue/passwordResetForm";
+		return "passwordreissue/passwordResetForm";
 	}
 	
 	@RequestMapping(value="resetPassword", method=RequestMethod.POST)
 	public String resetPassword(@Validated PasswordResetForm form,
 			BindingResult bindingResult, Model model){
 		if(bindingResult.hasErrors()){
-			return "passwordReissue/passwordResetForm";
+			return "passwordreissue/passwordResetForm";
 		}
 
 		try {
@@ -80,7 +80,7 @@ public class PasswordReissueController {
 		} catch (BusinessException e) {
 			passwordReissueService.resetFailure(form.getUsername(), form.getToken());
 			model.addAttribute(e.getResultMessages());
-			return "passwordReissue/passwordResetForm";
+			return "passwordreissue/passwordResetForm";
 		}
 		
 		passwordReissueService.removeReissueInfo(form.getUsername(), form.getToken());
@@ -90,7 +90,7 @@ public class PasswordReissueController {
 	
 	@RequestMapping(value="resetPassword", params="complete")
 	public String resetPasswordComplete(){
-		return "passwordReissue/passwordResetComplete";
+		return "passwordreissue/passwordResetComplete";
 	}
 	
 	@ModelAttribute("passwordReissueForm")

@@ -28,7 +28,7 @@ import com.example.security.domain.model.Account;
 import com.example.security.domain.model.PasswordHistory;
 import com.example.security.domain.model.Role;
 import com.example.security.domain.service.account.AccountSharedService;
-import com.example.security.domain.service.passwordHistory.PasswordHistorySharedService;
+import com.example.security.domain.service.passwordhistory.PasswordHistorySharedService;
 import com.google.common.base.Joiner;
 
 public class PasswordConstraintValidator implements ConstraintValidator<ChangePassword, Object> {

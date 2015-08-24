@@ -1,4 +1,4 @@
-package com.example.security.domain.repository.passwordReissue;
+package com.example.security.domain.repository.passwordreissue;
 
 import org.apache.ibatis.annotations.Param;
 

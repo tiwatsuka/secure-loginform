@@ -1,4 +1,4 @@
-package com.example.security.domain.service.passwordHistory;
+package com.example.security.domain.service.passwordhistory;
 
 import java.util.List;
 

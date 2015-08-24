@@ -1,4 +1,4 @@
-package com.example.security.app.passwordChange;
+package com.example.security.app.passwordchange;
 
 import com.example.security.app.validation.Confirm;
 import com.example.security.app.validation.ChangePassword;

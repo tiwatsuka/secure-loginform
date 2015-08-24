@@ -1,4 +1,4 @@
-package com.example.security.domain.service.accountAuthenticationLog;
+package com.example.security.domain.service.accountauthenticationlog;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.security.domain.model.AccountAuthenticationFailureLog;
 import com.example.security.domain.model.AccountAuthenticationSuccessLog;
-import com.example.security.domain.repository.accountAuthenticationLog.AccountAuthenticationFailureLogRepository;
-import com.example.security.domain.repository.accountAuthenticationLog.AccountAuthenticationSuccessLogRepository;
+import com.example.security.domain.repository.accountauthenticationlog.AccountAuthenticationFailureLogRepository;
+import com.example.security.domain.repository.accountauthenticationlog.AccountAuthenticationSuccessLogRepository;
 
 @Service
 @Transactional

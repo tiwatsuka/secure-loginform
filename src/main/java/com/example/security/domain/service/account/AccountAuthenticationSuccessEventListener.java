@@ -10,7 +10,7 @@ import org.springframework.security.authentication.event.AuthenticationSuccessEv
 import org.springframework.stereotype.Component;
 
 import com.example.security.domain.model.AccountAuthenticationSuccessLog;
-import com.example.security.domain.service.accountAuthenticationLog.AccountAuthenticationLogSharedService;
+import com.example.security.domain.service.accountauthenticationlog.AccountAuthenticationLogSharedService;
 import com.example.security.domain.service.userdetails.SampleUserDetails;
 
 @Component

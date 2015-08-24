@@ -1,4 +1,4 @@
-package com.example.security.domain.service.passwordHistory;
+package com.example.security.domain.service.passwordhistory;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.security.domain.model.PasswordHistory;
-import com.example.security.domain.repository.passwordHistory.PasswordHistoryRepository;
+import com.example.security.domain.repository.passwordhistory.PasswordHistoryRepository;
 
 @Service
 public class PasswordHistorySharedServiceImpl implements PasswordHistorySharedService{

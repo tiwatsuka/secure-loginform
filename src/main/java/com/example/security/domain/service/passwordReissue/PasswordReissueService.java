@@ -1,4 +1,4 @@
-package com.example.security.domain.service.passwordReissue;
+package com.example.security.domain.service.passwordreissue;
 
 import com.example.security.domain.model.PasswordReissueInfo;
 

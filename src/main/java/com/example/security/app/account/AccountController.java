@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.security.app.passwordChange.PasswordChangeForm;
+import com.example.security.app.passwordchange.PasswordChangeForm;
 import com.example.security.domain.model.Account;
 import com.example.security.domain.service.userdetails.SampleUserDetails;
 

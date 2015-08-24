@@ -1,4 +1,4 @@
-package com.example.security.domain.service.passwordReissue;
+package com.example.security.domain.service.passwordreissue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,10 +18,10 @@ import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 
 import com.example.security.domain.model.PasswordReissueFailureLog;
 import com.example.security.domain.model.PasswordReissueInfo;
-import com.example.security.domain.repository.passwordReissue.PasswordReissueFailureLogRepository;
-import com.example.security.domain.repository.passwordReissue.PasswordReissueInfoRepository;
+import com.example.security.domain.repository.passwordreissue.PasswordReissueFailureLogRepository;
+import com.example.security.domain.repository.passwordreissue.PasswordReissueInfoRepository;
 import com.example.security.domain.service.account.AccountSharedService;
-import com.example.security.domain.service.passwordChange.PasswordChangeSharedService;
+import com.example.security.domain.service.passwordchange.PasswordChangeSharedService;
 @Transactional
 @Service
 public class PasswordReissueServiceImpl implements PasswordReissueService {

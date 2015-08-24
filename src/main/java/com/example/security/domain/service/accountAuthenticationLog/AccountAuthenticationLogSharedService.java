@@ -1,4 +1,4 @@
-package com.example.security.domain.service.accountAuthenticationLog;
+package com.example.security.domain.service.accountauthenticationlog;
 
 import java.util.List;
 

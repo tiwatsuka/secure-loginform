@@ -10,7 +10,7 @@ import org.springframework.security.authentication.event.AuthenticationFailureBa
 import org.springframework.stereotype.Component;
 
 import com.example.security.domain.model.AccountAuthenticationFailureLog;
-import com.example.security.domain.service.accountAuthenticationLog.AccountAuthenticationLogSharedService;
+import com.example.security.domain.service.accountauthenticationlog.AccountAuthenticationLogSharedService;
 
 @Component
 public class AccountAuthenticationFailureBadCredentialsEventListener implements
