@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,11 +34,14 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 	@Inject
 	private AccountRepository accountRepository;
 	
-	private final int lockingDurationMinutes = 1;
+	@Value("${lockingDurationMinutes}")
+	private int lockingDurationMinutes;
 	
-	private final int lockingThreshold = 3;
+	@Value("${lockingThreshold}")
+	private int lockingThreshold;
 	
-	private final int passwrodLifeTime = 1;
+	@Value("${passwordLifeTime}")
+	private int passwordLifeTime;
 	
 	@Transactional(readOnly = true)
 	@Override
@@ -129,7 +133,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 			return true;
 		}
 		
-		if(passwordHistories.get(0).getUseFrom().isBefore(DateTime.now().minusMinutes(passwrodLifeTime))){
+		if(passwordHistories.get(0).getUseFrom().isBefore(DateTime.now().minusMinutes(passwordLifeTime))){
 			return true;
 		}
 		

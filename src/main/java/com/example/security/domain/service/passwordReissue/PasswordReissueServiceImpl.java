@@ -10,6 +10,7 @@ import org.joda.time.DateTime;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,9 +43,11 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	@Inject
 	PasswordEncoder passwordEncoder;
 	
-	private final int tokenExpiration = 3; 
+	@Value("${tokenExpiration}")
+	private int tokenExpiration;
 	
-	private final int tokenValidityThreshold = 3;
+	@Value("${tokenValidityThreshold}")
+	private int tokenValidityThreshold;
 	
 	@Override
 	public PasswordReissueInfo createReissueInfo(String username) {
