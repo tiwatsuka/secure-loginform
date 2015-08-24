@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -22,8 +21,7 @@ public class PasswordExpirationCheckInterceptor extends HandlerInterceptorAdapte
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException{
-		Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
+		Authentication authentication = (Authentication)request.getUserPrincipal();
 
     	if(authentication != null){
     		Object principal = authentication.getPrincipal();
