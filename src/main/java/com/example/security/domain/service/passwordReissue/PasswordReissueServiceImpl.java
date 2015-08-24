@@ -22,8 +22,9 @@ import com.example.security.domain.repository.passwordreissue.PasswordReissueFai
 import com.example.security.domain.repository.passwordreissue.PasswordReissueInfoRepository;
 import com.example.security.domain.service.account.AccountSharedService;
 import com.example.security.domain.service.passwordchange.PasswordChangeSharedService;
-@Transactional
+
 @Service
+@Transactional
 public class PasswordReissueServiceImpl implements PasswordReissueService {
 
 	@Inject
@@ -90,6 +91,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	}
 	
 	@Override
+	@Transactional(readOnly=true)
 	public PasswordReissueInfo findOne(String username, String token) {
 		PasswordReissueInfo info = passwordReissueInfoRepository.findOne(username, token);
 

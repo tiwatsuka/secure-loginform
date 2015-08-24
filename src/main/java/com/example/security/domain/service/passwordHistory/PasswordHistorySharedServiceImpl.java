@@ -12,12 +12,12 @@ import com.example.security.domain.model.PasswordHistory;
 import com.example.security.domain.repository.passwordhistory.PasswordHistoryRepository;
 
 @Service
+@Transactional
 public class PasswordHistorySharedServiceImpl implements PasswordHistorySharedService{
 
 	@Inject
 	PasswordHistoryRepository passwordHistoryRepository;
 	
-	@Transactional
 	public int insert(PasswordHistory history){
 		return passwordHistoryRepository.insert(history);
 	}

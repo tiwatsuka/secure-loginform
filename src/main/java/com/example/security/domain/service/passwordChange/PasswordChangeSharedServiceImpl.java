@@ -13,6 +13,7 @@ import com.example.security.domain.repository.account.AccountRepository;
 import com.example.security.domain.service.passwordhistory.PasswordHistorySharedService;
 
 @Service
+@Transactional
 public class PasswordChangeSharedServiceImpl implements PasswordChangeSharedService {
 
 	@Inject
@@ -25,7 +26,6 @@ public class PasswordChangeSharedServiceImpl implements PasswordChangeSharedServ
 	PasswordEncoder passwordEncoder;
 	
 	@Override
-	@Transactional
 	@CacheEvict(value={"isInitialPassword", "isCurrentPasswordExpired"}, allEntries=true)
 	public boolean updatePassword(String username, String rawPassword) {
 		String password = passwordEncoder.encode(rawPassword);

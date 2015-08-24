@@ -21,6 +21,7 @@ import com.example.security.domain.service.accountauthenticationlog.AccountAuthe
 import com.example.security.domain.service.passwordhistory.PasswordHistorySharedService;
 
 @Service
+@Transactional
 public class AccountSharedServiceImpl implements AccountSharedService {
 	
 	@Inject
@@ -97,7 +98,6 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 		}
 	}
 
-	@Transactional
 	@Override
 	public boolean unlock(String username) {
 		if(!isLocked(username)){
