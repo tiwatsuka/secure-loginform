@@ -1,14 +1,13 @@
 package com.example.security.domain.service.passwordreissue;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 import org.passay.CharacterRule;
-import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,6 +42,12 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	@Inject
 	PasswordEncoder passwordEncoder;
 	
+	@Inject
+	PasswordGenerator passwordGenerator;
+	
+	@Resource(name="passwordGenerationRules")
+	List<CharacterRule> passwordGenerationRules;
+	
 	@Value("${tokenExpiration}")
 	private int tokenExpiration;
 	
@@ -54,13 +59,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 		
 		String token = UUID.randomUUID().toString();
 
-		List<CharacterRule> rules = Arrays.asList(
-				new CharacterRule(EnglishCharacterData.UpperCase, 1), 
-				new CharacterRule(EnglishCharacterData.LowerCase, 1),
-				new CharacterRule(EnglishCharacterData.Digit, 1) 
-				);
-		PasswordGenerator generator = new PasswordGenerator();
-		String secret = generator.generatePassword(10, rules);
+		String secret = passwordGenerator.generatePassword(10, passwordGenerationRules);
 		
 		DateTime expiryDate = DateTime.now().plusMinutes(tokenExpiration);
 		

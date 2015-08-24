@@ -1,23 +1,17 @@
 package com.example.security.app.validation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.joda.time.DateTime;
-import org.passay.CharacterCharacteristicsRule;
-import org.passay.CharacterRule;
-import org.passay.EnglishCharacterData;
-import org.passay.LengthRule;
 import org.passay.PasswordData;
 import org.passay.PasswordValidator;
-import org.passay.Rule;
 import org.passay.RuleResult;
-import org.passay.UsernameRule;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,7 +42,14 @@ public class PasswordConstraintValidator implements ConstraintValidator<ChangePa
 	@Inject
 	EncodedPasswordHistoryRule encodedPasswordHistoryRule;
 	
-	private PasswordValidator validator;
+	@Resource(name="characteristicPasswordValidator")
+	PasswordValidator characteristicPasswordValidator;
+	
+	@Resource(name="usernamePasswordValidator")
+	PasswordValidator usernamePasswordValidator;
+	
+	@Resource(name="encodedPasswordHistoryValidator")
+	PasswordValidator encodedPasswordHistoryValidator;
 	
 	private String usernameField;
 	
@@ -56,21 +57,8 @@ public class PasswordConstraintValidator implements ConstraintValidator<ChangePa
 	
 	@Override
 	public void initialize(ChangePassword constraintAnnotation) {
-		LengthRule lengthRule = new LengthRule();
-		lengthRule.setMinimumLength(3);
-		
-		CharacterCharacteristicsRule characterCharacteristicsRule = new CharacterCharacteristicsRule();
-		characterCharacteristicsRule.getRules().add(new CharacterRule(EnglishCharacterData.UpperCase,1));
-		characterCharacteristicsRule.getRules().add(new CharacterRule(EnglishCharacterData.LowerCase,1));
-		characterCharacteristicsRule.getRules().add(new CharacterRule(EnglishCharacterData.Digit,1));
-		characterCharacteristicsRule.getRules().add(new CharacterRule(EnglishCharacterData.Special,1));
-		characterCharacteristicsRule.setNumberOfCharacteristics(3);	// 3 of 4 rules must be satisfied
-		
-		validator = new PasswordValidator(Arrays.asList(lengthRule, characterCharacteristicsRule));
-		
 		usernameField = constraintAnnotation.idField();
 		newPasswordField = constraintAnnotation.newPasswordField();
-		
 	}
 
 	@Override
@@ -96,11 +84,11 @@ public class PasswordConstraintValidator implements ConstraintValidator<ChangePa
 	}
 
 	private boolean checkCharacteristicsConstraints(String newPassword, ConstraintValidatorContext context){
-		RuleResult result = validator.validate(new PasswordData(newPassword));
+		RuleResult result = characteristicPasswordValidator.validate(new PasswordData(newPassword));
 		if(result.isValid()){
 			return true;
 		}else{
-			context.buildConstraintViolationWithTemplate(Joiner.on("\n").join(validator.getMessages(result)))
+			context.buildConstraintViolationWithTemplate(Joiner.on("\n").join(characteristicPasswordValidator.getMessages(result)))
 				.addPropertyNode(newPasswordField)
 				.addConstraintViolation();
 			return false;
@@ -119,10 +107,8 @@ public class PasswordConstraintValidator implements ConstraintValidator<ChangePa
 	}
 	
 	private boolean checkNotContainUsername(String username, String newPassword, ConstraintValidatorContext context) {
-		Rule usernameRule = new UsernameRule();
 		PasswordData passwordData = PasswordData.newInstance(newPassword, username, null);
-		PasswordValidator passwordValidator = new PasswordValidator(Arrays.asList(usernameRule));
-		RuleResult result = passwordValidator.validate(passwordData);
+		RuleResult result = usernamePasswordValidator.validate(passwordData);
 		
 		if(result.isValid()){
 			return true;
@@ -146,8 +132,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ChangePa
 		}
 		
 		PasswordData passwordData = PasswordData.newInstance(newPassword, username, historyData);
-		PasswordValidator passwordValidator = new PasswordValidator(Arrays.asList((Rule)encodedPasswordHistoryRule));
-		RuleResult result = passwordValidator.validate(passwordData);
+		RuleResult result = encodedPasswordHistoryValidator.validate(passwordData);
 		
 		if(result.isValid()){
 			return true;

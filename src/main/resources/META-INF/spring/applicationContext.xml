@@ -55,4 +55,97 @@
         <property name="exceptionLogger" ref="exceptionLogger" />
     </bean>
 
+	<!-- Password Rules. -->
+	<bean id="lengthRule"
+	 class="org.passay.LengthRule">
+        <property name="minimumLength" value="${passwordMinimumLength}"/>
+	 </bean>
+	<bean id="upperCaseRule"
+		class="org.passay.CharacterRule">
+		<constructor-arg name="data">
+			<value type="org.passay.EnglishCharacterData">UpperCase</value>
+		</constructor-arg>
+		<constructor-arg name="num" value="1"/>
+	</bean>
+	<bean id="lowerCaseRule"
+		class="org.passay.CharacterRule">
+		<constructor-arg name="data">
+			<value type="org.passay.EnglishCharacterData">LowerCase</value>
+		</constructor-arg>
+		<constructor-arg name="num" value="1"/>
+	</bean>
+	<bean id="digitRule"
+		class="org.passay.CharacterRule">
+		<constructor-arg name="data">
+			<value type="org.passay.EnglishCharacterData">Digit</value>
+		</constructor-arg>
+		<constructor-arg name="num" value="1"/>
+	</bean>
+	<bean id="specialCharacterRule"
+		class="org.passay.CharacterRule">
+		<constructor-arg name="data">
+			<value type="org.passay.EnglishCharacterData">Special</value>
+		</constructor-arg>
+		<constructor-arg name="num" value="1"/>
+	</bean>
+	<bean id="characterCharacteristicsRule"
+		class="org.passay.CharacterCharacteristicsRule">
+		<property name="rules">
+			<list value-type="org.passay.CharacterRule">
+				<ref bean="upperCaseRule"/>
+				<ref bean="lowerCaseRule"/>
+				<ref bean="digitRule"/>
+				<ref bean="specialCharacterRule"/>
+			</list>
+		</property>
+		<property name="numberOfCharacteristics" value="3"/>
+	</bean>
+	<bean id="usernameRule"
+		class="org.passay.UsernameRule" />
+	<bean id="encodedPasswordHistoryRule"
+		class="com.example.security.app.validation.rule.EncodedPasswordHistoryRule">
+		<property name="passwordEncoder" ref="passwordEncoder"/>
+	</bean>
+
+	<!-- Password Validator. -->
+	<bean id="characteristicPasswordValidator"
+		class="org.passay.PasswordValidator">
+		<constructor-arg name="rules">
+			<list value-type="org.passay.Rule">
+				<ref bean="lengthRule"/>
+				<ref bean="characterCharacteristicsRule"/>
+			</list>
+		</constructor-arg>
+	</bean>
+	<bean id="usernamePasswordValidator"
+		class="org.passay.PasswordValidator">
+		<constructor-arg name="rules">
+			<list value-type="org.passay.Rule">
+				<ref bean="usernameRule"/>
+			</list>
+		</constructor-arg>
+	</bean>
+	<bean id="encodedPasswordHistoryValidator"
+		class="org.passay.PasswordValidator">
+		<constructor-arg name="rules">
+			<list value-type="org.passay.Rule">
+				<ref bean="encodedPasswordHistoryRule"/>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<!-- Password Generator. -->
+	<bean id="passwordGenerator"
+		class="org.passay.PasswordGenerator" />
+	<bean id="passwordGenerationRules"
+		class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list value-type="org.passay.CharacterRule">
+				<ref bean="upperCaseRule"/>
+				<ref bean="lowerCaseRule"/>
+				<ref bean="digitRule"/>
+			</list>
+		</property>
+	</bean>
+
 </beans>
