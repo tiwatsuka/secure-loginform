@@ -50,7 +50,7 @@ public class PasswordReissueController {
 		return "passwordreissue/createTokenComplete";
 	}
 	
-	@RequestMapping(value="resetPassword", params="form")
+	@RequestMapping(value="resetpassword", params="form")
 	public String showPasswordResetForm(PasswordResetForm form,
 			Model model,
 			@RequestParam("username") String username, @RequestParam("token") String token){
@@ -67,7 +67,7 @@ public class PasswordReissueController {
 		return "passwordreissue/passwordResetForm";
 	}
 	
-	@RequestMapping(value="resetPassword", method=RequestMethod.POST)
+	@RequestMapping(value="resetpassword", method=RequestMethod.POST)
 	public String resetPassword(@Validated PasswordResetForm form,
 			BindingResult bindingResult, Model model){
 		if(bindingResult.hasErrors()){
@@ -84,10 +84,10 @@ public class PasswordReissueController {
 		
 		passwordReissueService.removeReissueInfo(form.getUsername(), form.getToken());
 		
-		return "redirect:/reissue/resetPassword?complete";
+		return "redirect:/reissue/resetpassword?complete";
 	}
 	
-	@RequestMapping(value="resetPassword", params="complete")
+	@RequestMapping(value="resetpassword", params="complete")
 	public String resetPasswordComplete(){
 		return "passwordreissue/passwordResetComplete";
 	}
