@@ -6,9 +6,9 @@ import com.example.security.domain.model.PasswordReissueInfo;
 
 public interface PasswordReissueInfoRepository {
 
-	public int insert(PasswordReissueInfo info);	
+	int insert(PasswordReissueInfo info);	
 
-	public PasswordReissueInfo findOne(@Param("username")String username, @Param("token")String token);
+	PasswordReissueInfo findOne(@Param("username")String username, @Param("token")String token);
 
-	public int delete(@Param("username") String username, @Param("token") String token);
+	int delete(@Param("username") String username, @Param("token") String token);
 }
