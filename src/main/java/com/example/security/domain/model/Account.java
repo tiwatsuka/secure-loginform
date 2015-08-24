@@ -3,7 +3,6 @@ package com.example.security.domain.model;
 import java.io.Serializable;
 
 import lombok.Data;
-import org.joda.time.DateTime;
 
 @Data
 public class Account implements Serializable {
