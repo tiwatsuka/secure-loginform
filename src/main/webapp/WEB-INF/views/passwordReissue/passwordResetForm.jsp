@@ -9,6 +9,7 @@
 <body>
 	<div id="wrapper">
 		<h1>Reset Password</h1>
+		<t:messagesPanel />
 		<form:form action="${pageContext.request.contextPath}/reissue/resetPassword"
 			method="POST" modelAttribute="passwordResetForm">
 			<table>

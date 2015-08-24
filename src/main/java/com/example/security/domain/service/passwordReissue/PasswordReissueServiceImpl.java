@@ -16,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 
+import com.example.security.domain.model.PasswordReissueFailureLog;
 import com.example.security.domain.model.PasswordReissueInfo;
+import com.example.security.domain.repository.passwordReissue.PasswordReissueFailureLogRepository;
 import com.example.security.domain.repository.passwordReissue.PasswordReissueInfoRepository;
 import com.example.security.domain.service.account.AccountSharedService;
 import com.example.security.domain.service.passwordChange.PasswordChangeSharedService;
@@ -28,6 +30,9 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	PasswordReissueInfoRepository passwordReissueInfoRepository;
 	
 	@Inject
+	PasswordReissueFailureLogRepository passwordReissueFailureLogRepository;
+	
+	@Inject
 	AccountSharedService accountSharedService;
 	
 	@Inject
@@ -36,7 +41,9 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	@Inject
 	PasswordEncoder passwordEncoder;
 	
-	private final int tokenExpiration = 1; 
+	private final int tokenExpiration = 3; 
+	
+	private final int tokenValidityThreshold = 3;
 	
 	@Override
 	public PasswordReissueInfo createReissueInfo(String username) {
@@ -77,7 +84,8 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	public boolean removeReissueInfo(String username, String token) {
 		
 		int count = passwordReissueInfoRepository.delete(username, token);
-	
+		passwordReissueFailureLogRepository.deleteByUsernameAndToken(username, token);
+		
 		return (count > 0);
 	}
 	
@@ -100,12 +108,25 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 			String rawPassword) {
 		PasswordReissueInfo info = this.findOne(username, token);
 		if(!passwordEncoder.matches(secret, info.getSecret())){
-			// TODO insert failure log.
 			throw new BusinessException("Invalid Secret");
 		}
 		
 		return passwordChangeSharedService.updatePassword(username, rawPassword);
 
+	}
+
+	@Override
+	public void resetFailure(String username, String token) {
+		PasswordReissueFailureLog log = new PasswordReissueFailureLog();
+		log.setUsername(username);
+		log.setToken(token);
+		log.setAttemptDate(DateTime.now());
+		passwordReissueFailureLogRepository.insert(log);
+
+		List<PasswordReissueFailureLog> logs = passwordReissueFailureLogRepository.findByUsernameAndToken(username, token);
+		if(logs.size() >= tokenValidityThreshold){
+			removeReissueInfo(username, token);
+		}
 	}
 
 }

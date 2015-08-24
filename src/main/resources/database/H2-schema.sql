@@ -44,3 +44,12 @@ CREATE TABLE password_reissue_info(
 );
 
 CREATE INDEX idx_tbl_pri ON password_reissue_info (username, token);
+
+CREATE TABLE password_reissue_failure_log(
+	username VARCHAR(128),
+	token VARCHAR(128),
+	attempt_date TIMESTAMP,
+	CONSTRAINT pk_tbl_prfl PRIMARY KEY (username, token, attempt_date)
+);
+
+CREATE INDEX idx_tbl_prfl ON password_reissue_failure_log (username, token);

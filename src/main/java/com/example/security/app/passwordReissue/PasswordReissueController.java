@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
+import org.terasoluna.gfw.common.message.ResultMessages;
 
 import com.example.security.domain.model.PasswordReissueInfo;
 import com.example.security.domain.service.passwordReissue.PasswordReissueService;
@@ -72,8 +74,15 @@ public class PasswordReissueController {
 		if(bindingResult.hasErrors()){
 			return "passwordReissue/passwordResetForm";
 		}
+
+		try {
+			passwordReissueService.resetPassowrd(form.getUsername(), form.getToken(), form.getSecret(), form.getNewPassword());	
+		} catch (BusinessException e) {
+			passwordReissueService.resetFailure(form.getUsername(), form.getToken());
+			model.addAttribute(e.getResultMessages());
+			return "passwordReissue/passwordResetForm";
+		}
 		
-		passwordReissueService.resetPassowrd(form.getUsername(), form.getToken(), form.getSecret(), form.getNewPassword());
 		passwordReissueService.removeReissueInfo(form.getUsername(), form.getToken());
 		
 		return "redirect:/reissue/resetPassword?complete";

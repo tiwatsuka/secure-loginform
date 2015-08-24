@@ -253,3 +253,13 @@ footer {
     color:#444;
   }
 }
+
+.alert {
+    border: 1px solid;
+}
+
+.alert-error {
+    background-color: #c60f13;
+    border-color: #970b0e;
+    color: white;
+}

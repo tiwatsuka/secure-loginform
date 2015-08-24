@@ -14,4 +14,5 @@ public interface PasswordReissueService {
 	
 	public boolean resetPassowrd(String username, String token, String secret, String rawPassword);
 	
+	public void resetFailure(String username, String token);	
 }
