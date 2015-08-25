@@ -14,24 +14,36 @@
 			method="POST" modelAttribute="passwordResetForm">
 			<table>
 				<tr>
-					<th>Username</th>
+					<th>
+						<form:label path="username">Username</form:label>
+					</th>
 					<td>
 						${f:h(passwordResetForm.username)}
 						<form:hidden path="username" value="${f:h(passwordResetorm.username)}"/>
+					</td><td>
 					</td>
 				</tr>
 				<form:hidden path="token" value="${f:h(passwordResetForm.token)}"/>
 				<tr>
-					<th>Secret</th>
-					<td><form:password path="secret" /><form:errors path="secret"/></td>
+					<th>
+						<form:label path="secret" cssErrorClass="error-label">Secret</form:label>
+					</th>
+					<td><form:password path="secret" cssErrorClass="error-input"/></td>
+					<td><form:errors path="secret" cssClass="error-messages"/></td>
 				</tr>
 				<tr>
-					<th>New password</th>
-					<td><form:password path="newPassword" /><form:errors path="newPassword"/></td>
+					<th>
+						<form:label path="newPassword" cssErrorClass="error-label">New password</form:label>
+					</th>
+					<td><form:password path="newPassword" cssErrorClass="error-input"/></td>
+					<td><form:errors path="newPassword" cssClass="error-messages" htmlEscape="false"/></td>
 				</tr>
 				<tr>
-					<th>New password(Confirm)</th>
-					<td><form:password path="confirmNewPassword" /><form:errors path="confirmNewPassword"/></td>
+					<th>
+						<form:label path="confirmNewPassword" cssErrorClass="error-label">New password(Confirm)</form:label>
+					</th>
+					<td><form:password path="confirmNewPassword" cssErrorClass="error-input"/></td>
+					<td><form:errors path="confirmNewPassword" cssClass="error-messages"/></td>
 				</tr>
 			</table>
 			

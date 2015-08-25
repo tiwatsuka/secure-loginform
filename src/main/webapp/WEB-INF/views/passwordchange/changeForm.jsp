@@ -13,23 +13,35 @@
 			method="POST" modelAttribute="passwordChangeForm">
 			<table>
 				<tr>
-					<th>Username</th>
+					<th>
+						<form:label path="username">Username</form:label>
+					</th>
 					<td>
 						${f:h(account.username)}
 						<form:hidden path="username" value="${f:h(account.username)}"/>
+					</td><td>
 					</td>
 				</tr>
 				<tr>
-					<th>Old password</th>
-					<td><form:password path="oldPassword" /><form:errors path="oldPassword"/></td>
+					<th>
+						<form:label path="oldPassword" cssErrorClass="error-label">Old password</form:label>
+					</th>
+					<td><form:password path="oldPassword" cssErrorClass="error-input"/></td>
+					<td><form:errors path="oldPassword" cssClass="error-messages"/></td>
 				</tr>
 				<tr>
-					<th>New password</th>
-					<td><form:password path="newPassword" /><form:errors path="newPassword"/></td>
+					<th>
+						<form:label path="newPassword" cssErrorClass="error-label">New password</form:label>
+					</th>
+					<td><form:password path="newPassword" cssErrorClass="error-input"/></td>
+					<td><form:errors path="newPassword" cssClass="error-messages" htmlEscape="false"/></td>
 				</tr>
 				<tr>
-					<th>New password(Confirm)</th>
-					<td><form:password path="confirmNewPassword" /><form:errors path="confirmNewPassword"/></td>
+					<th>
+						<form:label path="confirmNewPassword" cssErrorClass="error-label">New password(Confirm)</form:label>
+					</th>
+					<td><form:password path="confirmNewPassword" cssErrorClass="error-input"/></td>
+					<td><form:errors path="confirmNewPassword" cssClass="error-messages"/></td>
 				</tr>
 			</table>
 			

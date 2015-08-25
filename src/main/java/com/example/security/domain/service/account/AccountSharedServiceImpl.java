@@ -49,7 +49,9 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 		Account account = accountRepository.findOne(username);
 		
 		if(account == null){
-			throw new ResourceNotFoundException("The given account is not found! username = " + username);
+			throw new ResourceNotFoundException(
+					ResultMessages.error().add("com.example.security.domain.account.AccountSharedService.findOne", username)
+					);
 		}
 		return account;
 	}
@@ -106,8 +108,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 	public boolean unlock(String username) {
 		if(!isLocked(username)){
 			throw new BusinessException(
-					ResultMessages.error().add("com.example.security.domain.account.AccountSharedService.unlock",
-							"The account is not locked."));
+					ResultMessages.error().add("com.example.security.domain.account.AccountSharedService.unlock"));
 		}
 		
 		accountAuthenticationLogSharedService.deleteFailureLogByUsername(username);

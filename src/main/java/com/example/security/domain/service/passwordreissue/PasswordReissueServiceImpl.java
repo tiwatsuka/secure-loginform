@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
+import org.terasoluna.gfw.common.message.ResultMessages;
 
 import com.example.security.domain.model.PasswordReissueFailureLog;
 import com.example.security.domain.model.PasswordReissueInfo;
@@ -98,10 +99,14 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 		PasswordReissueInfo info = passwordReissueInfoRepository.findOne(username, token);
 
 		if(info == null){
-			throw new ResourceNotFoundException("Given pair of username and token was not found.");
+			throw new ResourceNotFoundException(
+					ResultMessages.error().add("com.example.security.domain.service.passwordreissue.PasswordReissueSerivce.findOne.ResourceNotFound", username, token)
+					);
 		}
 		if(info.getExpiryDate().isBefore(DateTime.now())){
-			throw new BusinessException("The URL has expired.");
+			throw new BusinessException(
+					ResultMessages.error().add("com.example.security.domain.service.passwordreissue.PasswordReissueSerivce.findOne.expired")
+					);
 		}
 		
 		return info;
@@ -112,7 +117,9 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 			String rawPassword) {
 		PasswordReissueInfo info = this.findOne(username, token);
 		if(!passwordEncoder.matches(secret, info.getSecret())){
-			throw new BusinessException("Invalid Secret");
+			throw new BusinessException(
+					ResultMessages.error().add("com.example.security.domain.service.passwordreissue.PasswordReissueSerivce.resetPassword")
+					);
 		}
 		
 		return passwordChangeSharedService.updatePassword(username, rawPassword);

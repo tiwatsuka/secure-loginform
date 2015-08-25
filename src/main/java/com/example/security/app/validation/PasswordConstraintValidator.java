@@ -88,7 +88,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ChangePa
 		if(result.isValid()){
 			return true;
 		}else{
-			context.buildConstraintViolationWithTemplate(Joiner.on("\n").join(characteristicPasswordValidator.getMessages(result)))
+			context.buildConstraintViolationWithTemplate(Joiner.on("<br>").join(characteristicPasswordValidator.getMessages(result)))
 				.addPropertyNode(newPasswordField)
 				.addConstraintViolation();
 			return false;
