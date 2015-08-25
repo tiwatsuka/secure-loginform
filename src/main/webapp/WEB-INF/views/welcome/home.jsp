@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <title>Home</title>
 <link rel="stylesheet"
-    href="${pageContext.request.contextPath}/resources/app/css/styles.css">
+    href="${f:h(pageContext.request.contextPath)}/resources/app/css/styles.css">
 </head>
 <body>
     <div id="wrapper">
-    	<c:if test="${isPasswordExpired}">
+    	<c:if test="${f:h(isPasswordExpired)}">
     		Your password has expired. Please change.
     	</c:if>
     

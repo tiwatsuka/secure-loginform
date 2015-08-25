@@ -4,13 +4,13 @@
 <meta charset="UTF-8"/>
 <title>Reset Password</title>
 <link rel="stylesheet" 
-	href="${pageContext.request.contextPath}/resources/app/css/styles.css" />
+	href="${f:h(pageContext.request.contextPath)}/resources/app/css/styles.css" />
 </head>
 <body>
 	<div id="wrapper">
 		<h1>Reset Password</h1>
 		<t:messagesPanel />
-		<form:form action="${pageContext.request.contextPath}/reissue/resetpassword"
+		<form:form action="${f:h(pageContext.request.contextPath)}/reissue/resetpassword"
 			method="POST" modelAttribute="passwordResetForm">
 			<table>
 				<tr>

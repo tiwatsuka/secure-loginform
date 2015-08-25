@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <title>Unlock Account</title>
 <link rel="stylesheet" 
-	href="${pageContext.request.contextPath}/resources/app/css/styles.css" />
+	href="${f:h(pageContext.request.contextPath)}/resources/app/css/styles.css" />
 </head>
 <body>
 	<div id="wrapper">
@@ -15,7 +15,7 @@
 				<tr>
 					<th>Username</th>
 					<td>
-						<form:input path="username" value="${form.username}"/>
+						<form:input path="username" value="${f:h(form.username)}"/>
 					</td>
 				</tr>
 			</table>
