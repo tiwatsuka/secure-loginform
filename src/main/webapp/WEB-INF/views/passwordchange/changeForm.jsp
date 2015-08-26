@@ -9,7 +9,7 @@
 <body>
 	<div id="wrapper">
 		<h1>Change Password</h1>
-		<form:form action="${pageContext.request.contextPath}/password"
+		<form:form action="${f:h(pageContext.request.contextPath)}/password"
 			method="POST" modelAttribute="passwordChangeForm">
 			<table>
 				<tr>

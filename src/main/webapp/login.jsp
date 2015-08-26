@@ -3,18 +3,18 @@
 <head>
 <title>Login Page</title>
 <link rel="stylesheet" 
-	href="${pageContext.request.contextPath}/resources/app/css/styles.css" />
+	href="${f:h(pageContext.request.contextPath)}/resources/app/css/styles.css" />
 </head>
 <body>
 	<div id="wrapper">
 		<h3>Login with Username and Password</h3>
 		
-		<c:if test="${param.error}">
+		<c:if test="${f:h(param.error)}">
 			<t:messagesPanel messagesType="error"
 				messagesAttributeName="SPRING_SECURITY_LAST_EXCEPTION" />
 		</c:if>
 		
-		<form:form action="${pageContext.request.contextPath}/authenticate">
+		<form:form action="${f:h(pageContext.request.contextPath)}/authenticate">
 			<table>
 				<tr>
 					<td><label for="j_username">User:</label></td>
@@ -30,7 +30,7 @@
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
-					<td><a href="${pageContext.request.contextPath}/reissue/create?form">I've forgotten my password</a></td>
+					<td><a href="${f:h(pageContext.request.contextPath)}/reissue/create?form">I've forgotten my password</a></td>
 				</tr>
 			</table>
 		</form:form>

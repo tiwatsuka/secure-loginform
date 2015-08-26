@@ -16,20 +16,20 @@
         
         <p>Welcome ${f:h(account.firstName)} ${f:h(account.lastName)}</p>
         
-        <c:if test="${lastLoginDate != null}">
+        <c:if test="${f:h(lastLoginDate != null)}">
         	<p>Last login date is ${f:h(lastLoginDate)}.</p>
         </c:if>
         
-        <form:form action="${pageContext.request.contextPath}/logout">
+        <form:form action="${f:h(pageContext.request.contextPath)}/logout">
         	<button>Logout</button>
         </form:form>
         
-        <form:form action="${pageContext.request.contextPath}/password?form">
+        <form:form action="${f:h(pageContext.request.contextPath)}/password?form">
         	<button>Change Password</button>
         </form:form>
         
         <sec:authorize url="/unlock">
-	        <form:form action="${pageContext.request.contextPath}/unlock?form">
+	        <form:form action="${f:h(pageContext.request.contextPath)}/unlock?form">
 	        	<button>Unlock Account</button>
 	        </form:form>
 	    </sec:authorize>

@@ -10,7 +10,7 @@
 	<div id="wrapper">
 		<h1>Unlock Account</h1>
 		<t:messagesPanel />
-		<form:form action="${pageContext.request.contextPath}/unlock"
+		<form:form action="${f:h(pageContext.request.contextPath)}/unlock"
 			method="POST" modelAttribute="unlockForm">
 			<table>
 				<tr>
