@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.security.domain.model.Account;
 import com.example.security.domain.service.account.AccountSharedService;
 
-public class OldPasswordConstraintValidator implements ConstraintValidator<ConfirmOldPassword, Object> {
+public class OldPasswordValidator implements ConstraintValidator<ConfirmOldPassword, Object> {
 
 	@Inject
 	AccountSharedService accountSharedService;
@@ -48,7 +48,7 @@ public class OldPasswordConstraintValidator implements ConstraintValidator<Confi
 		if(passwordEncoder.matches(oldPassword, currentPassword)){
 			return true;
 		}else{
-			context.buildConstraintViolationWithTemplate("{com.example.security.app.validation.OldPasswordConstraintValidator.checkOldPasswordMacheWithCurrentPassword}")
+			context.buildConstraintViolationWithTemplate("{com.example.security.app.validation.OldPasswordValidator.checkOldPasswordMacheWithCurrentPassword}")
 				.addPropertyNode(oldPasswordField)
 				.addConstraintViolation();
 			return false;

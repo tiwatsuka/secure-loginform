@@ -12,7 +12,7 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Documented
-@Constraint(validatedBy = {StrongPasswordConstraintValidator.class})
+@Constraint(validatedBy = {StrongPasswordValidator.class})
 @Target({TYPE, ANNOTATION_TYPE})
 @Retention(RUNTIME)
 public @interface StrongPassword {

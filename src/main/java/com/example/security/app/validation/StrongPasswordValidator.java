@@ -12,7 +12,7 @@ import org.springframework.beans.BeanWrapperImpl;
 
 import com.google.common.base.Joiner;
 
-public class StrongPasswordConstraintValidator implements ConstraintValidator<StrongPassword, Object> {
+public class StrongPasswordValidator implements ConstraintValidator<StrongPassword, Object> {
 
 	@Resource(name="characteristicPasswordValidator")
 	PasswordValidator characteristicPasswordValidator;
@@ -38,8 +38,8 @@ public class StrongPasswordConstraintValidator implements ConstraintValidator<St
 
 		context.disableDefaultConstraintViolation();
 		
-		boolean result = checkCharacteristicsConstraints(newPassword, context) 
-							&& checkNotContainUsername(username, newPassword, context);
+		boolean result = checkCharacteristicsConstraints(newPassword, context);
+		result = checkNotContainUsername(username, newPassword, context) && result;
 		
 		return result;
 	}
@@ -63,7 +63,7 @@ public class StrongPasswordConstraintValidator implements ConstraintValidator<St
 		if(result.isValid()){
 			return true;
 		}else{
-			context.buildConstraintViolationWithTemplate("{com.example.security.app.validation.StrongPasswordConstraintValidator.checkNotContainUsername}")
+			context.buildConstraintViolationWithTemplate("{com.example.security.app.validation.StrongPasswordValidator.checkNotContainUsername}")
 				.addPropertyNode(newPasswordField)
 				.addConstraintViolation();
 			return false;

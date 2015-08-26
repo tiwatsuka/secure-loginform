@@ -33,7 +33,7 @@ public class ConfirmValidator implements ConstraintValidator<Confirm, Object> {
 		}else{
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(message)
-				.addPropertyNode(field).addConstraintViolation();
+				.addPropertyNode(confirmField).addConstraintViolation();
 			return false;
 		}
 	}

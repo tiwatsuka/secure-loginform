@@ -23,7 +23,7 @@ import com.example.security.domain.model.Role;
 import com.example.security.domain.service.account.AccountSharedService;
 import com.example.security.domain.service.passwordhistory.PasswordHistorySharedService;
 
-public class ProhibitReuseConstraintValidator implements ConstraintValidator<ProhibitReuse, Object> {
+public class ProhibitReuseValidator implements ConstraintValidator<ProhibitReuse, Object> {
 
 	@Inject
 	AccountSharedService accountSharedService;
@@ -76,7 +76,7 @@ public class ProhibitReuseConstraintValidator implements ConstraintValidator<Pro
 		if(!passwordEncoder.matches(newPassword, currentPassword)){
 			return true;
 		}else{
-			context.buildConstraintViolationWithTemplate("{com.example.security.app.validation.ProhibitReuseConstraintValidator.checkNewPasswordDifferentFromCurrentPassword}")
+			context.buildConstraintViolationWithTemplate("{com.example.security.app.validation.ProhibitReuseValidator.checkNewPasswordDifferentFromCurrentPassword}")
 				.addPropertyNode(newPasswordField)
 				.addConstraintViolation();
 			return false;
@@ -100,7 +100,7 @@ public class ProhibitReuseConstraintValidator implements ConstraintValidator<Pro
 		if(result.isValid()){
 			return true;
 		}else{
-			context.buildConstraintViolationWithTemplate("{com.example.security.app.validation.ProhibitReuseConstraintValidator.checkHistoricalPassword}")
+			context.buildConstraintViolationWithTemplate("{com.example.security.app.validation.ProhibitReuseValidator.checkHistoricalPassword}")
 				.addPropertyNode(newPasswordField)
 				.addConstraintViolation();
 			return false;
