@@ -75,6 +75,9 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 			return false;
 		}
 		
+		/* [Optional] 
+		 * If you intend to treat strictly successive authentication failure, use following snippet.
+		 *  
 		List<AccountAuthenticationSuccessLog> successLogs = 
 				accountAuthenticationLogSharedService.findLatestSuccessLogs(username, 1);
 		if(successLogs.isEmpty()){
@@ -87,6 +90,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 				return false;
 			}
 		}
+		*/
 
 		return true;
 	}
