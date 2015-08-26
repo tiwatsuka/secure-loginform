@@ -1,11 +1,11 @@
 package com.example.security.app.unlock;
 
-import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import lombok.Data;
 
 @Data
 public class UnlockForm {
-	@Size(min = 1)
+	@NotEmpty
 	private String username;
 }

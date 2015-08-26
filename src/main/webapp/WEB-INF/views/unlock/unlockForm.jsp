@@ -9,14 +9,16 @@
 <body>
 	<div id="wrapper">
 		<h1>Unlock Account</h1>
+		<t:messagesPanel />
 		<form:form action="${pageContext.request.contextPath}/unlock"
 			method="POST" modelAttribute="unlockForm">
 			<table>
 				<tr>
-					<th>Username</th>
-					<td>
-						<form:input path="username" value="${f:h(form.username)}"/>
-					</td>
+					<th>
+						<form:label path="username" cssErrorClass="error-label">Username</form:label>
+					</th>
+					<td><form:input path="username" value="${f:h(form.username)}" cssErrorClass="error-input"/></td>
+					<td><form:errors path="username" cssClass="error-messages"/></td>
 				</tr>
 			</table>
 			
