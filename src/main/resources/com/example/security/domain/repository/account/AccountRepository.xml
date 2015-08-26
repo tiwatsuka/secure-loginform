@@ -9,6 +9,7 @@
         <result property="password" column="password" />
         <result property="firstName" column="first_name" />
         <result property="lastName" column="last_name" />
+        <result property="email" column="email" />
         <result property="role" column="role" />
     </resultMap>
 
@@ -18,6 +19,7 @@
             password,
             first_name,
             last_name,
+            email,
             role
         FROM
             account

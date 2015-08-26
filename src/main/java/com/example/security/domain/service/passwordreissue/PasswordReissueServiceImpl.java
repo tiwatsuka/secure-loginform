@@ -1,15 +1,24 @@
 package com.example.security.domain.service.passwordreissue;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletContext;
 
 import org.joda.time.DateTime;
 import org.passay.CharacterRule;
 import org.passay.PasswordGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,12 +26,14 @@ import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
+import com.example.security.domain.model.Account;
 import com.example.security.domain.model.PasswordReissueFailureLog;
 import com.example.security.domain.model.PasswordReissueInfo;
 import com.example.security.domain.repository.passwordreissue.PasswordReissueFailureLogRepository;
 import com.example.security.domain.repository.passwordreissue.PasswordReissueInfoRepository;
 import com.example.security.domain.service.account.AccountSharedService;
 import com.example.security.domain.service.passwordchange.PasswordChangeSharedService;
+import com.icegreen.greenmail.spring.GreenMailBean;
 
 @Service
 @Transactional
@@ -46,6 +57,18 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	@Inject
 	PasswordGenerator passwordGenerator;
 	
+	@Inject
+	JavaMailSender mailSender;
+	
+	@Inject
+	SimpleMailMessage templateMessage;
+	
+	@Inject
+	GreenMailBean greenMailBean;
+	
+	@Inject
+	ServletContext servletContext;
+	
 	@Resource(name="passwordGenerationRules")
 	List<CharacterRule> passwordGenerationRules;
 	
@@ -54,6 +77,11 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	
 	@Value("${tokenValidityThreshold}")
 	private int tokenValidityThreshold;
+	
+	@Value("${app.hostAndPort}")
+	private String hostAndPort;
+	
+	private static final Logger logger = LoggerFactory.getLogger(PasswordReissueServiceImpl.class); 
 	
 	@Override
 	public PasswordReissueInfo createReissueInfo(String username) {
@@ -74,14 +102,41 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	}
 
 	@Override
-	public boolean saveReissueInfo(PasswordReissueInfo info) {
-		accountSharedService.findOne(info.getUsername());	//existence check
+	public boolean saveAndSendReissueInfo(PasswordReissueInfo info) {
+		Account account = accountSharedService.findOne(info.getUsername());	//existence check
 		
 		info.setSecret(passwordEncoder.encode(info.getSecret()));
 		
 		int count = passwordReissueInfoRepository.insert(info);
 		
-		return (count > 0); 
+		if(count > 0){
+			String passwordResetUrl = 
+					"http://" + hostAndPort + servletContext.getContextPath() 
+						+ "/reissue/resetpassword/?form&username=" + info.getUsername() + "&token=" + info.getToken(); 
+			
+			SimpleMailMessage message = new SimpleMailMessage(templateMessage);
+			message.setTo(account.getEmail());
+			message.setText(passwordResetUrl);
+			mailSender.send(message);
+
+			/* output received message to log for testing */
+			try {
+				MimeMessage[] receivedMessages= greenMailBean.getReceivedMessages();
+				MimeMessage latestMessage = receivedMessages[receivedMessages.length-1]; 
+				logger.debug("From    : " + latestMessage.getFrom()[0].toString());
+				logger.debug("To      : " + latestMessage.getRecipients(Message.RecipientType.TO)[0].toString());
+				logger.debug("Subject : " + latestMessage.getSubject());
+				logger.debug("Text    : " + (String)latestMessage.getContent());
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}
+			
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	@Override

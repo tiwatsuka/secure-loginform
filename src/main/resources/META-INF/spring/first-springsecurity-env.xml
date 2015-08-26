@@ -39,4 +39,15 @@
     	<jdbc:script location="classpath:/database/${database}-schema.sql" />
     	<jdbc:script location="classpath:/database/${database}-dataload.sql" />
     </jdbc:initialize-database>
+    
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    	<property name="host" value="${mail.host}" />
+    	<property name="port" value="${mail.port}" />
+    </bean>
+    
+    <bean id="tamplateMessage" class="org.springframework.mail.SimpleMailMessage">
+    	<property name="from" value="${mail.from}" />
+    	<property name="subject" value="${mail.subject}" />
+    </bean>
+
 </beans>

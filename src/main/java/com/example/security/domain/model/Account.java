@@ -16,6 +16,8 @@ public class Account implements Serializable {
 	
 	private String lastName;
 	
+	private String email;
+	
 	private Role role;
 
 }

@@ -6,7 +6,7 @@ public interface PasswordReissueService {
 
 	public PasswordReissueInfo createReissueInfo(String username);
 	
-	public boolean saveReissueInfo(PasswordReissueInfo info);
+	public boolean saveAndSendReissueInfo(PasswordReissueInfo info);
 	
 	public boolean removeReissueInfo(String username, String token);
 	

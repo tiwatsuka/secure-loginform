@@ -3,6 +3,7 @@ CREATE TABLE account(
 	password varchar(60),
 	first_name varchar(128),
 	last_name varchar(128),
+	email varchar(128),
 	role varchar(10),
 	constraint pk_tbl_account primary key (username)
 );

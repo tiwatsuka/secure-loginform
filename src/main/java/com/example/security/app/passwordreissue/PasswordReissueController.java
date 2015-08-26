@@ -36,7 +36,7 @@ public class PasswordReissueController {
 		String rowPassword = info.getSecret();
 
 		try {
-			passwordReissueService.saveReissueInfo(info);
+			passwordReissueService.saveAndSendReissueInfo(info);
 		} catch (ResourceNotFoundException e) {
 			return "redirect:/reissue/create?form";
 		}
