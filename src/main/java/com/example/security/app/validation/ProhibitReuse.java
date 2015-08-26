@@ -12,11 +12,11 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Documented
-@Constraint(validatedBy = {PasswordConstraintValidator.class})
+@Constraint(validatedBy = {ProhibitReuseConstraintValidator.class})
 @Target({TYPE, ANNOTATION_TYPE})
 @Retention(RUNTIME)
-public @interface ChangePassword {
-	String message() default "{com.example.app.validation.Password.message}";
+public @interface ProhibitReuse {
+	String message() default "{com.example.app.validation.ProhibitReuse.message}";
 	
 	Class<?>[] groups() default {};
 	
@@ -28,7 +28,7 @@ public @interface ChangePassword {
 	@Retention(RUNTIME)
 	@Documented
 	public @interface List {
-		ChangePassword[] value();
+		ProhibitReuse[] value();
 	}
 	
 	Class<? extends Payload>[] payload() default {};

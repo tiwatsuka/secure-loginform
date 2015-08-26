@@ -120,7 +120,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 	@Override
 	@Cacheable("isInitialPassword")
 	public boolean isInitialPassword(String username) {
-		List<PasswordHistory> passwordHistories = passwordHistorySharedService.findLatestHistorys(username, 1); 
+		List<PasswordHistory> passwordHistories = passwordHistorySharedService.findLatestHistories(username, 1); 
 		return passwordHistories.isEmpty();
 	}
 
@@ -128,7 +128,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 	@Override
 	@Cacheable("isCurrentPasswordExpired")
 	public boolean isCurrentPasswordExpired(String username) {
-		List<PasswordHistory> passwordHistories = passwordHistorySharedService.findLatestHistorys(username, 1);
+		List<PasswordHistory> passwordHistories = passwordHistorySharedService.findLatestHistories(username, 1);
 		
 		if(passwordHistories.isEmpty()){
 			return true;

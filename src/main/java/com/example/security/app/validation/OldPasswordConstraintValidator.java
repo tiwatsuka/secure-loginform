@@ -48,7 +48,7 @@ public class OldPasswordConstraintValidator implements ConstraintValidator<Confi
 		if(passwordEncoder.matches(oldPassword, currentPassword)){
 			return true;
 		}else{
-			context.buildConstraintViolationWithTemplate("{com.example.security.app.validation.PasswordConstraintValidator.checkOldPasswordMacheWithCurrentPassword}")
+			context.buildConstraintViolationWithTemplate("{com.example.security.app.validation.OldPasswordConstraintValidator.checkOldPasswordMacheWithCurrentPassword}")
 				.addPropertyNode(oldPasswordField)
 				.addConstraintViolation();
 			return false;
