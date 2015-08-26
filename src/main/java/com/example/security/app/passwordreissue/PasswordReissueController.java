@@ -25,24 +25,27 @@ public class PasswordReissueController {
 	PasswordReissueService passwordReissueService;
 	
 	@RequestMapping(value = "create", params = "form")
-	public String showCreateTokenForm(PasswordReissueForm form, Model model){
+	public String showCreateTokenForm(CreateTokenForm form, Model model){
 		return "passwordreissue/createTokenForm";
 	}
 	
 	@RequestMapping(value="create", method=RequestMethod.POST)
-	public String createToken(PasswordReissueForm form, RedirectAttributes attributes) {
+	public String createToken(@Validated CreateTokenForm form, BindingResult bindingResult, Model model, RedirectAttributes attributes) {
+		if(bindingResult.hasErrors()){
+			return showCreateTokenForm(form, model);
+		}
 		
 		PasswordReissueInfo info = passwordReissueService.createReissueInfo(form.getUsername());
 		String rowPassword = info.getSecret();
 
 		try {
 			passwordReissueService.saveAndSendReissueInfo(info);
+			attributes.addFlashAttribute("password", rowPassword);
+			return "redirect:/reissue/create?complete";
 		} catch (ResourceNotFoundException e) {
-			return "redirect:/reissue/create?form";
+			model.addAttribute(e.getResultMessages());
+			return showCreateTokenForm(form, model);
 		}
-		
-		attributes.addFlashAttribute("password", rowPassword);
-		return "redirect:/reissue/create?complete";
 	}
 	
 	@RequestMapping(value="create", params="complete")
@@ -57,34 +60,30 @@ public class PasswordReissueController {
 
 		try {
 			passwordReissueService.findOne(username, token);
+			form.setUsername(username);
+			form.setToken(token);
+			model.addAttribute("passwordResetForm", form);
+			return "passwordreissue/passwordResetForm";
 		} catch (ResourceNotFoundException e) {
 			return "redirect:/";
 		}
-
-		form.setUsername(username);
-		form.setToken(token);
-		model.addAttribute("passwordResetForm", form);
-		return "passwordreissue/passwordResetForm";
 	}
 	
 	@RequestMapping(value="resetpassword", method=RequestMethod.POST)
-	public String resetPassword(@Validated PasswordResetForm form,
-			BindingResult bindingResult, Model model){
+	public String resetPassword(@Validated PasswordResetForm form, BindingResult bindingResult, Model model){
 		if(bindingResult.hasErrors()){
-			return "passwordreissue/passwordResetForm";
+			return showPasswordResetForm(form, model, form.getUsername(), form.getToken());
 		}
 
 		try {
-			passwordReissueService.resetPassowrd(form.getUsername(), form.getToken(), form.getSecret(), form.getNewPassword());	
+			passwordReissueService.resetPassowrd(form.getUsername(), form.getToken(), form.getSecret(), form.getNewPassword());
+			passwordReissueService.removeReissueInfo(form.getUsername(), form.getToken());
+			return "redirect:/reissue/resetpassword?complete";
 		} catch (BusinessException e) {
 			passwordReissueService.resetFailure(form.getUsername(), form.getToken());
 			model.addAttribute(e.getResultMessages());
-			return "passwordreissue/passwordResetForm";
+			return showPasswordResetForm(form, model, form.getUsername(), form.getToken());
 		}
-		
-		passwordReissueService.removeReissueInfo(form.getUsername(), form.getToken());
-		
-		return "redirect:/reissue/resetpassword?complete";
 	}
 	
 	@RequestMapping(value="resetpassword", params="complete")
@@ -92,9 +91,9 @@ public class PasswordReissueController {
 		return "passwordreissue/passwordResetComplete";
 	}
 	
-	@ModelAttribute("passwordReissueForm")
-	public PasswordReissueForm setupReissueForm(){
-		return new PasswordReissueForm();
+	@ModelAttribute("createTokenForm")
+	public CreateTokenForm setupReissueForm(){
+		return new CreateTokenForm();
 	}
 	
 	@ModelAttribute("passwordResetForm")

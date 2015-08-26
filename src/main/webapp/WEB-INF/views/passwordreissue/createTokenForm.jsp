@@ -9,14 +9,19 @@
 <body>
 	<div id="wrapper">
 		<h1>Reissue password</h1>
-		<form:form action="${pageContext.request.contextPath}/reissue/create"
-			method="Post" modelAttribute="passwordReissueForm">
+		<t:messagesPanel />
+		<form:form action="${f:h(pageContext.request.contextPath)}/reissue/create"
+			method="Post" modelAttribute="createTokenForm">
 			<table>
 				<tr>
-					<th>Username</th>
-					<td><form:password path="username" /></td>
+					<th>
+						<form:label path="username" cssErrorClass="error-label">Username</form:label>
+					</th>
+					<td><form:input path="username" cssErrorClass="error-input"/></td>
+					<td><form:errors path="username" cssClass="error-messages"/></td>
 				</tr>
 			</table>
+			
 			<input type="submit" value="Reissue password" />
 		</form:form>
 	</div>
