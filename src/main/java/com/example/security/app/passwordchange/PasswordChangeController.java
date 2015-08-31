@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.security.domain.model.Account;
-import com.example.security.domain.service.passwordchange.PasswordChangeSharedService;
+import com.example.security.domain.service.passwordchange.PasswordChangeService;
 import com.example.security.domain.service.userdetails.SampleUserDetails;
 
 @Controller
@@ -20,7 +20,7 @@ import com.example.security.domain.service.userdetails.SampleUserDetails;
 public class PasswordChangeController {
 	
 	@Inject
-	PasswordChangeSharedService passwordService;
+	PasswordChangeService passwordService;
 	
 	
 	@RequestMapping(params="form")

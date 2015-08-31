@@ -32,7 +32,6 @@ import com.example.security.domain.model.PasswordReissueInfo;
 import com.example.security.domain.repository.passwordreissue.PasswordReissueFailureLogRepository;
 import com.example.security.domain.repository.passwordreissue.PasswordReissueInfoRepository;
 import com.example.security.domain.service.account.AccountSharedService;
-import com.example.security.domain.service.passwordchange.PasswordChangeSharedService;
 import com.icegreen.greenmail.spring.GreenMailBean;
 
 @Service
@@ -47,9 +46,6 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	
 	@Inject
 	AccountSharedService accountSharedService;
-	
-	@Inject
-	PasswordChangeSharedService passwordChangeSharedService;
 	
 	@Inject
 	PasswordEncoder passwordEncoder;
@@ -177,7 +173,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 					);
 		}
 		
-		return passwordChangeSharedService.updatePassword(username, rawPassword);
+		return accountSharedService.updatePassword(username, rawPassword);
 
 	}
 

@@ -6,7 +6,9 @@ import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.exception.BusinessException;
@@ -33,6 +35,9 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 	
 	@Inject
 	private AccountRepository accountRepository;
+	
+	@Inject
+	PasswordEncoder passwordEncoder;
 	
 	@Value("${lockingDurationMinutes}")
 	private int lockingDurationMinutes;
@@ -143,6 +148,23 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 		}
 		
 		return false;
+	}
+
+	@Override
+	@CacheEvict(value={"isInitialPassword", "isCurrentPasswordExpired"}, allEntries=true)
+	public boolean updatePassword(String username, String rawPassword) {
+		String password = passwordEncoder.encode(rawPassword);
+		boolean result = accountRepository.updatePassword(username, password); 
+		
+		DateTime passwordChangeDate = DateTime.now(); 
+		
+		PasswordHistory passwordHistory = new PasswordHistory();
+		passwordHistory.setUsername(username);
+		passwordHistory.setPassword(password);
+		passwordHistory.setUseFrom(passwordChangeDate);
+		passwordHistorySharedService.insert(passwordHistory);
+		
+		return result;
 	}
 }
 
