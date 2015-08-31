@@ -24,8 +24,8 @@
         	<button>Logout</button>
         </form:form>
         
-        <form:form action="${f:h(pageContext.request.contextPath)}/password?form">
-        	<button>Change Password</button>
+        <form:form action="${f:h(pageContext.request.contextPath)}/account">
+        	<button>Account Information</button>
         </form:form>
         
         <sec:authorize url="/unlock">

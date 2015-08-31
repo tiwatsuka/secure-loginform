@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8"/>
-	<title>Home</title>
+	<title>Account Information</title>
 	<link rel="stylesheet" href="${f:h(pageContext.request.contextPath)}/resources/app/css/styles.css" />
 </head>
 <body>
@@ -22,6 +22,11 @@
 				<td>${f:h(account.lastName)}</td>
 			</tr>
 		</table>
+		
+		<form:form action="${f:h(pageContext.request.contextPath)}/password?form">
+        	<button>Change Password</button>
+        </form:form>
+        <a href="${f:h(pageContext.request.contextPath)}/">Back to Top</a>
 	</div>
 </body>
 </html>
