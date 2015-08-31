@@ -11,7 +11,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
@@ -113,18 +112,6 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 		}
 	}
 
-	@Override
-	public boolean unlock(String username) {
-		if(!isLocked(username)){
-			throw new BusinessException(
-					ResultMessages.error().add("com.example.security.domain.account.AccountSharedService.unlock"));
-		}
-		
-		accountAuthenticationLogSharedService.deleteFailureLogByUsername(username);
-		
-		return true;
-	}
-	
 	@Transactional(readOnly = true)
 	@Override
 	@Cacheable("isInitialPassword")

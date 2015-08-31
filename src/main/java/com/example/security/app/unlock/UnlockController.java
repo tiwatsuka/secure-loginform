@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.terasoluna.gfw.common.exception.BusinessException;
 
-import com.example.security.domain.service.account.AccountSharedService;
+import com.example.security.domain.service.unlock.UnlockService;
 
 @Controller
 @RequestMapping("/unlock")
 public class UnlockController {
 
 	@Inject
-	AccountSharedService accountSharedService;
+	UnlockService unlockService;
 	
 	@RequestMapping(params="form")
 	public String create(UnlockForm form, Model model){
@@ -32,7 +32,7 @@ public class UnlockController {
 		}
 		
 		try {
-			accountSharedService.unlock(form.getUsername());
+			unlockService.unlock(form.getUsername());
 			attributes.addFlashAttribute("username", form.getUsername());
 			return "redirect:/unlock?complete&username=" + form.getUsername();
 		} catch (BusinessException e) {
