@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
     <import resource="classpath:/META-INF/spring/first-springsecurity-domain.xml" />
 
@@ -147,5 +148,13 @@
 			</list>
 		</property>
 	</bean>
+
+	<!-- Housekeeping -->
+	<bean id="expiredReissueInfoCleaner"
+		class="com.example.security.common.passwordreissue.UnnecessaryReissueInfoCleaner"/>
+	<task:scheduler id="reissueInfoCleanupTaskScheduler" />
+	<task:scheduled-tasks scheduler="reissueInfoCleanupTaskScheduler">
+		<task:scheduled ref="expiredReissueInfoCleaner" method="cleanup" fixed-delay="${reissueInfoCleanupDelay}"/>
+	</task:scheduled-tasks>
 
 </beans>
