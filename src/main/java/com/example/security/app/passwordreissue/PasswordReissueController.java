@@ -25,14 +25,14 @@ public class PasswordReissueController {
 	PasswordReissueService passwordReissueService;
 	
 	@RequestMapping(value = "create", params = "form")
-	public String showCreateTokenForm(CreateTokenForm form, Model model){
-		return "passwordreissue/createTokenForm";
+	public String showCreateReissueInfoForm(CreateReissueInfoForm form, Model model){
+		return "passwordreissue/createReissueInfoForm";
 	}
 	
 	@RequestMapping(value="create", method=RequestMethod.POST)
-	public String createToken(@Validated CreateTokenForm form, BindingResult bindingResult, Model model, RedirectAttributes attributes) {
+	public String createReissueInfo(@Validated CreateReissueInfoForm form, BindingResult bindingResult, Model model, RedirectAttributes attributes) {
 		if(bindingResult.hasErrors()){
-			return showCreateTokenForm(form, model);
+			return showCreateReissueInfoForm(form, model);
 		}
 		
 		PasswordReissueInfo info = passwordReissueService.createReissueInfo(form.getUsername());
@@ -44,13 +44,13 @@ public class PasswordReissueController {
 			return "redirect:/reissue/create?complete";
 		} catch (ResourceNotFoundException e) {
 			model.addAttribute(e.getResultMessages());
-			return showCreateTokenForm(form, model);
+			return showCreateReissueInfoForm(form, model);
 		}
 	}
 	
 	@RequestMapping(value="create", params="complete")
-	public String createTokenComplete(){
-		return "passwordreissue/createTokenComplete";
+	public String createReissueInfoComplete(){
+		return "passwordreissue/createReissueInfoComplete";
 	}
 	
 	@RequestMapping(value="resetpassword", params="form")
@@ -91,9 +91,9 @@ public class PasswordReissueController {
 		return "passwordreissue/passwordResetComplete";
 	}
 	
-	@ModelAttribute("createTokenForm")
-	public CreateTokenForm setupReissueForm(){
-		return new CreateTokenForm();
+	@ModelAttribute("createReissueInfoForm")
+	public CreateReissueInfoForm setupReissueForm(){
+		return new CreateReissueInfoForm();
 	}
 	
 	@ModelAttribute("passwordResetForm")

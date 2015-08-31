@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
-public class CreateTokenForm {
+public class CreateReissueInfoForm {
 	@NotEmpty
 	String username;
 }

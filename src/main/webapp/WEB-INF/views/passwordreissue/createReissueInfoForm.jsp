@@ -11,7 +11,7 @@
 		<h1>Reissue password</h1>
 		<t:messagesPanel />
 		<form:form action="${f:h(pageContext.request.contextPath)}/reissue/create"
-			method="Post" modelAttribute="createTokenForm">
+			method="Post" modelAttribute="createReissueInfoForm">
 			<table>
 				<tr>
 					<th>
