@@ -49,7 +49,7 @@ public class PasswordReissueController {
 		}
 	}
 	
-	@RequestMapping(value="create", params="complete")
+	@RequestMapping(value="create", params="complete", method=RequestMethod.GET)
 	public String createReissueInfoComplete(){
 		return "passwordreissue/createReissueInfoComplete";
 	}
@@ -88,7 +88,7 @@ public class PasswordReissueController {
 		}
 	}
 	
-	@RequestMapping(value="resetpassword", params="complete")
+	@RequestMapping(value="resetpassword", params="complete", method=RequestMethod.GET)
 	public String resetPasswordComplete(){
 		return "passwordreissue/passwordResetComplete";
 	}

@@ -21,14 +21,14 @@ public class UnlockController {
 	UnlockService unlockService;
 	
 	@RequestMapping(params="form")
-	public String create(UnlockForm form, Model model){
+	public String showForm(UnlockForm form, Model model){
 		return "unlock/unlockForm";
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
 	public String unlock(@Validated UnlockForm form, BindingResult bindingResult, Model model, RedirectAttributes attributes){
 		if(bindingResult.hasErrors()){
-			return create(form, model);
+			return showForm(form, model);
 		}
 		
 		try {
@@ -37,13 +37,13 @@ public class UnlockController {
 			return "redirect:/unlock?complete&username=" + form.getUsername();
 		} catch (BusinessException e) {
 			model.addAttribute(e.getResultMessages());
-			return create(form, model);
+			return showForm(form, model);
 		}
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, params="complete")
-	public String unlockFinish(){
-		return "unlock/unlockFinish";
+	public String unlockComplete(){
+		return "unlock/unlockComplete";
 	}
 	
 }

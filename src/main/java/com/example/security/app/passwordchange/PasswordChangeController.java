@@ -51,7 +51,7 @@ public class PasswordChangeController {
 	
 	@RequestMapping(method=RequestMethod.GET, params="complete")
 	public String changeComplete(){
-		return "passwordchange/changeFinish";
+		return "passwordchange/changeComplete";
 	}
 	
 	@ModelAttribute("passwordChangeForm")
