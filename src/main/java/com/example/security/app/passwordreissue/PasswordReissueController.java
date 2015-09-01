@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
+import org.terasoluna.gfw.common.message.ResultMessages;
 
 import com.example.security.domain.model.PasswordReissueInfo;
 import com.example.security.domain.service.passwordreissue.PasswordReissueService;
@@ -58,19 +59,17 @@ public class PasswordReissueController {
 			Model model,
 			@RequestParam("username") String username, @RequestParam("token") String token){
 
-		try {
-			PasswordReissueInfo info = passwordReissueService.findOne(token);
-			if(!info.getUsername().equals(username)){
-				return "redirect:/";
-			}
-			
-			form.setUsername(username);
-			form.setToken(token);
-			model.addAttribute("passwordResetForm", form);
-			return "passwordreissue/passwordResetForm";
-		} catch (ResourceNotFoundException e) {
-			return "redirect:/";
+		PasswordReissueInfo info = passwordReissueService.findOne(token);
+		if(!info.getUsername().equals(username)){
+			throw new BusinessException(
+					ResultMessages.error().add("com.example.security.app.passwordreissue.PasswordReissueController.invalidUsername")
+					);
 		}
+		
+		form.setUsername(username);
+		form.setToken(token);
+		model.addAttribute("passwordResetForm", form);
+		return "passwordreissue/passwordResetForm";
 	}
 	
 	@RequestMapping(value="resetpassword", method=RequestMethod.POST)
