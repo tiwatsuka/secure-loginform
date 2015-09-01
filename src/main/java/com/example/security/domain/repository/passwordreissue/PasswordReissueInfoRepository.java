@@ -9,9 +9,9 @@ public interface PasswordReissueInfoRepository {
 
 	int insert(PasswordReissueInfo info);	
 
-	PasswordReissueInfo findOne(@Param("username")String username, @Param("token")String token);
+	PasswordReissueInfo findOne(@Param("token")String token);
 
-	int delete(@Param("username") String username, @Param("token") String token);
+	int delete(@Param("token") String token);
 	
 	int deleteExpired(@Param("date") DateTime date);
 }

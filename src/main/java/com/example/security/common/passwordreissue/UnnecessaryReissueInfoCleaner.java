@@ -4,16 +4,16 @@ import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 
-import com.example.security.domain.repository.passwordreissue.PasswordReissueInfoRepository;
+import com.example.security.domain.service.passwordreissue.PasswordReissueService;
 
 public class UnnecessaryReissueInfoCleaner {
 
 	
 	@Inject
-	PasswordReissueInfoRepository passwordReissueInfoRepository;
+	PasswordReissueService passwordReissueService;
 	
 	public void cleanup(){
-		passwordReissueInfoRepository.deleteExpired(DateTime.now());
+		passwordReissueService.removeExpired(DateTime.now());
 	}
 	
 }

@@ -59,7 +59,11 @@ public class PasswordReissueController {
 			@RequestParam("username") String username, @RequestParam("token") String token){
 
 		try {
-			passwordReissueService.findOne(username, token);
+			PasswordReissueInfo info = passwordReissueService.findOne(token);
+			if(!info.getUsername().equals(username)){
+				return "redirect:/";
+			}
+			
 			form.setUsername(username);
 			form.setToken(token);
 			model.addAttribute("passwordResetForm", form);
@@ -77,7 +81,6 @@ public class PasswordReissueController {
 
 		try {
 			passwordReissueService.resetPassowrd(form.getUsername(), form.getToken(), form.getSecret(), form.getNewPassword());
-			passwordReissueService.removeReissueInfo(form.getUsername(), form.getToken());
 			return "redirect:/reissue/resetpassword?complete";
 		} catch (BusinessException e) {
 			passwordReissueService.resetFailure(form.getUsername(), form.getToken());

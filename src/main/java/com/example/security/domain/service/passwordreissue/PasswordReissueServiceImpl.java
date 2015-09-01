@@ -136,22 +136,22 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	}
 
 	@Override
-	public boolean removeReissueInfo(String username, String token) {
+	public boolean removeReissueInfo(String token) {
 		
-		int count = passwordReissueInfoRepository.delete(username, token);
-		passwordReissueFailureLogRepository.deleteByUsernameAndToken(username, token);
+		int count = passwordReissueInfoRepository.delete(token);
+		passwordReissueFailureLogRepository.deleteByToken(token);
 		
 		return (count > 0);
 	}
 	
 	@Override
 	@Transactional(readOnly=true)
-	public PasswordReissueInfo findOne(String username, String token) {
-		PasswordReissueInfo info = passwordReissueInfoRepository.findOne(username, token);
+	public PasswordReissueInfo findOne(String token) {
+		PasswordReissueInfo info = passwordReissueInfoRepository.findOne(token);
 
 		if(info == null){
 			throw new ResourceNotFoundException(
-					ResultMessages.error().add("com.example.security.domain.service.passwordreissue.PasswordReissueSerivce.findOne.ResourceNotFound", username, token)
+					ResultMessages.error().add("com.example.security.domain.service.passwordreissue.PasswordReissueSerivce.findOne.ResourceNotFound", token)
 					);
 		}
 		if(info.getExpiryDate().isBefore(DateTime.now())){
@@ -166,12 +166,13 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	@Override
 	public boolean resetPassowrd(String username, String token, String secret,
 			String rawPassword) {
-		PasswordReissueInfo info = this.findOne(username, token);
-		if(!passwordEncoder.matches(secret, info.getSecret())){
+		PasswordReissueInfo info = this.findOne(token);
+		if(!passwordEncoder.matches(secret, info.getSecret()) || !info.getUsername().equals(username)){
 			throw new BusinessException(
 					ResultMessages.error().add("com.example.security.domain.service.passwordreissue.PasswordReissueSerivce.resetPassword")
 					);
 		}
+		removeReissueInfo(token);
 		
 		return accountSharedService.updatePassword(username, rawPassword);
 
@@ -180,15 +181,21 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	@Override
 	public void resetFailure(String username, String token) {
 		PasswordReissueFailureLog log = new PasswordReissueFailureLog();
-		log.setUsername(username);
 		log.setToken(token);
 		log.setAttemptDate(DateTime.now());
 		passwordReissueFailureLogRepository.insert(log);
 
-		List<PasswordReissueFailureLog> logs = passwordReissueFailureLogRepository.findByUsernameAndToken(username, token);
+		List<PasswordReissueFailureLog> logs = passwordReissueFailureLogRepository.findByToken(token);
 		if(logs.size() >= tokenValidityThreshold){
-			removeReissueInfo(username, token);
+			removeReissueInfo(token);
 		}
+	}
+
+	@Override
+	public boolean removeExpired(DateTime date) {
+		passwordReissueFailureLogRepository.deleteExpired(date);
+		passwordReissueInfoRepository.deleteExpired(date);
+		return true;
 	}
 
 }
