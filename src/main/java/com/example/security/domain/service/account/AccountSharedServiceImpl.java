@@ -138,7 +138,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 	}
 
 	@Override
-	@CacheEvict(value={"isInitialPassword", "isCurrentPasswordExpired"}, allEntries=true)
+	@CacheEvict(value={"isInitialPassword", "isCurrentPasswordExpired"}, key="#username")
 	public boolean updatePassword(String username, String rawPassword) {
 		String password = passwordEncoder.encode(rawPassword);
 		boolean result = accountRepository.updatePassword(username, password); 
