@@ -3,14 +3,10 @@ package com.example.security.domain.repository.accountauthenticationlog;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.joda.time.DateTime;
 
 import com.example.security.domain.model.AccountAuthenticationFailureLog;
 
 public interface AccountAuthenticationFailureLogRepository {
-	List<AccountAuthenticationFailureLog> findLogsByDulation(
-			@Param("username") String username, @Param("from") DateTime from,
-			@Param("to") DateTime to);
 	
 	int insert(AccountAuthenticationFailureLog accountAuthenticationLog);
 

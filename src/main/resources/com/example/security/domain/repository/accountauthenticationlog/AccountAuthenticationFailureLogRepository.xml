@@ -6,23 +6,9 @@
 
     <resultMap id="accountAuthenticationFailureLogResultMap" type="AccountAuthenticationFailureLog">
         <id property="username" column="username" />
-        <id property="authenticationTimestamp" column="authentication_timestamp" typeHandler="DateTimeTypeHandler"/>
+        <id property="authenticationTimestamp" column="authentication_timestamp"/>
     </resultMap>
-    
-    <select id="findByDulation" resultMap="accountAuthenticationFailureLogResultMap">
-    <![CDATA[
-        SELECT
-            username,
-            authentication_timestamp
-        FROM
-            account_authentication_failure_log
-        WHERE
-            username = #{username} AND
-            authentication_timestamp BETWEEN #{from,typeHandler=DateTimeTypeHandler} AND #{to,typeHandler=DateTimeTypeHandler}
-        ORDER BY authentication_timestamp DESC
-    ]]>
-    </select>
-    
+        
     <insert id="insert" parameterType="AccountAuthenticationFailureLog">
     <![CDATA[
         INSERT INTO account_authentication_failure_log (
@@ -30,7 +16,7 @@
             authentication_timestamp
         ) VALUES (
 	        #{username},
-            #{authenticationTimestamp, typeHandler=DateTimeTypeHandler},
+            #{authenticationTimestamp},
         )
     ]]>
     </insert>

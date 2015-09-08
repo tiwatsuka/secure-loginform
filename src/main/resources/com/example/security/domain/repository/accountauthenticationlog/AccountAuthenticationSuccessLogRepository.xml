@@ -6,7 +6,7 @@
 
     <resultMap id="accountAuthenticationSuccessLogResultMap" type="AccountAuthenticationSuccessLog">
         <id property="username" column="username" />
-        <id property="authenticationTimestamp" column="authentication_timestamp" typeHandler="DateTimeTypeHandler"/>
+        <id property="authenticationTimestamp" column="authentication_timestamp"/>
     </resultMap>
     
     <insert id="insert" parameterType="AccountAuthenticationSuccessLog">
@@ -16,7 +16,7 @@
             authentication_timestamp
         ) VALUES (
 	        #{username},
-            #{authenticationTimestamp, typeHandler=DateTimeTypeHandler}
+            #{authenticationTimestamp}
         )
     ]]>
     </insert>
