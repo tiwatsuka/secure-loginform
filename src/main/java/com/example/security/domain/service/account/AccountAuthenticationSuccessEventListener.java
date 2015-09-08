@@ -2,12 +2,12 @@ package com.example.security.domain.service.account;
 
 import javax.inject.Inject;
 
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.stereotype.Component;
+import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 
 import com.example.security.domain.model.AccountAuthenticationSuccessLog;
 import com.example.security.domain.service.accountauthenticationlog.AccountAuthenticationLogSharedService;
@@ -21,6 +21,9 @@ public class AccountAuthenticationSuccessEventListener implements
 	
 	@Inject
 	AccountAuthenticationLogSharedService accountAuthenticationLogSharedService;
+
+	@Inject
+	JodaTimeDateFactory dateFactory;
 	
 	@Override
 	public void onApplicationEvent(AuthenticationSuccessEvent event) {
@@ -30,7 +33,7 @@ public class AccountAuthenticationSuccessEventListener implements
 		
 		AccountAuthenticationSuccessLog log = new AccountAuthenticationSuccessLog();
 		log.setUsername(details.getUsername());
-		log.setAuthenticationTimestamp(DateTime.now());
+		log.setAuthenticationTimestamp(dateFactory.newDateTime());
 		
 		accountAuthenticationLogSharedService.insertSuccessLog(log);
 	}

@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
@@ -37,6 +38,9 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 	
 	@Inject
 	PasswordEncoder passwordEncoder;
+	
+	@Inject
+	JodaTimeDateFactory dateFactory;
 	
 	@Value("${lockingDurationMinutes}")
 	private int lockingDurationMinutes;
@@ -75,7 +79,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 		}
 		
 		if(failureLogs.get(0).getAuthenticationTimestamp()
-				.isBefore(DateTime.now().minusMinutes(lockingDurationMinutes))){
+				.isBefore(dateFactory.newDateTime().minusMinutes(lockingDurationMinutes))){
 			return false;
 		}
 		
@@ -130,7 +134,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 			return true;
 		}
 		
-		if(passwordHistories.get(0).getUseFrom().isBefore(DateTime.now().minusMinutes(passwordLifeTime))){
+		if(passwordHistories.get(0).getUseFrom().isBefore(dateFactory.newDateTime().minusMinutes(passwordLifeTime))){
 			return true;
 		}
 		
@@ -143,7 +147,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 		String password = passwordEncoder.encode(rawPassword);
 		boolean result = accountRepository.updatePassword(username, password); 
 		
-		DateTime passwordChangeDate = DateTime.now(); 
+		DateTime passwordChangeDate = dateFactory.newDateTime(); 
 		
 		PasswordHistory passwordHistory = new PasswordHistory();
 		passwordHistory.setUsername(username);

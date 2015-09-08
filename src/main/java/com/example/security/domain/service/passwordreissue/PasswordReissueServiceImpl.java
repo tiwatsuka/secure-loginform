@@ -22,6 +22,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessages;
@@ -46,6 +47,9 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	
 	@Inject
 	AccountSharedService accountSharedService;
+	
+	@Inject
+	JodaTimeDateFactory dateFactory;
 	
 	@Inject
 	PasswordEncoder passwordEncoder;
@@ -86,7 +90,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 
 		String secret = passwordGenerator.generatePassword(10, passwordGenerationRules);
 		
-		DateTime expiryDate = DateTime.now().plusMinutes(tokenExpiration);
+		DateTime expiryDate = dateFactory.newDateTime().plusMinutes(tokenExpiration);
 		
 		PasswordReissueInfo info = new PasswordReissueInfo();
 		info.setUsername(username);
@@ -154,7 +158,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 					ResultMessages.error().add("com.example.security.domain.service.passwordreissue.PasswordReissueSerivce.findOne.ResourceNotFound", token)
 					);
 		}
-		if(info.getExpiryDate().isBefore(DateTime.now())){
+		if(info.getExpiryDate().isBefore(dateFactory.newDateTime())){
 			throw new BusinessException(
 					ResultMessages.error().add("com.example.security.domain.service.passwordreissue.PasswordReissueSerivce.findOne.expired")
 					);
@@ -182,7 +186,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	public void resetFailure(String username, String token) {
 		PasswordReissueFailureLog log = new PasswordReissueFailureLog();
 		log.setToken(token);
-		log.setAttemptDate(DateTime.now());
+		log.setAttemptDate(dateFactory.newDateTime());
 		passwordReissueFailureLogRepository.insert(log);
 
 		List<PasswordReissueFailureLog> logs = passwordReissueFailureLogRepository.findByToken(token);

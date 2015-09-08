@@ -16,6 +16,7 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 
 import com.example.security.domain.model.Account;
 import com.example.security.domain.model.PasswordHistory;
@@ -33,6 +34,9 @@ public class ProhibitReuseValidator implements ConstraintValidator<ProhibitReuse
 	
 	@Inject
 	PasswordEncoder passwordEncoder;
+	
+	@Inject
+	JodaTimeDateFactory dateFactory;
 	
 	@Resource(name="encodedPasswordHistoryValidator")
 	PasswordValidator encodedPasswordHistoryValidator;
@@ -84,7 +88,7 @@ public class ProhibitReuseValidator implements ConstraintValidator<ProhibitReuse
 	}
 	
 	private boolean checkHistoricalPassword(String username, String newPassword, ConstraintValidatorContext context){
-		DateTime useFrom = DateTime.now().minusMinutes(passwordHistoricalCheckingMinutes);
+		DateTime useFrom = dateFactory.newDateTime().minusMinutes(passwordHistoricalCheckingMinutes);
 		List<PasswordHistory> historyByTime = passwordHistorySharedService.findHistoriesByUseFrom(username, useFrom);
 		List<PasswordHistory> historyByCount = passwordHistorySharedService.findLatestHistories(username, passwordHistoricalCheckingCount);
 		List<PasswordHistory> history = historyByCount.size() > historyByTime.size() ? historyByCount : historyByTime;
