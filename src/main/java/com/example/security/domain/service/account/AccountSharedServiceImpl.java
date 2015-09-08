@@ -74,11 +74,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 		if(failureLogs.size() < lockingThreshold){
 			return false;
 		}
-		
-		if(failureLogs.isEmpty()){
-			return false;
-		}
-		
+
 		if(failureLogs.get(0).getAuthenticationTimestamp()
 				.isBefore(dateFactory.newDateTime().minusMinutes(lockingDurationMinutes))){
 			return false;
