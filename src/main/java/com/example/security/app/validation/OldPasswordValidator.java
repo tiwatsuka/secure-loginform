@@ -23,11 +23,13 @@ public class OldPasswordValidator implements ConstraintValidator<ConfirmOldPassw
 	
 	private String oldPasswordField;
 	
+	private String message;
+	
 	@Override
 	public void initialize(ConfirmOldPassword constraintAnnotation) {
 		usernameField = constraintAnnotation.idField();
 		oldPasswordField = constraintAnnotation.oldPasswordField();
-		
+		message = constraintAnnotation.message();
 	}
 
 	@Override
@@ -48,7 +50,7 @@ public class OldPasswordValidator implements ConstraintValidator<ConfirmOldPassw
 		if(passwordEncoder.matches(oldPassword, currentPassword)){
 			return true;
 		}else{
-			context.buildConstraintViolationWithTemplate("{com.example.security.app.validation.OldPasswordValidator.checkOldPasswordMacheWithCurrentPassword}")
+			context.buildConstraintViolationWithTemplate(message)
 				.addPropertyNode(oldPasswordField)
 				.addConstraintViolation();
 			return false;

@@ -15,6 +15,7 @@ import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
+import com.example.security.common.message.MessageKeys;
 import com.example.security.domain.model.Account;
 import com.example.security.domain.model.AccountAuthenticationFailureLog;
 import com.example.security.domain.model.AccountAuthenticationSuccessLog;
@@ -58,7 +59,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 		
 		if(account == null){
 			throw new ResourceNotFoundException(
-					ResultMessages.error().add("com.example.security.domain.account.AccountSharedService.findOne", username)
+					ResultMessages.error().add(MessageKeys.E_SL_FA_5001, username)
 					);
 		}
 		return account;

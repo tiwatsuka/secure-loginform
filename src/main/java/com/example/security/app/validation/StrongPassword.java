@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({TYPE, ANNOTATION_TYPE})
 @Retention(RUNTIME)
 public @interface StrongPassword {
-	String message() default "{com.example.app.validation.StrongPassword.message}";
+	String message() default "{com.example.security.app.validation.StrongPassword.message}";
 	
 	Class<?>[] groups() default {};
 	

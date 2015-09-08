@@ -51,10 +51,13 @@ public class ProhibitReuseValidator implements ConstraintValidator<ProhibitReuse
 	
 	private String newPasswordField;
 	
+	private String message;
+	
 	@Override
 	public void initialize(ProhibitReuse constraintAnnotation) {
 		usernameField = constraintAnnotation.idField();
 		newPasswordField = constraintAnnotation.newPasswordField();
+		message = constraintAnnotation.message();
 	}
 
 	@Override
@@ -80,7 +83,7 @@ public class ProhibitReuseValidator implements ConstraintValidator<ProhibitReuse
 		if(!passwordEncoder.matches(newPassword, currentPassword)){
 			return true;
 		}else{
-			context.buildConstraintViolationWithTemplate("{com.example.security.app.validation.ProhibitReuseValidator.checkNewPasswordDifferentFromCurrentPassword}")
+			context.buildConstraintViolationWithTemplate(message)
 				.addPropertyNode(newPasswordField)
 				.addConstraintViolation();
 			return false;
@@ -104,7 +107,7 @@ public class ProhibitReuseValidator implements ConstraintValidator<ProhibitReuse
 		if(result.isValid()){
 			return true;
 		}else{
-			context.buildConstraintViolationWithTemplate("{com.example.security.app.validation.ProhibitReuseValidator.checkHistoricalPassword}")
+			context.buildConstraintViolationWithTemplate(encodedPasswordHistoryValidator.getMessages(result).get(0))
 				.addPropertyNode(newPasswordField)
 				.addConstraintViolation();
 			return false;

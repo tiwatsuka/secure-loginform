@@ -63,7 +63,7 @@ public class StrongPasswordValidator implements ConstraintValidator<StrongPasswo
 		if(result.isValid()){
 			return true;
 		}else{
-			context.buildConstraintViolationWithTemplate("{com.example.security.app.validation.StrongPasswordValidator.checkNotContainUsername}")
+			context.buildConstraintViolationWithTemplate(usernamePasswordValidator.getMessages(result).get(0))
 				.addPropertyNode(newPasswordField)
 				.addConstraintViolation();
 			return false;

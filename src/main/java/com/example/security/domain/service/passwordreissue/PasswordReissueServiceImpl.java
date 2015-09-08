@@ -27,6 +27,7 @@ import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
+import com.example.security.common.message.MessageKeys;
 import com.example.security.domain.model.Account;
 import com.example.security.domain.model.PasswordReissueFailureLog;
 import com.example.security.domain.model.PasswordReissueInfo;
@@ -155,12 +156,12 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 
 		if(info == null){
 			throw new ResourceNotFoundException(
-					ResultMessages.error().add("com.example.security.domain.service.passwordreissue.PasswordReissueSerivce.findOne.ResourceNotFound", token)
+					ResultMessages.error().add(MessageKeys.E_SL_PR_5002, token)
 					);
 		}
 		if(info.getExpiryDate().isBefore(dateFactory.newDateTime())){
 			throw new BusinessException(
-					ResultMessages.error().add("com.example.security.domain.service.passwordreissue.PasswordReissueSerivce.findOne.expired")
+					ResultMessages.error().add(MessageKeys.E_SL_PR_2001)
 					);
 		}
 		
@@ -173,7 +174,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 		PasswordReissueInfo info = this.findOne(token);
 		if(!passwordEncoder.matches(secret, info.getSecret()) || !info.getUsername().equals(username)){
 			throw new BusinessException(
-					ResultMessages.error().add("com.example.security.domain.service.passwordreissue.PasswordReissueSerivce.resetPassword")
+					ResultMessages.error().add(MessageKeys.E_SL_PR_5003)
 					);
 		}
 		removeReissueInfo(token);

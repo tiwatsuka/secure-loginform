@@ -15,6 +15,7 @@ import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
+import com.example.security.common.message.MessageKeys;
 import com.example.security.domain.model.PasswordReissueInfo;
 import com.example.security.domain.service.passwordreissue.PasswordReissueService;
 
@@ -62,7 +63,7 @@ public class PasswordReissueController {
 		PasswordReissueInfo info = passwordReissueService.findOne(token);
 		if(!info.getUsername().equals(username)){
 			throw new BusinessException(
-					ResultMessages.error().add("com.example.security.app.passwordreissue.PasswordReissueController.invalidUsername")
+					ResultMessages.error().add(MessageKeys.E_SL_PR_5001)
 					);
 		}
 		
