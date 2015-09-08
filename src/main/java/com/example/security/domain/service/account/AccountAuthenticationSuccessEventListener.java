@@ -17,7 +17,7 @@ import com.example.security.domain.service.userdetails.SampleUserDetails;
 public class AccountAuthenticationSuccessEventListener implements
 		ApplicationListener<AuthenticationSuccessEvent> {
 
-	private static final Logger log = LoggerFactory.getLogger(AccountAuthenticationSuccessEventListener.class); 
+	private static final Logger logger = LoggerFactory.getLogger(AccountAuthenticationSuccessEventListener.class); 
 	
 	@Inject
 	AccountAuthenticationLogSharedService accountAuthenticationLogSharedService;
@@ -27,15 +27,15 @@ public class AccountAuthenticationSuccessEventListener implements
 	
 	@Override
 	public void onApplicationEvent(AuthenticationSuccessEvent event) {
-		log.info("ログイン成功時の処理をここに書けます -> {}", event);
+		logger.info("ログイン成功時の処理をここに書けます -> {}", event);
 		
 		SampleUserDetails details = (SampleUserDetails) event.getAuthentication().getPrincipal();
 		
-		AccountAuthenticationSuccessLog log = new AccountAuthenticationSuccessLog();
-		log.setUsername(details.getUsername());
-		log.setAuthenticationTimestamp(dateFactory.newDateTime());
+		AccountAuthenticationSuccessLog successLog = new AccountAuthenticationSuccessLog();
+		successLog.setUsername(details.getUsername());
+		successLog.setAuthenticationTimestamp(dateFactory.newDateTime());
 		
-		accountAuthenticationLogSharedService.insertSuccessLog(log);
+		accountAuthenticationLogSharedService.insertSuccessLog(successLog);
 	}
 
 }

@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 public class AccountAuthenticationFailureLockedEventListener implements
 		ApplicationListener<AuthenticationFailureLockedEvent> {
 
-	private static final Logger log = LoggerFactory.getLogger(AccountAuthenticationFailureLockedEventListener.class); 
+	private static final Logger logger = LoggerFactory.getLogger(AccountAuthenticationFailureLockedEventListener.class); 
 	
 	@Override
 	public void onApplicationEvent(AuthenticationFailureLockedEvent event) {
-		log.info("ロックエラー発生時の処理をここに書けます -> {}", event);
+		logger.info("ロックエラー発生時の処理をここに書けます -> {}", event);
 
 	}
 
