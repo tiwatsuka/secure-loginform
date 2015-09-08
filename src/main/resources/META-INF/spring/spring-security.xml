@@ -22,7 +22,9 @@
         <sec:form-login
         	login-page="/login.jsp"
         	authentication-failure-url="/login.jsp?error=true"
-        	login-processing-url="/authenticate" />
+        	login-processing-url="/authenticate"
+        	username-parameter="username"
+        	password-parameter="password"/>
         <sec:logout
         	logout-url="/logout"
         	logout-success-url="/"

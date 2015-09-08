@@ -17,12 +17,12 @@
 		<form:form action="${f:h(pageContext.request.contextPath)}/authenticate">
 			<table>
 				<tr>
-					<td><label for="j_username">User:</label></td>
-					<td><input type="text" id="j_username" name="j_username" value='demo'>(demo)</td>
+					<td><label for="username">User:</label></td>
+					<td><input type="text" id="username" name="username" value='demo'>(demo)</td>
 				</tr>
 				<tr>
-					<td><label for="j_password">Password:</label></td>
-					<td><input type="password" id="j_password" name="j_password" value='demo'>(demo)</td>
+					<td><label for="password">Password:</label></td>
+					<td><input type="password" id="password" name="password" value='demo'>(demo)</td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
