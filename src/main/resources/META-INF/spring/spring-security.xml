@@ -27,7 +27,7 @@
         	password-parameter="password"/>
         <sec:logout
         	logout-url="/logout"
-        	logout-success-url="/"
+        	success-handler-ref="logoutSuccessHandler"
         	delete-cookies="JSESSIONID" />
         <sec:intercept-url pattern="/login.jsp" access="permitAll" />
         <sec:intercept-url pattern="/reissue/**" access="permitAll" />
@@ -51,6 +51,12 @@
 	</bean>
 	<bean id="webExpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
 		<property name="roleHierarchy" ref="roleHierarchy"/>
+	</bean>
+
+	<!-- Custom logout handler -->
+	<bean id="logoutSuccessHandler" 
+		class="com.example.security.app.securityHandler.CacheClearLogoutSuccessHandler">
+		<constructor-arg value="/"/>
 	</bean>
 
     <!-- Change View for CSRF or AccessDenied -->

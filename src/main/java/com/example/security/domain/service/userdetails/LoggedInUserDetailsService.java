@@ -2,7 +2,6 @@ package com.example.security.domain.service.userdetails;
 
 import javax.inject.Inject;
 
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,7 +20,6 @@ public class LoggedInUserDetailsService implements UserDetailsService {
 		
 	@Transactional(readOnly = true)
 	@Override
-	@CacheEvict(value={"isInitialPassword", "isCurrentPasswordExpired"}, allEntries=true)
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		try {

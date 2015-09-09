@@ -16,4 +16,6 @@ public interface AccountSharedService {
 	public boolean isCurrentPasswordExpired(String username);
 
 	public boolean updatePassword(String username, String rawPassword);
+	
+	public void clearPasswordValidationCache(String username);
 }
