@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
+import org.terasoluna.gfw.common.exception.SystemException;
 import org.terasoluna.gfw.common.message.ResultMessages;
 
 import com.example.security.common.message.MessageKeys;
@@ -123,15 +124,17 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 			/* output received message to log for testing */
 			try {
 				MimeMessage[] receivedMessages= greenMailBean.getReceivedMessages();
-				MimeMessage latestMessage = receivedMessages[receivedMessages.length-1]; 
-				logger.debug("From    : " + latestMessage.getFrom()[0].toString());
-				logger.debug("To      : " + latestMessage.getRecipients(Message.RecipientType.TO)[0].toString());
-				logger.debug("Subject : " + latestMessage.getSubject());
-				logger.debug("Text    : " + (String)latestMessage.getContent());
+				MimeMessage latestMessage = receivedMessages[receivedMessages.length-1];
+				if(logger.isDebugEnabled()){
+					logger.debug("From    : {}", latestMessage.getFrom()[0].toString());
+					logger.debug("To      : {}", latestMessage.getRecipients(Message.RecipientType.TO)[0].toString());
+					logger.debug("Subject : {}", latestMessage.getSubject());
+					logger.debug("Text    : {}", latestMessage.getContent());
+				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new SystemException(MessageKeys.E_SL_FW_9001,e);
 			} catch (MessagingException e) {
-				e.printStackTrace();
+				throw new SystemException(MessageKeys.E_SL_FW_9001,e);
 			}
 			
 			return true;
