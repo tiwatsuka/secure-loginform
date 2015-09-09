@@ -68,11 +68,10 @@ public class ProhibitReuseValidator implements ConstraintValidator<ProhibitReuse
 
 		Account account = accountSharedService.findOne(username);
 		String currentPassword = account.getPassword();
-		Role role = account.getRole();
 		
 		context.disableDefaultConstraintViolation();
 		boolean result = checkNewPasswordDifferentFromCurrentPassword(newPassword, currentPassword, context);
-		if(result && role.equals(Role.ADMN)){
+		if(result && account.getRoles().contains(Role.ADMN)){
 			result = checkHistoricalPassword(username, newPassword, context);
 		}
 		

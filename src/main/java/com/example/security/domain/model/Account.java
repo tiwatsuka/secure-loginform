@@ -1,6 +1,7 @@
 package com.example.security.domain.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.Data;
 
@@ -18,6 +19,6 @@ public class Account implements Serializable {
 	
 	private String email;
 	
-	private Role role;
+	private List<Role> roles;
 
 }

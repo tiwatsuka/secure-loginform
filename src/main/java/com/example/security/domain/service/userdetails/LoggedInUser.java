@@ -1,7 +1,9 @@
 package com.example.security.domain.service.userdetails;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import com.example.security.domain.model.Account;
@@ -13,9 +15,8 @@ public class LoggedInUser extends User {
 	
 	private final DateTime lastLoginDate; 
 	
-	public LoggedInUser(Account account, boolean isLocked, DateTime lastLoginDate) {
-		super(account.getUsername(), account.getPassword(), true, true, true, !isLocked, 
-				AuthorityUtils.createAuthorityList("ROLE_" + account.getRole().getCodeValue()));
+	public LoggedInUser(Account account, boolean isLocked, DateTime lastLoginDate, List<SimpleGrantedAuthority> authorities) {
+		super(account.getUsername(), account.getPassword(), true, true, true, !isLocked, authorities);
 		this.account = account;
 		this.lastLoginDate = lastLoginDate;
 	}

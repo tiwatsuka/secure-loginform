@@ -33,7 +33,6 @@
         <sec:intercept-url pattern="/reissue/**" access="permitAll" />
         <sec:intercept-url pattern="/unlock/**" access="hasRole('ROLE_ADMN')" />
         <sec:intercept-url pattern="/**" access="isAuthenticated()" />
-        <sec:expression-handler ref="webExpressionHandler"/>
     </sec:http>
 
     <sec:authentication-manager>
@@ -42,16 +41,6 @@
     		<sec:password-encoder ref="passwordEncoder" />
     	</sec:authentication-provider>
     </sec:authentication-manager>
-
-	<bean id="roleHierarchy"
-		class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
-		<property name="hierarchy">
-			<value>ROLE_ADMN > ROLE_USER</value>
-		</property>
-	</bean>
-	<bean id="webExpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
-		<property name="roleHierarchy" ref="roleHierarchy"/>
-	</bean>
 
 	<!-- Custom logout handler -->
 	<bean id="logoutSuccessHandler" 

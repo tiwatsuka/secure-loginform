@@ -27,7 +27,7 @@ public class PasswordExpirationCheckInterceptor extends HandlerInterceptorAdapte
     		Object principal = authentication.getPrincipal();
     		if(principal instanceof UserDetails){
     			LoggedInUser userDetails = (LoggedInUser)principal;
-    			if( (userDetails.getAccount().getRole() == Role.ADMN &&
+    			if( (userDetails.getAccount().getRoles().contains(Role.ADMN) &&
     					accountSharedService.isCurrentPasswordExpired(userDetails.getUsername()))
     					|| accountSharedService.isInitialPassword(userDetails.getUsername())){
     				response.sendRedirect(request.getContextPath() + "/password?form");

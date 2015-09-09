@@ -4,8 +4,14 @@ CREATE TABLE account(
 	first_name VARCHAR(128) NOT NULL,
 	last_name VARCHAR(128) NOT NULL,
 	email VARCHAR(128) NOT NULL,
-	role VARCHAR(10) NOT NULL,
 	constraint pk_tbl_account primary key (username)
+);
+
+CREATE TABLE role(
+	username VARCHAR(128),
+	role VARCHAR(10) NOT NULL,
+	CONSTRAINT pk_tbl_role PRIMARY KEY (username, role),
+	CONSTRAINT fk_tbl_role FOREIGN KEY (username) REFERENCES account(username)
 );
 
 CREATE TABLE account_authentication_success_log(
