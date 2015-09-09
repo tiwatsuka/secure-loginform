@@ -12,7 +12,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.example.security.domain.model.Role;
 import com.example.security.domain.service.account.AccountSharedService;
-import com.example.security.domain.service.userdetails.SampleUserDetails;
+import com.example.security.domain.service.userdetails.LoggedInUser;
 
 public class PasswordExpirationCheckInterceptor extends HandlerInterceptorAdapter {
 	
@@ -26,7 +26,7 @@ public class PasswordExpirationCheckInterceptor extends HandlerInterceptorAdapte
     	if(authentication != null){
     		Object principal = authentication.getPrincipal();
     		if(principal instanceof UserDetails){
-    			SampleUserDetails userDetails = (SampleUserDetails)principal;
+    			LoggedInUser userDetails = (LoggedInUser)principal;
     			if( (userDetails.getAccount().getRole() == Role.ADMN &&
     					accountSharedService.isCurrentPasswordExpired(userDetails.getUsername()))
     					|| accountSharedService.isInitialPassword(userDetails.getUsername())){

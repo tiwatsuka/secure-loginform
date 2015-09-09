@@ -11,7 +11,7 @@ import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 
 import com.example.security.domain.model.AccountAuthenticationSuccessLog;
 import com.example.security.domain.service.accountauthenticationlog.AccountAuthenticationLogSharedService;
-import com.example.security.domain.service.userdetails.SampleUserDetails;
+import com.example.security.domain.service.userdetails.LoggedInUser;
 
 @Component
 public class AccountAuthenticationSuccessEventListener implements
@@ -29,7 +29,7 @@ public class AccountAuthenticationSuccessEventListener implements
 	public void onApplicationEvent(AuthenticationSuccessEvent event) {
 		logger.info("ログイン成功時の処理をここに書けます -> {}", event);
 		
-		SampleUserDetails details = (SampleUserDetails) event.getAuthentication().getPrincipal();
+		LoggedInUser details = (LoggedInUser) event.getAuthentication().getPrincipal();
 		
 		AccountAuthenticationSuccessLog successLog = new AccountAuthenticationSuccessLog();
 		successLog.setUsername(details.getUsername());

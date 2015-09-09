@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.security.domain.model.Account;
 import com.example.security.domain.service.account.AccountSharedService;
-import com.example.security.domain.service.userdetails.SampleUserDetails;
+import com.example.security.domain.service.userdetails.LoggedInUser;
 
 /**
  * Handles requests for the application home page.
@@ -38,7 +38,7 @@ public class HomeController {
         logger.info("Welcome home! The client locale is {}.", locale);
         
         Authentication authentication = (Authentication) principal;
-        SampleUserDetails userDetails = (SampleUserDetails) authentication.getPrincipal();
+        LoggedInUser userDetails = (LoggedInUser) authentication.getPrincipal();
         Account account = userDetails.getAccount();
         
         DateTime lastLoginDate = userDetails.getLastLoginDate();

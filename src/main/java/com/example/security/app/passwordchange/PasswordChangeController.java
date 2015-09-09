@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.security.domain.model.Account;
 import com.example.security.domain.service.passwordchange.PasswordChangeService;
-import com.example.security.domain.service.userdetails.SampleUserDetails;
+import com.example.security.domain.service.userdetails.LoggedInUser;
 
 @Controller
 @RequestMapping("password")
@@ -25,7 +25,7 @@ public class PasswordChangeController {
 	
 	@RequestMapping(params="form")
 	public String showForm(PasswordChangeForm form,
-			@AuthenticationPrincipal SampleUserDetails userDetails, Model model){
+			@AuthenticationPrincipal LoggedInUser userDetails, Model model){
 		
 		Account account = userDetails.getAccount();
 		model.addAttribute(account);
@@ -33,7 +33,7 @@ public class PasswordChangeController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public String change(@AuthenticationPrincipal SampleUserDetails userDetails,
+	public String change(@AuthenticationPrincipal LoggedInUser userDetails,
 			@Validated PasswordChangeForm form,
 			BindingResult bindingResult,
 			Model model){

@@ -6,14 +6,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.security.domain.model.Account;
-import com.example.security.domain.service.userdetails.SampleUserDetails;
+import com.example.security.domain.service.userdetails.LoggedInUser;
 
 @Controller
 @RequestMapping("account")
 public class AccountController {
 
 	@RequestMapping
-	public String view(@AuthenticationPrincipal SampleUserDetails userDetails,
+	public String view(@AuthenticationPrincipal LoggedInUser userDetails,
 			Model model) {
 		Account account = userDetails.getAccount();
 		model.addAttribute(account);

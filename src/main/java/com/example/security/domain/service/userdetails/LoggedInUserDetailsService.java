@@ -14,7 +14,7 @@ import com.example.security.domain.model.Account;
 import com.example.security.domain.service.account.AccountSharedService;
 
 @Service
-public class SampleUserDetailsService implements UserDetailsService {
+public class LoggedInUserDetailsService implements UserDetailsService {
 	
 	@Inject
 	AccountSharedService accountSharedService;
@@ -27,7 +27,7 @@ public class SampleUserDetailsService implements UserDetailsService {
 		try {
 			Account account = accountSharedService.findOne(username);
 
-			return new SampleUserDetails(account, accountSharedService.isLocked(username), accountSharedService.getLastLoginDate(username));
+			return new LoggedInUser(account, accountSharedService.isLocked(username), accountSharedService.getLastLoginDate(username));
 		} catch (ResourceNotFoundException e) {
 			throw new UsernameNotFoundException("user not found", e);
 		}
