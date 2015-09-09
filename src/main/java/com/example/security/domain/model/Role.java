@@ -3,14 +3,12 @@ package com.example.security.domain.model;
 import org.terasoluna.gfw.common.codelist.EnumCodeList;;
 
 public enum Role implements EnumCodeList.CodeListItem{
-	ADMN("ADMN", "administrator"),
-	USER("USER", "user");
+	ADMN("administrator"),
+	USER("user");
 	
-	private final String value;
 	private final String label;
 
-	private Role(String codeValue, String codeLabel) {
-		this.value = codeValue;
+	private Role(String codeLabel) {
 		this.label = codeLabel;
 	}
 	
@@ -21,7 +19,7 @@ public enum Role implements EnumCodeList.CodeListItem{
 
 	@Override
 	public String getCodeValue() {
-		return value;
+		return this.name();
 	}
 
 }
