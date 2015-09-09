@@ -11,20 +11,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.security.domain.model.Account;
 import com.example.security.domain.service.account.AccountSharedService;
 
-public class OldPasswordValidator implements ConstraintValidator<ConfirmOldPassword, Object> {
+public class OldPasswordValidator implements
+		ConstraintValidator<ConfirmOldPassword, Object> {
 
 	@Inject
 	AccountSharedService accountSharedService;
-	
+
 	@Inject
 	PasswordEncoder passwordEncoder;
-	
+
 	private String usernameField;
-	
+
 	private String oldPasswordField;
-	
+
 	private String message;
-	
+
 	@Override
 	public void initialize(ConfirmOldPassword constraintAnnotation) {
 		usernameField = constraintAnnotation.idField();
@@ -35,26 +36,29 @@ public class OldPasswordValidator implements ConstraintValidator<ConfirmOldPassw
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
 		BeanWrapper beanWrapper = new BeanWrapperImpl(value);
-		String username = (String)beanWrapper.getPropertyValue(usernameField);
-		String oldPassword = (String)beanWrapper.getPropertyValue(oldPasswordField);
+		String username = (String) beanWrapper.getPropertyValue(usernameField);
+		String oldPassword = (String) beanWrapper
+				.getPropertyValue(oldPasswordField);
 
 		Account account = accountSharedService.findOne(username);
 		String currentPassword = account.getPassword();
-		
+
 		context.disableDefaultConstraintViolation();
-		
-		return checkOldPasswordMacheWithCurrentPassword(oldPassword, currentPassword, context);
+
+		return checkOldPasswordMacheWithCurrentPassword(oldPassword,
+				currentPassword, context);
 	}
 
-	private boolean checkOldPasswordMacheWithCurrentPassword(String oldPassword, String currentPassword, ConstraintValidatorContext context){
-		if(passwordEncoder.matches(oldPassword, currentPassword)){
+	private boolean checkOldPasswordMacheWithCurrentPassword(
+			String oldPassword, String currentPassword,
+			ConstraintValidatorContext context) {
+		if (passwordEncoder.matches(oldPassword, currentPassword)) {
 			return true;
-		}else{
+		} else {
 			context.buildConstraintViolationWithTemplate(message)
-				.addPropertyNode(oldPasswordField)
-				.addConstraintViolation();
+					.addPropertyNode(oldPasswordField).addConstraintViolation();
 			return false;
 		}
 	}
-	
+
 }

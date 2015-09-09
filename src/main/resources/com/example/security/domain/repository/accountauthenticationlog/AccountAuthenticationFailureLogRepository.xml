@@ -2,14 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.security.domain.repository.accountauthenticationlog.AccountAuthenticationFailureLogRepository">
+<mapper
+	namespace="com.example.security.domain.repository.accountauthenticationlog.AccountAuthenticationFailureLogRepository">
 
-    <resultMap id="accountAuthenticationFailureLogResultMap" type="AccountAuthenticationFailureLog">
-        <id property="username" column="username" />
-        <id property="authenticationTimestamp" column="authentication_timestamp"/>
-    </resultMap>
-        
-    <insert id="insert" parameterType="AccountAuthenticationFailureLog">
+	<resultMap id="accountAuthenticationFailureLogResultMap"
+		type="AccountAuthenticationFailureLog">
+		<id property="username" column="username" />
+		<id property="authenticationTimestamp" column="authentication_timestamp" />
+	</resultMap>
+
+	<insert id="insert" parameterType="AccountAuthenticationFailureLog">
     <![CDATA[
         INSERT INTO account_authentication_failure_log (
             username,
@@ -19,9 +21,9 @@
             #{authenticationTimestamp},
         )
     ]]>
-    </insert>
-    
-    <select id="findLatestLogs" resultMap="accountAuthenticationFailureLogResultMap">
+	</insert>
+
+	<select id="findLatestLogs" resultMap="accountAuthenticationFailureLogResultMap">
     <![CDATA[
         SELECT
             username,
@@ -33,12 +35,14 @@
         ORDER BY authentication_timestamp DESC
         LIMIT #{nbLog}
     ]]>
-    </select>
-    
-    <delete id="deleteByUsername">
-    	DELETE FROM
-    		account_authentication_failure_log
-    	WHERE
-    		username = #{username}
-    </delete>
+	</select>
+
+	<delete id="deleteByUsername">
+	<![CDATA[
+		DELETE FROM
+			account_authentication_failure_log
+		WHERE
+			username = #{username}
+	]]>
+	</delete>
 </mapper>

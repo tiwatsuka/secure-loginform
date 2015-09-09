@@ -1,160 +1,148 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
-    <import resource="classpath:/META-INF/spring/first-springsecurity-domain.xml" />
+	<import resource="classpath:/META-INF/spring/first-springsecurity-domain.xml" />
 
-    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	<bean id="passwordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
-    <context:property-placeholder
-        location="classpath*:/META-INF/spring/*.properties" />
+	<context:property-placeholder
+		location="classpath*:/META-INF/spring/*.properties" />
 
-    <bean class="org.dozer.spring.DozerBeanMapperFactoryBean">
-        <property name="mappingFiles"
-            value="classpath*:/META-INF/dozer/**/*-mapping.xml" />
-    </bean>
+	<bean class="org.dozer.spring.DozerBeanMapperFactoryBean">
+		<property name="mappingFiles" value="classpath*:/META-INF/dozer/**/*-mapping.xml" />
+	</bean>
 
-    <!-- Message -->
-    <bean id="messageSource"
-        class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basenames">
-            <list>
-                <value>i18n/application-messages</value>
-            </list>
-        </property>
-    </bean>
+	<!-- Message -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>i18n/application-messages</value>
+			</list>
+		</property>
+	</bean>
 
-    <!-- Exception Code Resolver. -->
-    <bean id="exceptionCodeResolver"
-        class="org.terasoluna.gfw.common.exception.SimpleMappingExceptionCodeResolver">
-        <!-- Setting and Customization by project. -->
-        <property name="exceptionMappings">
-            <map>
-                <entry key="ResourceNotFoundException" value="e.sl.fw.5001" />
-                <entry key="InvalidTransactionTokenException" value="e.sl.fw.7001" />
-                <entry key="BusinessException" value="e.sl.fw.8001" />
-                <entry key=".DataAccessException" value="e.sl.fw.9002" />
-            </map>
-        </property>
-        <property name="defaultExceptionCode" value="e.sl.fw.9001" />
-    </bean>
+	<!-- Exception Code Resolver. -->
+	<bean id="exceptionCodeResolver"
+		class="org.terasoluna.gfw.common.exception.SimpleMappingExceptionCodeResolver">
+		<!-- Setting and Customization by project. -->
+		<property name="exceptionMappings">
+			<map>
+				<entry key="ResourceNotFoundException" value="e.sl.fw.5001" />
+				<entry key="InvalidTransactionTokenException" value="e.sl.fw.7001" />
+				<entry key="BusinessException" value="e.sl.fw.8001" />
+				<entry key=".DataAccessException" value="e.sl.fw.9002" />
+			</map>
+		</property>
+		<property name="defaultExceptionCode" value="e.sl.fw.9001" />
+	</bean>
 
-    <!-- Exception Logger. -->
-    <bean id="exceptionLogger"
-        class="org.terasoluna.gfw.common.exception.ExceptionLogger">
-        <property name="exceptionCodeResolver" ref="exceptionCodeResolver" />
-    </bean>
+	<!-- Exception Logger. -->
+	<bean id="exceptionLogger" class="org.terasoluna.gfw.common.exception.ExceptionLogger">
+		<property name="exceptionCodeResolver" ref="exceptionCodeResolver" />
+	</bean>
 
-    <!-- Filter. -->
-    <bean id="exceptionLoggingFilter"
-        class="org.terasoluna.gfw.web.exception.ExceptionLoggingFilter" >
-        <property name="exceptionLogger" ref="exceptionLogger" />
-    </bean>
+	<!-- Filter. -->
+	<bean id="exceptionLoggingFilter" class="org.terasoluna.gfw.web.exception.ExceptionLoggingFilter">
+		<property name="exceptionLogger" ref="exceptionLogger" />
+	</bean>
 
 	<!-- Password Rules. -->
-	<bean id="lengthRule"
-	 class="org.passay.LengthRule">
-        <property name="minimumLength" value="${passwordMinimumLength}"/>
-	 </bean>
-	<bean id="upperCaseRule"
-		class="org.passay.CharacterRule">
+	<bean id="lengthRule" class="org.passay.LengthRule">
+		<property name="minimumLength" value="${passwordMinimumLength}" />
+	</bean>
+	<bean id="upperCaseRule" class="org.passay.CharacterRule">
 		<constructor-arg name="data">
 			<value type="org.passay.EnglishCharacterData">UpperCase</value>
 		</constructor-arg>
-		<constructor-arg name="num" value="1"/>
+		<constructor-arg name="num" value="1" />
 	</bean>
-	<bean id="lowerCaseRule"
-		class="org.passay.CharacterRule">
+	<bean id="lowerCaseRule" class="org.passay.CharacterRule">
 		<constructor-arg name="data">
 			<value type="org.passay.EnglishCharacterData">LowerCase</value>
 		</constructor-arg>
-		<constructor-arg name="num" value="1"/>
+		<constructor-arg name="num" value="1" />
 	</bean>
-	<bean id="digitRule"
-		class="org.passay.CharacterRule">
+	<bean id="digitRule" class="org.passay.CharacterRule">
 		<constructor-arg name="data">
 			<value type="org.passay.EnglishCharacterData">Digit</value>
 		</constructor-arg>
-		<constructor-arg name="num" value="1"/>
+		<constructor-arg name="num" value="1" />
 	</bean>
-	<bean id="specialCharacterRule"
-		class="org.passay.CharacterRule">
+	<bean id="specialCharacterRule" class="org.passay.CharacterRule">
 		<constructor-arg name="data">
 			<value type="org.passay.EnglishCharacterData">Special</value>
 		</constructor-arg>
-		<constructor-arg name="num" value="1"/>
+		<constructor-arg name="num" value="1" />
 	</bean>
-	<bean id="characterCharacteristicsRule"
-		class="org.passay.CharacterCharacteristicsRule">
+	<bean id="characterCharacteristicsRule" class="org.passay.CharacterCharacteristicsRule">
 		<property name="rules">
 			<list value-type="org.passay.CharacterRule">
-				<ref bean="upperCaseRule"/>
-				<ref bean="lowerCaseRule"/>
-				<ref bean="digitRule"/>
-				<ref bean="specialCharacterRule"/>
+				<ref bean="upperCaseRule" />
+				<ref bean="lowerCaseRule" />
+				<ref bean="digitRule" />
+				<ref bean="specialCharacterRule" />
 			</list>
 		</property>
-		<property name="numberOfCharacteristics" value="3"/>
+		<property name="numberOfCharacteristics" value="3" />
 	</bean>
-	<bean id="usernameRule"
-		class="org.passay.UsernameRule" />
+	<bean id="usernameRule" class="org.passay.UsernameRule" />
 	<bean id="encodedPasswordHistoryRule"
 		class="com.example.security.app.validation.rule.EncodedPasswordHistoryRule">
-		<property name="passwordEncoder" ref="passwordEncoder"/>
+		<property name="passwordEncoder" ref="passwordEncoder" />
 	</bean>
 
 	<!-- Password Validator. -->
-	<bean id="characteristicPasswordValidator"
-		class="org.passay.PasswordValidator">
+	<bean id="characteristicPasswordValidator" class="org.passay.PasswordValidator">
 		<constructor-arg name="rules">
 			<list value-type="org.passay.Rule">
-				<ref bean="lengthRule"/>
-				<ref bean="characterCharacteristicsRule"/>
+				<ref bean="lengthRule" />
+				<ref bean="characterCharacteristicsRule" />
 			</list>
 		</constructor-arg>
 	</bean>
-	<bean id="usernamePasswordValidator"
-		class="org.passay.PasswordValidator">
+	<bean id="usernamePasswordValidator" class="org.passay.PasswordValidator">
 		<constructor-arg name="rules">
 			<list value-type="org.passay.Rule">
-				<ref bean="usernameRule"/>
+				<ref bean="usernameRule" />
 			</list>
 		</constructor-arg>
 	</bean>
-	<bean id="encodedPasswordHistoryValidator"
-		class="org.passay.PasswordValidator">
+	<bean id="encodedPasswordHistoryValidator" class="org.passay.PasswordValidator">
 		<constructor-arg name="rules">
 			<list value-type="org.passay.Rule">
-				<ref bean="encodedPasswordHistoryRule"/>
+				<ref bean="encodedPasswordHistoryRule" />
 			</list>
 		</constructor-arg>
 	</bean>
 
 	<!-- Password Generator. -->
-	<bean id="passwordGenerator"
-		class="org.passay.PasswordGenerator" />
+	<bean id="passwordGenerator" class="org.passay.PasswordGenerator" />
 	<bean id="passwordGenerationRules"
 		class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
 			<list value-type="org.passay.CharacterRule">
-				<ref bean="upperCaseRule"/>
-				<ref bean="lowerCaseRule"/>
-				<ref bean="digitRule"/>
+				<ref bean="upperCaseRule" />
+				<ref bean="lowerCaseRule" />
+				<ref bean="digitRule" />
 			</list>
 		</property>
 	</bean>
 
 	<!-- Housekeeping -->
 	<bean id="expiredReissueInfoCleaner"
-		class="com.example.security.common.passwordreissue.UnnecessaryReissueInfoCleaner"/>
+		class="com.example.security.common.passwordreissue.UnnecessaryReissueInfoCleaner" />
 	<task:scheduler id="reissueInfoCleanupTaskScheduler" />
 	<task:scheduled-tasks scheduler="reissueInfoCleanupTaskScheduler">
-		<task:scheduled ref="expiredReissueInfoCleaner" method="cleanup" fixed-delay="${reissueInfoCleanupDelay}"/>
+		<task:scheduled ref="expiredReissueInfoCleaner" method="cleanup"
+			fixed-delay="${reissueInfoCleanupDelay}" />
 	</task:scheduled-tasks>
 
 </beans>

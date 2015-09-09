@@ -13,22 +13,24 @@ import com.example.security.domain.repository.passwordhistory.PasswordHistoryRep
 
 @Service
 @Transactional
-public class PasswordHistorySharedServiceImpl implements PasswordHistorySharedService{
+public class PasswordHistorySharedServiceImpl implements
+		PasswordHistorySharedService {
 
 	@Inject
 	PasswordHistoryRepository passwordHistoryRepository;
-	
-	public int insert(PasswordHistory history){
+
+	public int insert(PasswordHistory history) {
 		return passwordHistoryRepository.insert(history);
 	}
-	
-	@Transactional(readOnly=true)
-	public List<PasswordHistory> findHistoriesByUseFrom(String username, DateTime useFrom){
+
+	@Transactional(readOnly = true)
+	public List<PasswordHistory> findHistoriesByUseFrom(String username,
+			DateTime useFrom) {
 		return passwordHistoryRepository.findByUseFrom(username, useFrom);
 	}
 
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public List<PasswordHistory> findLatestHistories(String username, int limit) {
 		return passwordHistoryRepository.findLatestHistories(username, limit);
 	}

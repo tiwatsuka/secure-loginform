@@ -19,18 +19,20 @@ public class UnlockController {
 
 	@Inject
 	UnlockService unlockService;
-	
-	@RequestMapping(params="form")
-	public String showForm(UnlockForm form, Model model){
+
+	@RequestMapping(params = "form")
+	public String showForm(UnlockForm form, Model model) {
 		return "unlock/unlockForm";
 	}
-	
-	@RequestMapping(method=RequestMethod.POST)
-	public String unlock(@Validated UnlockForm form, BindingResult bindingResult, Model model, RedirectAttributes attributes){
-		if(bindingResult.hasErrors()){
+
+	@RequestMapping(method = RequestMethod.POST)
+	public String unlock(@Validated UnlockForm form,
+			BindingResult bindingResult, Model model,
+			RedirectAttributes attributes) {
+		if (bindingResult.hasErrors()) {
 			return showForm(form, model);
 		}
-		
+
 		try {
 			unlockService.unlock(form.getUsername());
 			attributes.addFlashAttribute("username", form.getUsername());
@@ -40,10 +42,10 @@ public class UnlockController {
 			return showForm(form, model);
 		}
 	}
-	
-	@RequestMapping(method=RequestMethod.GET, params="complete")
-	public String unlockComplete(){
+
+	@RequestMapping(method = RequestMethod.GET, params = "complete")
+	public String unlockComplete() {
 		return "unlock/unlockComplete";
 	}
-	
+
 }

@@ -17,19 +17,20 @@ public class UnlockServiceImpl implements UnlockService {
 
 	@Inject
 	AccountSharedService accountSharedService;
-	
+
 	@Inject
 	AccountAuthenticationLogSharedService accountAuthenticationLogSharedService;
-	
+
 	@Override
 	public boolean unlock(String username) {
-		if(!accountSharedService.isLocked(username)){
-			throw new BusinessException(
-					ResultMessages.error().add(MessageKeys.E_SL_UL_5001));
+		if (!accountSharedService.isLocked(username)) {
+			throw new BusinessException(ResultMessages.error().add(
+					MessageKeys.E_SL_UL_5001));
 		}
-		
-		accountAuthenticationLogSharedService.deleteFailureLogByUsername(username);
-		
+
+		accountAuthenticationLogSharedService
+				.deleteFailureLogByUsername(username);
+
 		return true;
 	}
 

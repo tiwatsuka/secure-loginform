@@ -10,22 +10,24 @@ import com.example.security.domain.model.Account;
 
 public class LoggedInUser extends User {
 	private static final long serialVersionUID = 1L;
-	
+
 	private final Account account;
-	
-	private final DateTime lastLoginDate; 
-	
-	public LoggedInUser(Account account, boolean isLocked, DateTime lastLoginDate, List<SimpleGrantedAuthority> authorities) {
-		super(account.getUsername(), account.getPassword(), true, true, true, !isLocked, authorities);
+
+	private final DateTime lastLoginDate;
+
+	public LoggedInUser(Account account, boolean isLocked,
+			DateTime lastLoginDate, List<SimpleGrantedAuthority> authorities) {
+		super(account.getUsername(), account.getPassword(), true, true, true,
+				!isLocked, authorities);
 		this.account = account;
 		this.lastLoginDate = lastLoginDate;
 	}
-	
+
 	public Account getAccount() {
 		return account;
 	}
-	
-	public DateTime getLastLoginDate(){
+
+	public DateTime getLastLoginDate() {
 		return lastLoginDate;
 	}
 

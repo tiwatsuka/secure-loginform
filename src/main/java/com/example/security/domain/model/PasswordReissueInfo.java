@@ -8,10 +8,10 @@ import lombok.Data;
 public class PasswordReissueInfo {
 
 	private String username;
-	
+
 	private String token;
-	
+
 	private String secret;
-	
+
 	private DateTime expiryDate;
 }

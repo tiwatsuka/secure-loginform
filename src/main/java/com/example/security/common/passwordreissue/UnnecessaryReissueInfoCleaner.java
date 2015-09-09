@@ -13,9 +13,9 @@ public class UnnecessaryReissueInfoCleaner {
 
 	@Inject
 	JodaTimeDateFactory dateFactory;
-	
-	public void cleanup(){
+
+	public void cleanup() {
 		passwordReissueService.removeExpired(dateFactory.newDateTime());
 	}
-	
+
 }

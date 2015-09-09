@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 public class PasswordHistory {
 	private String username;
-	
+
 	private String password;
-	
+
 	private DateTime useFrom;
 }

@@ -24,31 +24,33 @@ import com.example.security.domain.service.userdetails.LoggedInUser;
 @Controller
 public class HomeController {
 
-    private static final Logger logger = LoggerFactory
-            .getLogger(HomeController.class);
-    
-    @Inject
-    AccountSharedService accountSharedService;
+	private static final Logger logger = LoggerFactory
+			.getLogger(HomeController.class);
 
-    /**
-     * Simply selects the home view to render by returning its name.
-     */
-    @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.POST})
-    public String home(Principal principal, Locale locale, Model model) {
-        logger.info("Welcome home! The client locale is {}.", locale);
-        
-        Authentication authentication = (Authentication) principal;
-        LoggedInUser userDetails = (LoggedInUser) authentication.getPrincipal();
-        Account account = userDetails.getAccount();
-        
-        DateTime lastLoginDate = userDetails.getLastLoginDate();
+	@Inject
+	AccountSharedService accountSharedService;
 
-        model.addAttribute("account", account);
-        model.addAttribute("isPasswordExpired", accountSharedService.isCurrentPasswordExpired(account.getUsername()));
-    	model.addAttribute("lastLoginDate", lastLoginDate);
-    	
-    	return "welcome/home";
+	/**
+	 * Simply selects the home view to render by returning its name.
+	 */
+	@RequestMapping(value = "/", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String home(Principal principal, Locale locale, Model model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
 
-    }
+		Authentication authentication = (Authentication) principal;
+		LoggedInUser userDetails = (LoggedInUser) authentication.getPrincipal();
+		Account account = userDetails.getAccount();
+
+		DateTime lastLoginDate = userDetails.getLastLoginDate();
+
+		model.addAttribute("account", account);
+		model.addAttribute("isPasswordExpired", accountSharedService
+				.isCurrentPasswordExpired(account.getUsername()));
+		model.addAttribute("lastLoginDate", lastLoginDate);
+
+		return "welcome/home";
+
+	}
 
 }

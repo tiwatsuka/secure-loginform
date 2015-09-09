@@ -35,11 +35,11 @@ public class DateTimeTypeHandler extends BaseTypeHandler<DateTime> {
 			DateTime parameter, JdbcType jdbcType) throws SQLException {
 		ps.setTimestamp(i, new Timestamp(parameter.getMillis()));
 	}
-	
-	private DateTime toDateTime(Timestamp timestamp){
-		if(timestamp == null){
+
+	private DateTime toDateTime(Timestamp timestamp) {
+		if (timestamp == null) {
 			return null;
-		}else{
+		} else {
 			return new DateTime(timestamp.getTime());
 		}
 	}

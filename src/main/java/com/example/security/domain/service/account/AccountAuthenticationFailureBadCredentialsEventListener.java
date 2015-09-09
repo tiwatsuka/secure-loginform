@@ -16,27 +16,29 @@ import com.example.security.domain.service.accountauthenticationlog.AccountAuthe
 public class AccountAuthenticationFailureBadCredentialsEventListener implements
 		ApplicationListener<AuthenticationFailureBadCredentialsEvent> {
 
-	private static final Logger logger = LoggerFactory.getLogger(AccountAuthenticationFailureBadCredentialsEventListener.class); 
-	
+	private static final Logger logger = LoggerFactory
+			.getLogger(AccountAuthenticationFailureBadCredentialsEventListener.class);
+
 	@Inject
 	AccountAuthenticationLogSharedService accountAuthenticationLogSharedService;
-	
+
 	@Inject
 	AccountSharedService accountSharedService;
-	
+
 	@Inject
 	JodaTimeDateFactory dateFactory;
-	
+
 	@Override
-	public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent event) {
+	public void onApplicationEvent(
+			AuthenticationFailureBadCredentialsEvent event) {
 		logger.info("ログイン失敗時の処理をここに書けます -> {}", event);
-		
+
 		String username = (String) event.getAuthentication().getPrincipal();
-		
+
 		AccountAuthenticationFailureLog failureLog = new AccountAuthenticationFailureLog();
 		failureLog.setUsername(username);
 		failureLog.setAuthenticationTimestamp(dateFactory.newDateTime());
-						
+
 		accountAuthenticationLogSharedService.insertFailureLog(failureLog);
 	}
 

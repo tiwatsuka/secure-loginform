@@ -13,7 +13,7 @@ public class PasswordChangeServiceImpl implements PasswordChangeService {
 
 	@Inject
 	AccountSharedService accountSharedService;
-	
+
 	@Override
 	public boolean updatePassword(String username, String rawPassword) {
 		return accountSharedService.updatePassword(username, rawPassword);

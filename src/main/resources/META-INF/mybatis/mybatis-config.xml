@@ -4,29 +4,27 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
-    <!-- See http://mybatis.github.io/mybatis-3/configuration.html#settings -->
-    <settings>
-        <setting name="mapUnderscoreToCamelCase" value="true" />
-        <setting name="lazyLoadingEnabled" value="true" />
-        <setting name="aggressiveLazyLoading" value="false" />
-<!--
-        <setting name="defaultExecutorType" value="REUSE" />
-        <setting name="jdbcTypeForNull" value="NULL" />
-        <setting name="proxyFactory" value="JAVASSIST" />
-        <setting name="localCacheScope" value="STATEMENT" />
--->
-    </settings>
+	<!-- See http://mybatis.github.io/mybatis-3/configuration.html#settings -->
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<setting name="lazyLoadingEnabled" value="true" />
+		<setting name="aggressiveLazyLoading" value="false" />
+		<!-- <setting name="defaultExecutorType" value="REUSE" /> <setting name="jdbcTypeForNull" 
+			value="NULL" /> <setting name="proxyFactory" value="JAVASSIST" /> <setting 
+			name="localCacheScope" value="STATEMENT" /> -->
+	</settings>
 
-    <typeAliases>
-        <package name="com.example.security.domain.model" />
-        <package name="com.example.security.domain.repository" />
-        <package name="com.example.security.infra.mybatis.typehandler" />
-    </typeAliases>
+	<typeAliases>
+		<package name="com.example.security.domain.model" />
+		<package name="com.example.security.domain.repository" />
+		<package name="com.example.security.infra.mybatis.typehandler" />
+	</typeAliases>
 
-    <typeHandlers>
+	<typeHandlers>
 
-        <package name="com.example.security.infra.mybatis.typehandler.DateTimeTypeHandler" />
+		<package
+			name="com.example.security.infra.mybatis.typehandler.DateTimeTypeHandler" />
 
-    </typeHandlers>
+	</typeHandlers>
 
 </configuration>

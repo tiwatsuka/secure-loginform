@@ -4,7 +4,7 @@ CREATE TABLE account(
 	first_name VARCHAR(128) NOT NULL,
 	last_name VARCHAR(128) NOT NULL,
 	email VARCHAR(128) NOT NULL,
-	constraint pk_tbl_account primary key (username)
+	CONSTRAINT pk_tbl_account PRIMARY KEY (username)
 );
 
 CREATE TABLE role(

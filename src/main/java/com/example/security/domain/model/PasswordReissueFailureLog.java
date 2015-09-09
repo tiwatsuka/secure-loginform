@@ -6,9 +6,9 @@ import org.joda.time.DateTime;
 
 @Data
 public class PasswordReissueFailureLog {
-	
+
 	private String token;
-	
+
 	private DateTime attemptDate;
-	
+
 }

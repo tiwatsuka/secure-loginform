@@ -14,23 +14,26 @@ import com.example.security.domain.repository.accountauthenticationlog.AccountAu
 
 @Service
 @Transactional
-public class AccountAuthenticationLogSharedServiceImpl implements AccountAuthenticationLogSharedService {
+public class AccountAuthenticationLogSharedServiceImpl implements
+		AccountAuthenticationLogSharedService {
 
 	@Inject
 	AccountAuthenticationFailureLogRepository failureLogRepository;
-	
+
 	@Inject
 	AccountAuthenticationSuccessLogRepository successRepository;
-		
-	@Transactional(readOnly=true)
+
+	@Transactional(readOnly = true)
 	@Override
-	public List<AccountAuthenticationSuccessLog> findLatestSuccessLogs(String username, int count) {
+	public List<AccountAuthenticationSuccessLog> findLatestSuccessLogs(
+			String username, int count) {
 		return successRepository.findLatestLogs(username, count);
 	}
 
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	@Override
-	public List<AccountAuthenticationFailureLog> findLatestFailureLogs(String username, int count) {
+	public List<AccountAuthenticationFailureLog> findLatestFailureLogs(
+			String username, int count) {
 		return failureLogRepository.findLatestLogs(username, count);
 	}
 

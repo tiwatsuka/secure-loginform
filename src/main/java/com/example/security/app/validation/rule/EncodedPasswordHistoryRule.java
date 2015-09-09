@@ -11,9 +11,10 @@ public class EncodedPasswordHistoryRule extends HistoryRule {
 	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
 		this.passwordEncoder = passwordEncoder;
 	}
-	
+
 	@Override
-	protected boolean matches(final String clearText, final PasswordData.Reference reference){
+	protected boolean matches(final String clearText,
+			final PasswordData.Reference reference) {
 		return passwordEncoder.matches(clearText, reference.getPassword());
 	}
 }

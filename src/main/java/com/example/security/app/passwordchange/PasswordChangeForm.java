@@ -9,17 +9,17 @@ import lombok.Data;
 
 @Data
 @Confirm(field = "newPassword")
-@StrongPassword(idField="username", newPasswordField="newPassword")
-@ProhibitReuse(idField="username", newPasswordField="newPassword")
-@ConfirmOldPassword(idField="username", oldPasswordField="oldPassword")
+@StrongPassword(idField = "username", newPasswordField = "newPassword")
+@ProhibitReuse(idField = "username", newPasswordField = "newPassword")
+@ConfirmOldPassword(idField = "username", oldPasswordField = "oldPassword")
 public class PasswordChangeForm {
-	
+
 	private String username;
 
 	private String oldPassword;
-	
+
 	private String newPassword;
-	
+
 	private String confirmNewPassword;
-	
+
 }

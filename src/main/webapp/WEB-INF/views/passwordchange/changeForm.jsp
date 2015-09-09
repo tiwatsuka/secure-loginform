@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8"/>
+<meta charset="UTF-8" />
 <title>Change Password</title>
-<link rel="stylesheet" 
+<link rel="stylesheet"
 	href="${f:h(pageContext.request.contextPath)}/resources/app/css/styles.css" />
 </head>
 <body>
@@ -13,38 +13,37 @@
 			method="POST" modelAttribute="passwordChangeForm">
 			<table>
 				<tr>
-					<th>
-						<form:label path="username">Username</form:label>
-					</th>
-					<td>
-						${f:h(account.username)}
-						<form:hidden path="username" value="${f:h(account.username)}"/>
-					</td><td>
+					<th><form:label path="username">Username</form:label></th>
+					<td>${f:h(account.username)} <form:hidden path="username"
+							value="${f:h(account.username)}" />
 					</td>
+					<td></td>
 				</tr>
 				<tr>
-					<th>
-						<form:label path="oldPassword" cssErrorClass="error-label">Old password</form:label>
+					<th><form:label path="oldPassword" cssErrorClass="error-label">Old password</form:label>
 					</th>
-					<td><form:password path="oldPassword" cssErrorClass="error-input"/></td>
-					<td><form:errors path="oldPassword" cssClass="error-messages"/></td>
+					<td><form:password path="oldPassword"
+							cssErrorClass="error-input" /></td>
+					<td><form:errors path="oldPassword" cssClass="error-messages" /></td>
 				</tr>
 				<tr>
-					<th>
-						<form:label path="newPassword" cssErrorClass="error-label">New password</form:label>
+					<th><form:label path="newPassword" cssErrorClass="error-label">New password</form:label>
 					</th>
-					<td><form:password path="newPassword" cssErrorClass="error-input"/></td>
-					<td><form:errors path="newPassword" cssClass="error-messages" htmlEscape="false"/></td>
+					<td><form:password path="newPassword"
+							cssErrorClass="error-input" /></td>
+					<td><form:errors path="newPassword" cssClass="error-messages"
+							htmlEscape="false" /></td>
 				</tr>
 				<tr>
-					<th>
-						<form:label path="confirmNewPassword" cssErrorClass="error-label">New password(Confirm)</form:label>
-					</th>
-					<td><form:password path="confirmNewPassword" cssErrorClass="error-input"/></td>
-					<td><form:errors path="confirmNewPassword" cssClass="error-messages"/></td>
+					<th><form:label path="confirmNewPassword"
+							cssErrorClass="error-label">New password(Confirm)</form:label></th>
+					<td><form:password path="confirmNewPassword"
+							cssErrorClass="error-input" /></td>
+					<td><form:errors path="confirmNewPassword"
+							cssClass="error-messages" /></td>
 				</tr>
 			</table>
-			
+
 			<input type="submit" value="Change password" />
 		</form:form>
 	</div>

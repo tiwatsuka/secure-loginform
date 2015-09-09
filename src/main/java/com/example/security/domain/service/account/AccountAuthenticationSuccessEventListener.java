@@ -17,24 +17,26 @@ import com.example.security.domain.service.userdetails.LoggedInUser;
 public class AccountAuthenticationSuccessEventListener implements
 		ApplicationListener<AuthenticationSuccessEvent> {
 
-	private static final Logger logger = LoggerFactory.getLogger(AccountAuthenticationSuccessEventListener.class); 
-	
+	private static final Logger logger = LoggerFactory
+			.getLogger(AccountAuthenticationSuccessEventListener.class);
+
 	@Inject
 	AccountAuthenticationLogSharedService accountAuthenticationLogSharedService;
 
 	@Inject
 	JodaTimeDateFactory dateFactory;
-	
+
 	@Override
 	public void onApplicationEvent(AuthenticationSuccessEvent event) {
 		logger.info("ログイン成功時の処理をここに書けます -> {}", event);
-		
-		LoggedInUser details = (LoggedInUser) event.getAuthentication().getPrincipal();
-		
+
+		LoggedInUser details = (LoggedInUser) event.getAuthentication()
+				.getPrincipal();
+
 		AccountAuthenticationSuccessLog successLog = new AccountAuthenticationSuccessLog();
 		successLog.setUsername(details.getUsername());
 		successLog.setAuthenticationTimestamp(dateFactory.newDateTime());
-		
+
 		accountAuthenticationLogSharedService.insertSuccessLog(successLog);
 	}
 

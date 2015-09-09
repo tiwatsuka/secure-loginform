@@ -18,21 +18,20 @@ import com.example.security.domain.repository.passwordreissue.PasswordReissueInf
 @Transactional
 public class PasswordReissueFailureSharedServiceImpl implements
 		PasswordReissueFailureSharedService {
-	
+
 	@Inject
 	PasswordReissueFailureLogRepository passwordReissueFailureLogRepository;
-	
+
 	@Inject
 	JodaTimeDateFactory dateFactory;
-	
+
 	@Inject
 	PasswordReissueInfoRepository passwordReissueInfoRepository;
-	
+
 	@Value("${tokenValidityThreshold}")
 	private int tokenValidityThreshold;
-	
-	
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void resetFailure(String username, String token) {
 		PasswordReissueFailureLog log = new PasswordReissueFailureLog();
@@ -40,8 +39,9 @@ public class PasswordReissueFailureSharedServiceImpl implements
 		log.setAttemptDate(dateFactory.newDateTime());
 		passwordReissueFailureLogRepository.insert(log);
 
-		List<PasswordReissueFailureLog> logs = passwordReissueFailureLogRepository.findByToken(token);
-		if(logs.size() >= tokenValidityThreshold){
+		List<PasswordReissueFailureLog> logs = passwordReissueFailureLogRepository
+				.findByToken(token);
+		if (logs.size() >= tokenValidityThreshold) {
 			passwordReissueInfoRepository.delete(token);
 			passwordReissueFailureLogRepository.deleteByToken(token);
 		}

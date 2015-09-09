@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8"/>
+<meta charset="UTF-8" />
 <title>Password was successfully reset</title>
-<link rel="stylesheet" 
+<link rel="stylesheet"
 	href="${f:h(pageContext.request.contextPath)}/resources/app/css/styles.css" />
 </head>
 <body>

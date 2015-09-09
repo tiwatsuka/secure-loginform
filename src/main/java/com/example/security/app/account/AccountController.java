@@ -19,5 +19,5 @@ public class AccountController {
 		model.addAttribute(account);
 		return "account/view";
 	}
-	
+
 }
