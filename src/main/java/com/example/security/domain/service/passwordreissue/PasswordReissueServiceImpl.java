@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.ServletContext;
 
 import org.joda.time.DateTime;
 import org.passay.CharacterRule;
@@ -68,9 +67,6 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	@Inject
 	GreenMailBean greenMailBean;
 	
-	@Inject
-	ServletContext servletContext;
-	
 	@Resource(name="passwordGenerationRules")
 	List<CharacterRule> passwordGenerationRules;
 	
@@ -82,6 +78,12 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	
 	@Value("${app.hostAndPort}")
 	private String hostAndPort;
+	
+	@Value("${app.contextPath}")
+	private String contextPath;
+	
+	@Value("${app.passwordReissueProtocol}")
+	private String protocol;
 	
 	private static final Logger logger = LoggerFactory.getLogger(PasswordReissueServiceImpl.class); 
 	
@@ -113,7 +115,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 		
 		if(count > 0){
 			String passwordResetUrl = 
-					"http://" + hostAndPort + servletContext.getContextPath() 
+					protocol + "://" + hostAndPort + contextPath 
 						+ "/reissue/resetpassword/?form&username=" + info.getUsername() + "&token=" + info.getToken(); 
 			
 			SimpleMailMessage message = new SimpleMailMessage(templateMessage);
