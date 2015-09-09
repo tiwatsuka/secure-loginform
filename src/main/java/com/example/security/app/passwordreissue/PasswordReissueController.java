@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
-import org.terasoluna.gfw.common.message.ResultMessages;
 
-import com.example.security.common.message.MessageKeys;
 import com.example.security.domain.model.PasswordReissueInfo;
 import com.example.security.domain.service.passwordreissue.PasswordReissueService;
 
@@ -60,12 +58,7 @@ public class PasswordReissueController {
 			Model model,
 			@RequestParam("username") String username, @RequestParam("token") String token){
 
-		PasswordReissueInfo info = passwordReissueService.findOne(token);
-		if(!info.getUsername().equals(username)){
-			throw new BusinessException(
-					ResultMessages.error().add(MessageKeys.E_SL_PR_5001)
-					);
-		}
+		passwordReissueService.findOne(username, token); //existence check
 		
 		form.setUsername(username);
 		form.setToken(token);
@@ -83,7 +76,6 @@ public class PasswordReissueController {
 			passwordReissueService.resetPassowrd(form.getUsername(), form.getToken(), form.getSecret(), form.getNewPassword());
 			return "redirect:/reissue/resetpassword?complete";
 		} catch (BusinessException e) {
-			passwordReissueService.resetFailure(form.getUsername(), form.getToken());
 			model.addAttribute(e.getResultMessages());
 			return showPasswordResetForm(form, model, form.getUsername(), form.getToken());
 		}

@@ -10,13 +10,9 @@ public interface PasswordReissueService {
 	
 	public boolean saveAndSendReissueInfo(PasswordReissueInfo info);
 	
-	public boolean removeReissueInfo(String token);
-	
-	public PasswordReissueInfo findOne(String token);
+	public PasswordReissueInfo findOne(String username, String token);
 	
 	public boolean resetPassowrd(String username, String token, String secret, String rawPassword);
-	
-	public void resetFailure(String username, String token);
 	
 	public boolean removeExpired(DateTime date);
 }

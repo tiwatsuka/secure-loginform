@@ -29,7 +29,6 @@ import org.terasoluna.gfw.common.message.ResultMessages;
 
 import com.example.security.common.message.MessageKeys;
 import com.example.security.domain.model.Account;
-import com.example.security.domain.model.PasswordReissueFailureLog;
 import com.example.security.domain.model.PasswordReissueInfo;
 import com.example.security.domain.repository.passwordreissue.PasswordReissueFailureLogRepository;
 import com.example.security.domain.repository.passwordreissue.PasswordReissueInfoRepository;
@@ -40,6 +39,9 @@ import com.icegreen.greenmail.spring.GreenMailBean;
 @Transactional
 public class PasswordReissueServiceImpl implements PasswordReissueService {
 
+	@Inject
+	PasswordReissueFailureSharedService passwordReissueFailureSharedService;
+	
 	@Inject
 	PasswordReissueInfoRepository passwordReissueInfoRepository;
 	
@@ -72,9 +74,6 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	
 	@Value("${tokenExpiration}")
 	private int tokenExpiration;
-	
-	@Value("${tokenValidityThreshold}")
-	private int tokenValidityThreshold;
 	
 	@Value("${app.hostAndPort}")
 	private String hostAndPort;
@@ -146,17 +145,8 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	}
 
 	@Override
-	public boolean removeReissueInfo(String token) {
-		
-		int count = passwordReissueInfoRepository.delete(token);
-		passwordReissueFailureLogRepository.deleteByToken(token);
-		
-		return (count > 0);
-	}
-	
-	@Override
 	@Transactional(readOnly=true)
-	public PasswordReissueInfo findOne(String token) {
+	public PasswordReissueInfo findOne(String username, String token) {
 		PasswordReissueInfo info = passwordReissueInfoRepository.findOne(token);
 
 		if(info == null){
@@ -164,6 +154,12 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 					ResultMessages.error().add(MessageKeys.E_SL_PR_5002, token)
 					);
 		}
+		if(!info.getUsername().equals(username)){
+			throw new BusinessException(
+					ResultMessages.error().add(MessageKeys.E_SL_PR_5001)
+					);
+		}
+
 		if(info.getExpiryDate().isBefore(dateFactory.newDateTime())){
 			throw new BusinessException(
 					ResultMessages.error().add(MessageKeys.E_SL_PR_2001)
@@ -176,29 +172,18 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	@Override
 	public boolean resetPassowrd(String username, String token, String secret,
 			String rawPassword) {
-		PasswordReissueInfo info = this.findOne(token);
-		if(!passwordEncoder.matches(secret, info.getSecret()) || !info.getUsername().equals(username)){
+		PasswordReissueInfo info = this.findOne(username, token);
+		if(!passwordEncoder.matches(secret, info.getSecret())){
+			passwordReissueFailureSharedService.resetFailure(username, token);			
 			throw new BusinessException(
 					ResultMessages.error().add(MessageKeys.E_SL_PR_5003)
 					);
 		}
-		removeReissueInfo(token);
+		passwordReissueInfoRepository.delete(token);
+		passwordReissueFailureLogRepository.deleteByToken(token);
 		
 		return accountSharedService.updatePassword(username, rawPassword);
 
-	}
-
-	@Override
-	public void resetFailure(String username, String token) {
-		PasswordReissueFailureLog log = new PasswordReissueFailureLog();
-		log.setToken(token);
-		log.setAttemptDate(dateFactory.newDateTime());
-		passwordReissueFailureLogRepository.insert(log);
-
-		List<PasswordReissueFailureLog> logs = passwordReissueFailureLogRepository.findByToken(token);
-		if(logs.size() >= tokenValidityThreshold){
-			removeReissueInfo(token);
-		}
 	}
 
 	@Override
