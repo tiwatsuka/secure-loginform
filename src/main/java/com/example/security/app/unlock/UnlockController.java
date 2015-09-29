@@ -36,7 +36,7 @@ public class UnlockController {
 		try {
 			unlockService.unlock(form.getUsername());
 			attributes.addFlashAttribute("username", form.getUsername());
-			return "redirect:/unlock?complete&username=" + form.getUsername();
+			return "redirect:/unlock?complete";
 		} catch (BusinessException e) {
 			model.addAttribute(e.getResultMessages());
 			return showForm(form, model);
