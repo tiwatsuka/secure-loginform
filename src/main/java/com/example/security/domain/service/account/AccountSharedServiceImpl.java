@@ -75,7 +75,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 		}
 
 		if (failureLogs
-				.get(0)
+				.get(lockingThreshold-1)
 				.getAuthenticationTimestamp()
 				.isBefore(
 						dateFactory.newDateTime().minusMinutes(
